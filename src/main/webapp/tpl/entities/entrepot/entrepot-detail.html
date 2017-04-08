@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span data-translate="tkbrApp.entrepot.detail.title">Entrepot</span> {{vm.entrepot.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tkbrApp.entrepot.libelle">Libelle</span></dt>
+        <dd>
+            <span>{{vm.entrepot.libelle}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.entrepot.localisation">Localisation</span></dt>
+        <dd>
+            <span>{{vm.entrepot.localisation}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.entrepot.capactite">Capactite</span></dt>
+        <dd>
+            <span>{{vm.entrepot.capactite}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.entrepot.type">Type</span></dt>
+        <dd>
+            <span data-translate="{{'tkbrApp.EntrepotType.' + vm.entrepot.type}}">{{vm.entrepot.type}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.entrepot.responsable">Responsable</span></dt>
+        <dd>
+            <a ui-sref="employe-detail({id:vm.entrepot.responsable.id})">{{vm.entrepot.responsable.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="entrepot-detail.edit({id:vm.entrepot.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

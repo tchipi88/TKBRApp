@@ -1,0 +1,56 @@
+
+<div>
+    <h2><span data-translate="tkbrApp.fournisseur.detail.title">Fournisseur</span> {{vm.fournisseur.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tkbrApp.fournisseur.nom">Nom</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.nom}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.email">Email</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.email}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.telephonePortable">Telephone Portable</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.telephonePortable}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.telephoneFixe">Telephone Fixe</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.telephoneFixe}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.siteWeb">Site Web</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.siteWeb}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.boitePostale">Boite Postale</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.boitePostale}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.adresse">Adresse</span></dt>
+        <dd>
+            <span>{{vm.fournisseur.adresse}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.fournisseur.logo">Logo</span></dt>
+        <dd>
+            <div ng-if="vm.fournisseur.logo">
+                <a ng-click="vm.openFile(vm.fournisseur.logoContentType, vm.fournisseur.logo)">
+                    <img data-ng-src="{{'data:' + vm.fournisseur.logoContentType + ';base64,' + vm.fournisseur.logo}}" style="max-width: 100%;" alt="fournisseur image"/>
+                </a>
+                {{vm.fournisseur.logoContentType}}, {{vm.byteSize(vm.fournisseur.logo)}}
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="fournisseur-detail.edit({id:vm.fournisseur.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

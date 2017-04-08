@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Fournisseur.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Client.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_CommandeLigne.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Compte.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Employe.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_EmployeFonction.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Entrepot.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Commande.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_MouvementStock.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Produit.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_ProduitCategorie.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_ProduitFournisseur.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_PvReception.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Reglement.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_Unite.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Client.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_CommandeLigne.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Employe.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Entrepot.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Commande.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_MouvementStock.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Produit.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_ProduitFournisseur.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_PvReception.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170404214634_added_entity_constraints_Reglement.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+</databaseChangeLog>

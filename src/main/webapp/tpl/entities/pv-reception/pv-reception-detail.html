@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span data-translate="tkbrApp.pvReception.detail.title">Pv Reception</span> {{vm.pvReception.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tkbrApp.pvReception.reference">Reference</span></dt>
+        <dd>
+            <span>{{vm.pvReception.reference}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.pvReception.dateReception">Date Reception</span></dt>
+        <dd>
+            <span>{{vm.pvReception.dateReception | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.pvReception.etat">Etat</span></dt>
+        <dd>
+            <span data-translate="{{'tkbrApp.EtatPv.' + vm.pvReception.etat}}">{{vm.pvReception.etat}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.pvReception.commentaires">Commentaires</span></dt>
+        <dd>
+            <span>{{vm.pvReception.commentaires}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.pvReception.commande">Commande</span></dt>
+        <dd>
+            <a ui-sref="commande-detail({id:vm.pvReception.commande.id})">{{vm.pvReception.commande.id}}</a>
+        </dd>
+        <dt><span data-translate="tkbrApp.pvReception.superviseur">Superviseur</span></dt>
+        <dd>
+            <a ui-sref="employe-detail({id:vm.pvReception.superviseur.id})">{{vm.pvReception.superviseur.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="pv-reception-detail.edit({id:vm.pvReception.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,76 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myProduitFournisseurLabel" data-translate="tkbrApp.produitFournisseur.home.createOrEditLabel">Create or edit a Produit Fournisseur</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.produitFournisseur.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.produitFournisseur.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.produitFournisseur.prixVente" for="field_prixVente">Prix Vente</label>
+            <input type="number" class="form-control" name="prixVente" id="field_prixVente"
+                    ng-model="vm.produitFournisseur.prixVente"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.produitFournisseur.delaiFourniture" for="field_delaiFourniture">Delai Fourniture</label>
+            <input type="number" class="form-control" name="delaiFourniture" id="field_delaiFourniture"
+                    ng-model="vm.produitFournisseur.delaiFourniture"
+                    min="1" max="30"/>
+            <div ng-show="editForm.delaiFourniture.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.delaiFourniture.$error.min" data-translate="entity.validation.min" translate-value-min="1">
+                    This field should be at least 1.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.delaiFourniture.$error.max" data-translate="entity.validation.max" translate-value-max="30">
+                    This field cannot be more than 30.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.delaiFourniture.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="tkbrApp.produitFournisseur.fournisseur" for="field_fournisseur">Fournisseur</label>
+            <select class="form-control" id="field_fournisseur" name="fournisseur" ng-model="vm.produitFournisseur.fournisseur" ng-options="fournisseur as fournisseur.id for fournisseur in vm.fournisseurs track by fournisseur.id" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.fournisseur.$invalid">
+            <p class="help-block"
+                ng-show="editForm.fournisseur.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label data-translate="tkbrApp.produitFournisseur.produit" for="field_produit">Produit</label>
+            <select class="form-control" id="field_produit" name="produit" ng-model="vm.produitFournisseur.produit" ng-options="produit as produit.id for produit in vm.produits track by produit.id" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.produit.$invalid">
+            <p class="help-block"
+                ng-show="editForm.produit.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

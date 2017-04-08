@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="tkbrApp.produitFournisseur.detail.title">Produit Fournisseur</span> {{vm.produitFournisseur.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tkbrApp.produitFournisseur.prixVente">Prix Vente</span></dt>
+        <dd>
+            <span>{{vm.produitFournisseur.prixVente}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.produitFournisseur.delaiFourniture">Delai Fourniture</span></dt>
+        <dd>
+            <span>{{vm.produitFournisseur.delaiFourniture}}</span>
+        </dd>
+        <dt><span data-translate="tkbrApp.produitFournisseur.fournisseur">Fournisseur</span></dt>
+        <dd>
+            <a ui-sref="fournisseur-detail({id:vm.produitFournisseur.fournisseur.id})">{{vm.produitFournisseur.fournisseur.id}}</a>
+        </dd>
+        <dt><span data-translate="tkbrApp.produitFournisseur.produit">Produit</span></dt>
+        <dd>
+            <a ui-sref="produit-detail({id:vm.produitFournisseur.produit.id})">{{vm.produitFournisseur.produit.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="produit-fournisseur-detail.edit({id:vm.produitFournisseur.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,79 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myEntrepotLabel" data-translate="tkbrApp.entrepot.home.createOrEditLabel">Create or edit a Entrepot</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.entrepot.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.entrepot.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.entrepot.libelle" for="field_libelle">Libelle</label>
+            <input type="text" class="form-control" name="libelle" id="field_libelle"
+                    ng-model="vm.entrepot.libelle"
+                    required/>
+            <div ng-show="editForm.libelle.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.libelle.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.entrepot.localisation" for="field_localisation">Localisation</label>
+            <input type="text" class="form-control" name="localisation" id="field_localisation"
+                    ng-model="vm.entrepot.localisation"
+                    required/>
+            <div ng-show="editForm.localisation.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.localisation.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.entrepot.capactite" for="field_capactite">Capactite</label>
+            <input type="number" class="form-control" name="capactite" id="field_capactite"
+                    ng-model="vm.entrepot.capactite"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tkbrApp.entrepot.type" for="field_type">Type</label>
+            <select class="form-control" name="type" ng-model="vm.entrepot.type" id="field_type" required>
+                <option value="ACHAT" data-translate="tkbrApp.EntrepotType.ACHAT">ACHAT</option>
+                <option value="VENTE" data-translate="tkbrApp.EntrepotType.VENTE">VENTE</option>
+                <option value="PRODUCTION" data-translate="tkbrApp.EntrepotType.PRODUCTION">PRODUCTION</option>
+                <option value="STOCKAGE" data-translate="tkbrApp.EntrepotType.STOCKAGE">STOCKAGE</option>
+                <option value="FOURNISSEURS" data-translate="tkbrApp.EntrepotType.FOURNISSEURS">FOURNISSEURS</option>
+                <option value="CONSUMMABLE" data-translate="tkbrApp.EntrepotType.CONSUMMABLE">CONSUMMABLE</option>
+            </select>
+            <div ng-show="editForm.type.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.type.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="tkbrApp.entrepot.responsable" for="field_responsable">Responsable</label>
+            <select class="form-control" id="field_responsable" name="responsable" ng-model="vm.entrepot.responsable" ng-options="employe as employe.id for employe in vm.employes track by employe.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,148 @@
+package com.itsolution.tkbr.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
+import com.itsolution.tkbr.domain.ProduitCategorie;
+
+import com.itsolution.tkbr.repository.ProduitCategorieRepository;
+import com.itsolution.tkbr.repository.search.ProduitCategorieSearchRepository;
+import com.itsolution.tkbr.web.rest.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
+/**
+ * REST controller for managing ProduitCategorie.
+ */
+@RestController
+@RequestMapping("/api")
+public class ProduitCategorieResource {
+
+    private final Logger log = LoggerFactory.getLogger(ProduitCategorieResource.class);
+
+    private static final String ENTITY_NAME = "produitCategorie";
+        
+    private final ProduitCategorieRepository produitCategorieRepository;
+
+    private final ProduitCategorieSearchRepository produitCategorieSearchRepository;
+
+    public ProduitCategorieResource(ProduitCategorieRepository produitCategorieRepository, ProduitCategorieSearchRepository produitCategorieSearchRepository) {
+        this.produitCategorieRepository = produitCategorieRepository;
+        this.produitCategorieSearchRepository = produitCategorieSearchRepository;
+    }
+
+    /**
+     * POST  /produit-categories : Create a new produitCategorie.
+     *
+     * @param produitCategorie the produitCategorie to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new produitCategorie, or with status 400 (Bad Request) if the produitCategorie has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/produit-categories")
+    @Timed
+    public ResponseEntity<ProduitCategorie> createProduitCategorie(@Valid @RequestBody ProduitCategorie produitCategorie) throws URISyntaxException {
+        log.debug("REST request to save ProduitCategorie : {}", produitCategorie);
+        if (produitCategorie.getId() != null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new produitCategorie cannot already have an ID")).body(null);
+        }
+        ProduitCategorie result = produitCategorieRepository.save(produitCategorie);
+        produitCategorieSearchRepository.save(result);
+        return ResponseEntity.created(new URI("/api/produit-categories/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * PUT  /produit-categories : Updates an existing produitCategorie.
+     *
+     * @param produitCategorie the produitCategorie to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated produitCategorie,
+     * or with status 400 (Bad Request) if the produitCategorie is not valid,
+     * or with status 500 (Internal Server Error) if the produitCategorie couldnt be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping("/produit-categories")
+    @Timed
+    public ResponseEntity<ProduitCategorie> updateProduitCategorie(@Valid @RequestBody ProduitCategorie produitCategorie) throws URISyntaxException {
+        log.debug("REST request to update ProduitCategorie : {}", produitCategorie);
+        if (produitCategorie.getId() == null) {
+            return createProduitCategorie(produitCategorie);
+        }
+        ProduitCategorie result = produitCategorieRepository.save(produitCategorie);
+        produitCategorieSearchRepository.save(result);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, produitCategorie.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * GET  /produit-categories : get all the produitCategories.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of produitCategories in body
+     */
+    @GetMapping("/produit-categories")
+    @Timed
+    public List<ProduitCategorie> getAllProduitCategories() {
+        log.debug("REST request to get all ProduitCategories");
+        List<ProduitCategorie> produitCategories = produitCategorieRepository.findAll();
+        return produitCategories;
+    }
+
+    /**
+     * GET  /produit-categories/:id : get the "id" produitCategorie.
+     *
+     * @param id the id of the produitCategorie to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the produitCategorie, or with status 404 (Not Found)
+     */
+    @GetMapping("/produit-categories/{id}")
+    @Timed
+    public ResponseEntity<ProduitCategorie> getProduitCategorie(@PathVariable Long id) {
+        log.debug("REST request to get ProduitCategorie : {}", id);
+        ProduitCategorie produitCategorie = produitCategorieRepository.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(produitCategorie));
+    }
+
+    /**
+     * DELETE  /produit-categories/:id : delete the "id" produitCategorie.
+     *
+     * @param id the id of the produitCategorie to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/produit-categories/{id}")
+    @Timed
+    public ResponseEntity<Void> deleteProduitCategorie(@PathVariable Long id) {
+        log.debug("REST request to delete ProduitCategorie : {}", id);
+        produitCategorieRepository.delete(id);
+        produitCategorieSearchRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * SEARCH  /_search/produit-categories?query=:query : search for the produitCategorie corresponding
+     * to the query.
+     *
+     * @param query the query of the produitCategorie search 
+     * @return the result of the search
+     */
+    @GetMapping("/_search/produit-categories")
+    @Timed
+    public List<ProduitCategorie> searchProduitCategories(@RequestParam String query) {
+        log.debug("REST request to search ProduitCategories for query {}", query);
+        return StreamSupport
+            .stream(produitCategorieSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
+    }
+
+
+}
