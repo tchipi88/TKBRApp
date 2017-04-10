@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('FournisseurDetailController', FournisseurDetailController);
 
-    FournisseurDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Fournisseur', 'ProduitFournisseur'];
+    FournisseurDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Fournisseur' ,'Employe'];
 
-    function FournisseurDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Fournisseur, ProduitFournisseur) {
+    function FournisseurDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Fournisseur ,Employe) {
         var vm = this;
 
         vm.fournisseur = entity;

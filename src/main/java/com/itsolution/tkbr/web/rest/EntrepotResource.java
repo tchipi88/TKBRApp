@@ -7,14 +7,10 @@ import com.itsolution.tkbr.repository.EntrepotRepository;
 import com.itsolution.tkbr.repository.search.EntrepotSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing Entrepot.
@@ -92,16 +92,15 @@ public class EntrepotResource {
             .body(result);
     }
 
-    /**
+   /**
      * GET  /entrepots : get all the entrepots.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of entrepots in body
      */
     @GetMapping("/entrepots")
     @Timed
     public ResponseEntity<List<Entrepot>> getAllEntrepots(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Entrepots");
+        log.debug("REST request to get all Entrepots");
         Page<Entrepot> page = entrepotRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/entrepots");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -141,16 +140,15 @@ public class EntrepotResource {
      * to the query.
      *
      * @param query the query of the entrepot search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/entrepots")
     @Timed
-    public ResponseEntity<List<Entrepot>> searchEntrepots(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Entrepots for query {}", query);
-        Page<Entrepot> page = entrepotSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/entrepots");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Entrepot> searchEntrepots(@RequestParam String query) {
+        log.debug("REST request to search Entrepots for query {}", query);
+        return StreamSupport
+            .stream(entrepotSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

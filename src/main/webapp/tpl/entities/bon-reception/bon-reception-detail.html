@@ -1,0 +1,44 @@
+
+<div>
+    <h2><span >BonReception</span> {{vm.bonReception.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Commande</span></dt>
+        <dd>
+            <span>{{vm.bonReception.commande}}</span>
+        </dd> 
+<dt><span >Superviseur</span></dt>
+        <dd>
+            <span>{{vm.bonReception.superviseur}}</span>
+        </dd> 
+<dt><span >Date Reception</span></dt>
+        <dd>
+            <span>{{vm.bonReception.dateReception}}</span>
+        </dd> 
+<dt><span >Etat</span></dt>
+        <dd>
+            <span>{{vm.bonReception.etat}}</span>
+        </dd> 
+<dt><span >Commentaires</span></dt>
+        <dd>
+            <span>{{vm.bonReception.commentaires}}</span>
+        </dd> 
+<dt><span >Bon Reception Ligne</span></dt>
+        <dd>
+            <span>{{vm.bonReception.bonReceptionLigne}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="bonReception-detail.edit({id:vm.bonReception.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

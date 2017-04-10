@@ -1,39 +1,36 @@
 
 <div>
-    <h2><span data-translate="tkbrApp.produit.detail.title">Produit</span> {{vm.produit.id}}</h2>
+    <h2><span >Produit</span> {{vm.produit.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tkbrApp.produit.libelle">Libelle</span></dt>
+        
+       <dt><span >Denomination</span></dt>
         <dd>
-            <span>{{vm.produit.libelle}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.produit.prix">Prix</span></dt>
+            <span>{{vm.produit.denomination}}</span>
+        </dd> 
+<dt><span >Type</span></dt>
         <dd>
-            <span>{{vm.produit.prix}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.produit.type">Type</span></dt>
+            <span>{{vm.produit.type}}</span>
+        </dd> 
+<dt><span >Categorie</span></dt>
         <dd>
-            <span data-translate="{{'tkbrApp.ProduitType.' + vm.produit.type}}">{{vm.produit.type}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.produit.categorie">Categorie</span></dt>
+            <span>{{vm.produit.categorie}}</span>
+        </dd> 
+<dt><span >Unite</span></dt>
         <dd>
-            <a ui-sref="produit-categorie-detail({id:vm.produit.categorie.id})">{{vm.produit.categorie.id}}</a>
-        </dd>
-        <dt><span data-translate="tkbrApp.produit.unite">Unite</span></dt>
-        <dd>
-            <a ui-sref="unite-detail({id:vm.produit.unite.id})">{{vm.produit.unite.id}}</a>
-        </dd>
+            <span>{{vm.produit.unite}}</span>
+        </dd> 
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
     <button type="button" ui-sref="produit-detail.edit({id:vm.produit.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" > Modifier</span>
     </button>
 </div>

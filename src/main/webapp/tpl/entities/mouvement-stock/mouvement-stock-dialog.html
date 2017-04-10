@@ -1,89 +1,62 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
 
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myMouvementStockLabel" data-translate="tkbrApp.mouvementStock.home.createOrEditLabel">Create or edit a Mouvement Stock</h4>
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myMouvementStockLabel" >Créer ou modifier  MouvementStock</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.mouvementStock.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.mouvementStock.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.mouvementStock.quantite" for="field_quantite">Quantite</label>
-            <input type="number" class="form-control" name="quantite" id="field_quantite"
-                    ng-model="vm.mouvementStock.quantite"
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_quantite">Quantite</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_quantite" ng-model="vm.mouvementStock.quantite"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_dateTransaction">Date Transaction <span style="color:red" >*</span></label>
+  <div class="input-group">
+                    <input  id="field_dateTransaction" type="text" class="form-control" name="dateTransaction" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.mouvementStock.dateTransaction"  is-open="vm.datePickerOpenStatus.dateTransaction"
                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.mouvementStock.dateTransaction" for="field_dateTransaction">Date Transaction</label>
-                <div class="input-group">
-                    <input id="field_dateTransaction" type="text" class="form-control" name="dateTransaction" uib-datepicker-popup="{{dateformat}}" ng-model="vm.mouvementStock.dateTransaction" is-open="vm.datePickerOpenStatus.dateTransaction"
-                    required/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateTransaction')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
-            <div ng-show="editForm.dateTransaction.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.dateTransaction.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.mouvementStock.motifTransaction" for="field_motifTransaction">Motif Transaction</label>
-                <textarea class="form-control" name="motifTransaction" id="field_motifTransaction"
-                    ng-model="vm.mouvementStock.motifTransaction" ></textarea>
-        </div>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_motifTransaction">Motif Transaction</label>
+   <textarea class="form-control" rows="3"  cols="30"   id="field_motifTransaction" ng-model="vm.mouvementStock.motifTransaction"                     ng-readonly="false"  ng-required="false"                     > </textarea>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_entrepotDepart">Entrepot Depart <span style="color:red" >*</span></label>
+  <select class="form-control" name="entrepotDepart"  ng-model="vm.mouvementStock.entrepotDepart"  id="field_entrepotDepart" ng-options="entrepot as entrepot.id for entrepot in vm.entrepots track by entrepot.id" required>
+                <option value=""></option>
+            </select>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_entrepotDestination">Entrepot Destination <span style="color:red" >*</span></label>
+  <select class="form-control" name="entrepotDestination"  ng-model="vm.mouvementStock.entrepotDestination"  id="field_entrepotDestination" ng-options="entrepot as entrepot.id for entrepot in vm.entrepots track by entrepot.id" required>
+                <option value=""></option>
+            </select>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_produit">Produit <span style="color:red" >*</span></label>
+  <select class="form-control" name="produit"  ng-model="vm.mouvementStock.produit"  id="field_produit" ng-options="produit as produit.id for produit in vm.produits track by produit.id" required>
+                <option value=""></option>
+            </select>
+ </div>
 
-        <div class="form-group">
-            <label data-translate="tkbrApp.mouvementStock.entrepotDepart" for="field_entrepotDepart">Entrepot Depart</label>
-            <select class="form-control" id="field_entrepotDepart" name="entrepotDepart" ng-model="vm.mouvementStock.entrepotDepart" ng-options="entrepot as entrepot.id for entrepot in vm.entrepots track by entrepot.id" required>
-                <option value=""></option>
-            </select>
         </div>
-        <div ng-show="editForm.entrepotDepart.$invalid">
-            <p class="help-block"
-                ng-show="editForm.entrepotDepart.$error.required" data-translate="entity.validation.required">
-                This field is required.
-            </p>
-        </div>
-        <div class="form-group">
-            <label data-translate="tkbrApp.mouvementStock.entrepotDestination" for="field_entrepotDestination">Entrepot Destination</label>
-            <select class="form-control" id="field_entrepotDestination" name="entrepotDestination" ng-model="vm.mouvementStock.entrepotDestination" ng-options="entrepot as entrepot.id for entrepot in vm.entrepots track by entrepot.id" required>
-                <option value=""></option>
-            </select>
-        </div>
-        <div ng-show="editForm.entrepotDestination.$invalid">
-            <p class="help-block"
-                ng-show="editForm.entrepotDestination.$error.required" data-translate="entity.validation.required">
-                This field is required.
-            </p>
-        </div>
-        <div class="form-group">
-            <label data-translate="tkbrApp.mouvementStock.produit" for="field_produit">Produit</label>
-            <select class="form-control" id="field_produit" name="produit" ng-model="vm.mouvementStock.produit" ng-options="produit as produit.id for produit in vm.produits track by produit.id" required>
-                <option value=""></option>
-            </select>
-        </div>
-        <div ng-show="editForm.produit.$invalid">
-            <p class="help-block"
-                ng-show="editForm.produit.$error.required" data-translate="entity.validation.required">
-                This field is required.
-            </p>
-        </div>
+       
     </div>
     <div class="modal-footer">
+        
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
         </button>
     </div>
 </form>

@@ -1,0 +1,28 @@
+
+<div>
+    <h2><span >Facture</span> {{vm.facture.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Date Echeance</span></dt>
+        <dd>
+            <span>{{vm.facture.dateEcheance}}</span>
+        </dd> 
+<dt><span >Commande</span></dt>
+        <dd>
+            <span>{{vm.facture.commande}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="facture-detail.edit({id:vm.facture.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('MouvementStockController', MouvementStockController);
 
     MouvementStockController.$inject = ['$state', 'DataUtils', 'MouvementStock', 'MouvementStockSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

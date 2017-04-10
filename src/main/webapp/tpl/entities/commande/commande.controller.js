@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CommandeController', CommandeController);
 
     CommandeController.$inject = ['$state', 'DataUtils', 'Commande', 'CommandeSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

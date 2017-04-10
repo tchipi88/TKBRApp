@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CommandeLigneController', CommandeLigneController);
 
-    CommandeLigneController.$inject = ['$state', 'CommandeLigne', 'CommandeLigneSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    CommandeLigneController.$inject = ['$state', 'DataUtils', 'CommandeLigne', 'CommandeLigneSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function CommandeLigneController($state, CommandeLigne, CommandeLigneSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function CommandeLigneController($state, DataUtils, CommandeLigne, CommandeLigneSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

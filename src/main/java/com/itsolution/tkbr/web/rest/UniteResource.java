@@ -6,7 +6,9 @@ import com.itsolution.tkbr.domain.Unite;
 import com.itsolution.tkbr.repository.UniteRepository;
 import com.itsolution.tkbr.repository.search.UniteSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
+import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing Unite.
@@ -86,17 +92,18 @@ public class UniteResource {
             .body(result);
     }
 
-    /**
+   /**
      * GET  /unites : get all the unites.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of unites in body
      */
     @GetMapping("/unites")
     @Timed
-    public List<Unite> getAllUnites() {
+    public ResponseEntity<List<Unite>> getAllUnites(@ApiParam Pageable pageable) {
         log.debug("REST request to get all Unites");
-        List<Unite> unites = uniteRepository.findAll();
-        return unites;
+        Page<Unite> page = uniteRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/unites");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

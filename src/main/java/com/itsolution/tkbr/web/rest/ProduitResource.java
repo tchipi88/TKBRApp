@@ -7,14 +7,10 @@ import com.itsolution.tkbr.repository.ProduitRepository;
 import com.itsolution.tkbr.repository.search.ProduitSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing Produit.
@@ -92,16 +92,15 @@ public class ProduitResource {
             .body(result);
     }
 
-    /**
+   /**
      * GET  /produits : get all the produits.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of produits in body
      */
     @GetMapping("/produits")
     @Timed
     public ResponseEntity<List<Produit>> getAllProduits(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Produits");
+        log.debug("REST request to get all Produits");
         Page<Produit> page = produitRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/produits");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -141,16 +140,15 @@ public class ProduitResource {
      * to the query.
      *
      * @param query the query of the produit search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/produits")
     @Timed
-    public ResponseEntity<List<Produit>> searchProduits(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Produits for query {}", query);
-        Page<Produit> page = produitSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/produits");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Produit> searchProduits(@RequestParam String query) {
+        log.debug("REST request to search Produits for query {}", query);
+        return StreamSupport
+            .stream(produitSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

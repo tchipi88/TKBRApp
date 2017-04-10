@@ -1,0 +1,52 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myCaisseClotureLabel" >Créer ou modifier  CaisseCloture</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_dateDebut">Date Debut <span style="color:red" >*</span></label>
+  <div class="input-group">
+                    <input  id="field_dateDebut" type="text" class="form-control" name="dateDebut" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.caisseCloture.dateDebut"  is-open="vm.datePickerOpenStatus.dateDebut"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateDebut')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_dateFin">Date Fin <span style="color:red" >*</span></label>
+  <div class="input-group">
+                    <input  id="field_dateFin" type="text" class="form-control" name="dateFin" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.caisseCloture.dateFin"  is-open="vm.datePickerOpenStatus.dateFin"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateFin')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_caisse">Caisse <span style="color:red" >*</span></label>
+  <select class="form-control" name="caisse"  ng-model="vm.caisseCloture.caisse"  id="field_caisse" ng-options="caisse as caisse.id for caisse in vm.caisses track by caisse.id" required>
+                <option value=""></option>
+            </select>
+ </div>
+
+        </div>
+       
+    </div>
+    <div class="modal-footer">
+        
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

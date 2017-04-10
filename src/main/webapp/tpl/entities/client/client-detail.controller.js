@@ -5,9 +5,9 @@
         .module('app')
         .controller('ClientDetailController', ClientDetailController);
 
-    ClientDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Client', 'Employe'];
+    ClientDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Client' ,'Employe'];
 
-    function ClientDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Client, Employe) {
+    function ClientDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Client ,Employe) {
         var vm = this;
 
         vm.client = entity;

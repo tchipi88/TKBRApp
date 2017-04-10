@@ -2,17 +2,15 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.CommandeLigne;
-import com.itsolution.tkbr.service.CommandeLigneService;
+
+import com.itsolution.tkbr.repository.CommandeLigneRepository;
+import com.itsolution.tkbr.repository.search.CommandeLigneSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing CommandeLigne.
@@ -37,10 +39,13 @@ public class CommandeLigneResource {
 
     private static final String ENTITY_NAME = "commandeLigne";
         
-    private final CommandeLigneService commandeLigneService;
+    private final CommandeLigneRepository commandeLigneRepository;
 
-    public CommandeLigneResource(CommandeLigneService commandeLigneService) {
-        this.commandeLigneService = commandeLigneService;
+    private final CommandeLigneSearchRepository commandeLigneSearchRepository;
+
+    public CommandeLigneResource(CommandeLigneRepository commandeLigneRepository, CommandeLigneSearchRepository commandeLigneSearchRepository) {
+        this.commandeLigneRepository = commandeLigneRepository;
+        this.commandeLigneSearchRepository = commandeLigneSearchRepository;
     }
 
     /**
@@ -57,7 +62,8 @@ public class CommandeLigneResource {
         if (commandeLigne.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commandeLigne cannot already have an ID")).body(null);
         }
-        CommandeLigne result = commandeLigneService.save(commandeLigne);
+        CommandeLigne result = commandeLigneRepository.save(commandeLigne);
+        commandeLigneSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/commande-lignes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,23 +85,23 @@ public class CommandeLigneResource {
         if (commandeLigne.getId() == null) {
             return createCommandeLigne(commandeLigne);
         }
-        CommandeLigne result = commandeLigneService.save(commandeLigne);
+        CommandeLigne result = commandeLigneRepository.save(commandeLigne);
+        commandeLigneSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commandeLigne.getId().toString()))
             .body(result);
     }
 
-    /**
+   /**
      * GET  /commande-lignes : get all the commandeLignes.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of commandeLignes in body
      */
     @GetMapping("/commande-lignes")
     @Timed
     public ResponseEntity<List<CommandeLigne>> getAllCommandeLignes(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of CommandeLignes");
-        Page<CommandeLigne> page = commandeLigneService.findAll(pageable);
+        log.debug("REST request to get all CommandeLignes");
+        Page<CommandeLigne> page = commandeLigneRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/commande-lignes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -110,7 +116,7 @@ public class CommandeLigneResource {
     @Timed
     public ResponseEntity<CommandeLigne> getCommandeLigne(@PathVariable Long id) {
         log.debug("REST request to get CommandeLigne : {}", id);
-        CommandeLigne commandeLigne = commandeLigneService.findOne(id);
+        CommandeLigne commandeLigne = commandeLigneRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(commandeLigne));
     }
 
@@ -124,7 +130,8 @@ public class CommandeLigneResource {
     @Timed
     public ResponseEntity<Void> deleteCommandeLigne(@PathVariable Long id) {
         log.debug("REST request to delete CommandeLigne : {}", id);
-        commandeLigneService.delete(id);
+        commandeLigneRepository.delete(id);
+        commandeLigneSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -133,16 +140,15 @@ public class CommandeLigneResource {
      * to the query.
      *
      * @param query the query of the commandeLigne search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/commande-lignes")
     @Timed
-    public ResponseEntity<List<CommandeLigne>> searchCommandeLignes(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of CommandeLignes for query {}", query);
-        Page<CommandeLigne> page = commandeLigneService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/commande-lignes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<CommandeLigne> searchCommandeLignes(@RequestParam String query) {
+        log.debug("REST request to search CommandeLignes for query {}", query);
+        return StreamSupport
+            .stream(commandeLigneSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

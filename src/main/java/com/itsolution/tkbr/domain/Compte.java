@@ -9,12 +9,12 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.hibernate.annotations.Formula;
 
 /**
  * A Compte.
  */
 @Entity
-@Table(name = "compte")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "compte")
 public class Compte implements Serializable {
@@ -29,11 +29,22 @@ public class Compte implements Serializable {
     @Column(name = "intitule", nullable = false)
     private String intitule;
 
-    @Column(name = "debit", precision=10, scale=2)
+    @Column(name = "debit", precision = 10, scale = 2)
     private BigDecimal debit;
 
-    @Column(name = "credit", precision=10, scale=2)
+    @Column(name = "credit", precision = 10, scale = 2)
     private BigDecimal credit;
+
+    @Formula("credit-debit")
+    private BigDecimal solde;
+
+    public BigDecimal getSolde() {
+        return solde;
+    }
+
+    public void setSolde(BigDecimal solde) {
+        this.solde = solde;
+    }
 
     public Long getId() {
         return id;
@@ -104,11 +115,11 @@ public class Compte implements Serializable {
 
     @Override
     public String toString() {
-        return "Compte{" +
-            "id=" + id +
-            ", intitule='" + intitule + "'" +
-            ", debit='" + debit + "'" +
-            ", credit='" + credit + "'" +
-            '}';
+        return "Compte{"
+                + "id=" + id
+                + ", intitule='" + intitule + "'"
+                + ", debit='" + debit + "'"
+                + ", credit='" + credit + "'"
+                + '}';
     }
 }

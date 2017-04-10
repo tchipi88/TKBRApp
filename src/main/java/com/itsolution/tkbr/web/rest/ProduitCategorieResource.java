@@ -6,7 +6,9 @@ import com.itsolution.tkbr.domain.ProduitCategorie;
 import com.itsolution.tkbr.repository.ProduitCategorieRepository;
 import com.itsolution.tkbr.repository.search.ProduitCategorieSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
+import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing ProduitCategorie.
@@ -86,17 +92,18 @@ public class ProduitCategorieResource {
             .body(result);
     }
 
-    /**
+   /**
      * GET  /produit-categories : get all the produitCategories.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of produitCategories in body
      */
     @GetMapping("/produit-categories")
     @Timed
-    public List<ProduitCategorie> getAllProduitCategories() {
+    public ResponseEntity<List<ProduitCategorie>> getAllProduitCategories(@ApiParam Pageable pageable) {
         log.debug("REST request to get all ProduitCategories");
-        List<ProduitCategorie> produitCategories = produitCategorieRepository.findAll();
-        return produitCategories;
+        Page<ProduitCategorie> page = produitCategorieRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/produit-categories");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

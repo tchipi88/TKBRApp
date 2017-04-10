@@ -14,10 +14,9 @@ import java.util.Objects;
  * A ProduitFournisseur.
  */
 @Entity
-@Table(name = "produit_fournisseur")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "produitfournisseur")
-public class ProduitFournisseur implements Serializable {
+public class ProduitFournisseur extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 

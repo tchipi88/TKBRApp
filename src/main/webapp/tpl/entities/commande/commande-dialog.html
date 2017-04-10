@@ -1,132 +1,52 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
 
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myCommandeLabel" data-translate="tkbrApp.commande.home.createOrEditLabel">Create or edit a Commande</h4>
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myCommandeLabel" >Créer ou modifier  Commande</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.commande.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.commande.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.reference" for="field_reference">Reference</label>
-            <input type="text" class="form-control" name="reference" id="field_reference"
-                    ng-model="vm.commande.reference"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.dateEmission" for="field_dateEmission">Date Emission</label>
-                <div class="input-group">
-                    <input id="field_dateEmission" type="text" class="form-control" name="dateEmission" uib-datepicker-popup="{{dateformat}}" ng-model="vm.commande.dateEmission" is-open="vm.datePickerOpenStatus.dateEmission"
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_dateEmission">Date Emission</label>
+  <div class="input-group">
+                    <input  id="field_dateEmission" type="text" class="form-control" name="dateEmission" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.commande.dateEmission"  is-open="vm.datePickerOpenStatus.dateEmission"
                     />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateEmission')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.delai" for="field_delai">Delai</label>
-            <input type="number" class="form-control" name="delai" id="field_delai"
-                    ng-model="vm.commande.delai"
-                    min="1" max="30"/>
-            <div ng-show="editForm.delai.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.delai.$error.min" data-translate="entity.validation.min" translate-value-min="1">
-                    This field should be at least 1.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.delai.$error.max" data-translate="entity.validation.max" translate-value-max="30">
-                    This field cannot be more than 30.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.delai.$error.number" data-translate="entity.validation.number">
-                    This field should be a number.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.prixHT" for="field_prixHT">Prix HT</label>
-            <input type="number" class="form-control" name="prixHT" id="field_prixHT"
-                    ng-model="vm.commande.prixHT"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.prixTTC" for="field_prixTTC">Prix TTC</label>
-            <input type="number" class="form-control" name="prixTTC" id="field_prixTTC"
-                    ng-model="vm.commande.prixTTC"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.type" for="field_type">Type</label>
-            <select class="form-control" name="type" ng-model="vm.commande.type" id="field_type" required>
-                <option value="ACHAT" data-translate="tkbrApp.CommandeType.ACHAT">ACHAT</option>
-                <option value="VENTE" data-translate="tkbrApp.CommandeType.VENTE">VENTE</option>
-            </select>
-            <div ng-show="editForm.type.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.type.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.dateEcheance" for="field_dateEcheance">Date Echeance</label>
-                <div class="input-group">
-                    <input id="field_dateEcheance" type="text" class="form-control" name="dateEcheance" uib-datepicker-popup="{{dateformat}}" ng-model="vm.commande.dateEcheance" is-open="vm.datePickerOpenStatus.dateEcheance"
-                    required/>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateEcheance')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-            <div ng-show="editForm.dateEcheance.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.dateEcheance.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.commande.commentaires" for="field_commentaires">Commentaires</label>
-                <textarea class="form-control" name="commentaires" id="field_commentaires"
-                    ng-model="vm.commande.commentaires" ></textarea>
-        </div>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_delai">Delai</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_delai" ng-model="vm.commande.delai"                     ng-readonly="false"  ng-required="false"    ng-min="1"     ng-max="30"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_prixHT">Prix HT</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixHT" ng-model="vm.commande.prixHT"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_prixTTC">Prix TTC</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixTTC" ng-model="vm.commande.prixTTC"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_commentaires">Commentaires</label>
+   <textarea class="form-control" rows="3"  cols="30"   id="field_commentaires" ng-model="vm.commande.commentaires"                     ng-readonly="false"  ng-required="false"                     > </textarea>
+ </div>
 
-        <div class="form-group">
-            <label data-translate="tkbrApp.commande.client" for="field_client">Client</label>
-            <select class="form-control" id="field_client" name="client" ng-model="vm.commande.client" ng-options="client as client.id for client in vm.clients track by client.id" required>
-                <option value=""></option>
-            </select>
         </div>
-        <div ng-show="editForm.client.$invalid">
-            <p class="help-block"
-                ng-show="editForm.client.$error.required" data-translate="entity.validation.required">
-                This field is required.
-            </p>
-        </div>
-        <div class="form-group">
-            <label data-translate="tkbrApp.commande.fournisseur" for="field_fournisseur">Fournisseur</label>
-            <select class="form-control" id="field_fournisseur" name="fournisseur" ng-model="vm.commande.fournisseur" ng-options="fournisseur as fournisseur.id for fournisseur in vm.fournisseurs track by fournisseur.id" required>
-                <option value=""></option>
-            </select>
-        </div>
-        <div ng-show="editForm.fournisseur.$invalid">
-            <p class="help-block"
-                ng-show="editForm.fournisseur.$error.required" data-translate="entity.validation.required">
-                This field is required.
-            </p>
-        </div>
+       
     </div>
     <div class="modal-footer">
+        
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
         </button>
     </div>
 </form>

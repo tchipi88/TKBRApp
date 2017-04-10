@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('MouvementStockDetailController', MouvementStockDetailController);
 
-    MouvementStockDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'MouvementStock', 'Entrepot', 'Produit'];
+    MouvementStockDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'MouvementStock' ,'Entrepot','Entrepot','Produit'];
 
-    function MouvementStockDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, MouvementStock, Entrepot, Produit) {
+    function MouvementStockDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, MouvementStock ,Entrepot,Entrepot,Produit) {
         var vm = this;
 
         vm.mouvementStock = entity;

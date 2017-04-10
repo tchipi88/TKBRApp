@@ -1,60 +1,64 @@
 
 <div>
-    <h2><span data-translate="tkbrApp.client.detail.title">Client</span> {{vm.client.id}}</h2>
+    <h2><span >Client</span> {{vm.client.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tkbrApp.client.nom">Nom</span></dt>
+        
+       <dt><span >Nom</span></dt>
         <dd>
             <span>{{vm.client.nom}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.email">Email</span></dt>
+        </dd> 
+<dt><span >Email</span></dt>
         <dd>
             <span>{{vm.client.email}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.telephonePortable">Telephone Portable</span></dt>
+        </dd> 
+<dt><span >Telephone Portable</span></dt>
         <dd>
             <span>{{vm.client.telephonePortable}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.telephoneFixe">Telephone Fixe</span></dt>
+        </dd> 
+<dt><span >Telephone Fixe</span></dt>
         <dd>
             <span>{{vm.client.telephoneFixe}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.siteWeb">Site Web</span></dt>
+        </dd> 
+<dt><span >Site Web</span></dt>
         <dd>
             <span>{{vm.client.siteWeb}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.boitePostale">Boite Postale</span></dt>
+        </dd> 
+<dt><span >Boite Postale</span></dt>
         <dd>
             <span>{{vm.client.boitePostale}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.adresse">Adresse</span></dt>
+        </dd> 
+<dt><span >Adresse</span></dt>
         <dd>
             <span>{{vm.client.adresse}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.logo">Logo</span></dt>
+        </dd> 
+<dt><span >Logo</span></dt>
         <dd>
-            <div ng-if="vm.client.logo">
-                <a ng-click="vm.openFile(vm.client.logoContentType, vm.client.logo)">
-                    <img data-ng-src="{{'data:' + vm.client.logoContentType + ';base64,' + vm.client.logo}}" style="max-width: 100%;" alt="client image"/>
-                </a>
-                {{vm.client.logoContentType}}, {{vm.byteSize(vm.client.logo)}}
-            </div>
-        </dd>
-        <dt><span data-translate="tkbrApp.client.responsable">Responsable</span></dt>
+            <span>{{vm.client.logo}}</span>
+        </dd> 
+<dt><span >Logo Content Type</span></dt>
         <dd>
-            <a ui-sref="employe-detail({id:vm.client.responsable.id})">{{vm.client.responsable.id}}</a>
-        </dd>
+            <span>{{vm.client.logoContentType}}</span>
+        </dd> 
+<dt><span >Responsable</span></dt>
+        <dd>
+            <span>{{vm.client.responsable}}</span>
+        </dd> 
+<dt><span >Numero Commerce</span></dt>
+        <dd>
+            <span>{{vm.client.numeroCommerce}}</span>
+        </dd> 
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
     <button type="button" ui-sref="client-detail.edit({id:vm.client.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" > Modifier</span>
     </button>
 </div>

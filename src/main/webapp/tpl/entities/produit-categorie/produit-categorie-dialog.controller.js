@@ -2,17 +2,22 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('ProduitCategorieDialogController', ProduitCategorieDialogController);
 
-    ProduitCategorieDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'ProduitCategorie'];
+    ProduitCategorieDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'ProduitCategorie'];
 
-    function ProduitCategorieDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, ProduitCategorie) {
+    function ProduitCategorieDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, ProduitCategorie ) {
         var vm = this;
 
         vm.produitCategorie = entity;
         vm.clear = clear;
+        vm.datePickerOpenStatus = {};
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
+        
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -41,6 +46,12 @@
             vm.isSaving = false;
         }
 
+
+        
+        
+         function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
 
     }
 })();

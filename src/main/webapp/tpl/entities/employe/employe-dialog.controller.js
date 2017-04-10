@@ -2,20 +2,24 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('EmployeDialogController', EmployeDialogController);
 
-    EmployeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Employe', 'EmployeFonction'];
+    EmployeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Employe','EmployeFonction','EmployeDepartement'];
 
-    function EmployeDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Employe, EmployeFonction) {
+    function EmployeDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Employe ,EmployeFonction,EmployeDepartement) {
         var vm = this;
 
         vm.employe = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.employefonctions = EmployeFonction.query();
+        vm.employeFonctions = EmployeFonction.query();
+vm.employeDepartements = EmployeDepartement.query();
+
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -44,11 +48,14 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.dateNaissance = false;
-        vm.datePickerOpenStatus.dateEntree = false;
 
-        function openCalendar (date) {
+         vm.datePickerOpenStatus.dateNaissance = false;
+ vm.datePickerOpenStatus.dateEntree = false;
+
+        
+         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+
     }
 })();

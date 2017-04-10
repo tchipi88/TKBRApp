@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .factory('ProduitCategorieSearch', ProduitCategorieSearch);
 
     ProduitCategorieSearch.$inject = ['$resource'];

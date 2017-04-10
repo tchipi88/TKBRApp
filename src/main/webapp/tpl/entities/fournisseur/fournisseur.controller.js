@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('FournisseurController', FournisseurController);
 
     FournisseurController.$inject = ['$state', 'DataUtils', 'Fournisseur', 'FournisseurSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

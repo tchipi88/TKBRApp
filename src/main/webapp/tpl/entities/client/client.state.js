@@ -108,16 +108,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            nom: null,
-                                            email: null,
-                                            telephonePortable: null,
-                                            telephoneFixe: null,
-                                            siteWeb: null,
-                                            boitePostale: null,
-                                            adresse: null,
-                                            logo: null,
-                                            logoContentType: null,
-                                            id: null
+                                            
                                         };
                                     }
                                 }

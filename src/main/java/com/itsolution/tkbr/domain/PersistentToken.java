@@ -1,5 +1,6 @@
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -16,7 +17,6 @@ import java.io.Serializable;
  * @see com.itsolution.tkbr.security.PersistentTokenRememberMeServices
  */
 @Entity
-@Table(name = "jhi_persistent_token")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class PersistentToken implements Serializable {
 

@@ -1,0 +1,28 @@
+
+<div>
+    <h2><span >AccessGroup</span> {{vm.accessGroup.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Libelle</span></dt>
+        <dd>
+            <span>{{vm.accessGroup.libelle}}</span>
+        </dd> 
+<dt><span >Access</span></dt>
+        <dd>
+            <span>{{vm.accessGroup.access}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="accessGroup-detail.edit({id:vm.accessGroup.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

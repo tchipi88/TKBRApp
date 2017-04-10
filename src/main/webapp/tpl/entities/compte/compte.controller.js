@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CompteController', CompteController);
 
-    CompteController.$inject = ['$state', 'Compte', 'CompteSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    CompteController.$inject = ['$state', 'DataUtils', 'Compte', 'CompteSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function CompteController($state, Compte, CompteSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function CompteController($state, DataUtils, Compte, CompteSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

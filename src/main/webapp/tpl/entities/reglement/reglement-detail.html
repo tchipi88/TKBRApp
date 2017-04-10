@@ -1,39 +1,40 @@
 
 <div>
-    <h2><span data-translate="tkbrApp.reglement.detail.title">Reglement</span> {{vm.reglement.id}}</h2>
+    <h2><span >Reglement</span> {{vm.reglement.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tkbrApp.reglement.montant">Montant</span></dt>
+        
+       <dt><span >Montant</span></dt>
         <dd>
             <span>{{vm.reglement.montant}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.reglement.dateVersement">Date Versement</span></dt>
+        </dd> 
+<dt><span >Date Versement</span></dt>
         <dd>
-            <span>{{vm.reglement.dateVersement | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.reglement.mode">Mode</span></dt>
+            <span>{{vm.reglement.dateVersement}}</span>
+        </dd> 
+<dt><span >Mode</span></dt>
         <dd>
-            <span data-translate="{{'tkbrApp.ReglementMode.' + vm.reglement.mode}}">{{vm.reglement.mode}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.reglement.etat">Etat</span></dt>
+            <span>{{vm.reglement.mode}}</span>
+        </dd> 
+<dt><span >Etat</span></dt>
         <dd>
-            <span data-translate="{{'tkbrApp.ReglementEtat.' + vm.reglement.etat}}">{{vm.reglement.etat}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.reglement.commande">Commande</span></dt>
+            <span>{{vm.reglement.etat}}</span>
+        </dd> 
+<dt><span >Commande</span></dt>
         <dd>
-            <a ui-sref="commande-detail({id:vm.reglement.commande.id})">{{vm.reglement.commande.id}}</a>
-        </dd>
+            <span>{{vm.reglement.commande}}</span>
+        </dd> 
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
     <button type="button" ui-sref="reglement-detail.edit({id:vm.reglement.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" > Modifier</span>
     </button>
 </div>

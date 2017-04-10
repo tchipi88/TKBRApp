@@ -2,7 +2,7 @@ package com.itsolution.tkbr.service.dto;
 
 import com.itsolution.tkbr.config.Constants;
 
-import com.itsolution.tkbr.domain.security.Authority;
+import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.domain.User;
 
 import org.hibernate.validator.constraints.Email;
@@ -38,8 +38,7 @@ public class UserDTO {
 
     private boolean activated = false;
 
-    @Size(min = 2, max = 5)
-    private String langKey;
+
 
     private String createdBy;
 
@@ -57,14 +56,14 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
+            user.getEmail(), user.getActivated(), user.getImageUrl(), 
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
-        String email, boolean activated, String imageUrl, String langKey,
+        String email, boolean activated, String imageUrl, 
         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
         Set<String> authorities) {
 
@@ -75,7 +74,6 @@ public class UserDTO {
         this.email = email;
         this.activated = activated;
         this.imageUrl = imageUrl;
-        this.langKey = langKey;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
@@ -119,9 +117,7 @@ public class UserDTO {
         return activated;
     }
 
-    public String getLangKey() {
-        return langKey;
-    }
+    
 
     public String getCreatedBy() {
         return createdBy;
@@ -156,7 +152,6 @@ public class UserDTO {
             ", email='" + email + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
             ", createdBy=" + createdBy +
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +

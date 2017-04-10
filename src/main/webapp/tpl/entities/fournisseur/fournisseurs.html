@@ -1,96 +1,102 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Fournisseurs</h1>
+    <small class="text-muted"></small>
+</div>
 <div>
-    <h2 data-translate="tkbrApp.fournisseur.home.title">Fournisseurs</h2>
     <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="fournisseur.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="hidden-xs-down"  data-translate="tkbrApp.fournisseur.home.createLabel">
-                        Create new Fournisseur
-                    </span>
-                </button>
-            </div>
-            <div class="col-xs-8 no-padding-right">
-                <form name="searchForm" class="form-inline">
-                    <div class="input-group pull-right" >
-                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'tkbrApp.fournisseur.home.search' | translate }}">
-                        <span  class="input-group-btn width-min" >
-                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
-                            <button class="btn btn-info" ng-click="vm.clear()">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+               
+                <div class="col-xs-12 no-padding-right">
+                    <form name="searchForm" class="form-inline">
+                        <div class="input-group pull-right" >
+                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
+                            <span  class="input-group-btn width-min" >
+                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                                <button class="btn btn-info" ng-click="vm.clear()">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="nom"><span data-translate="tkbrApp.fournisseur.nom">Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="email"><span data-translate="tkbrApp.fournisseur.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="telephonePortable"><span data-translate="tkbrApp.fournisseur.telephonePortable">Telephone Portable</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="telephoneFixe"><span data-translate="tkbrApp.fournisseur.telephoneFixe">Telephone Fixe</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="siteWeb"><span data-translate="tkbrApp.fournisseur.siteWeb">Site Web</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="boitePostale"><span data-translate="tkbrApp.fournisseur.boitePostale">Boite Postale</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="adresse"><span data-translate="tkbrApp.fournisseur.adresse">Adresse</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="logo"><span data-translate="tkbrApp.fournisseur.logo">Logo</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="fournisseur in vm.fournisseurs track by fournisseur.id">
-                    <td><a ui-sref="fournisseur-detail({id:fournisseur.id})">{{fournisseur.id}}</a></td>
-                    <td>{{fournisseur.nom}}</td>
-                    <td>{{fournisseur.email}}</td>
-                    <td>{{fournisseur.telephonePortable}}</td>
-                    <td>{{fournisseur.telephoneFixe}}</td>
-                    <td>{{fournisseur.siteWeb}}</td>
-                    <td>{{fournisseur.boitePostale}}</td>
-                    <td>{{fournisseur.adresse}}</td>
-                    <td>
-                        <a ng-if="fournisseur.logo" ng-click="vm.openFile(fournisseur.logoContentType, fournisseur.logo)">
-                            <img data-ng-src="{{'data:' + fournisseur.logoContentType + ';base64,' + fournisseur.logo}}" style="max-height: 30px;" alt="fournisseur image"/>
-                        </a>
-                        <span ng-if="fournisseur.logo">{{fournisseur.logoContentType}}, {{vm.byteSize(fournisseur.logo)}}</span>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="fournisseur-detail({id:fournisseur.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                         <th jh-sort-by="nom"><span >Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="email"><span >Email</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="adresse"><span >Adresse</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="logoContentType"><span >Logo Content Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="responsable"><span >Responsable</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th >
+                            <button class="btn btn-primary" ui-sref="fournisseur.new"   tooltip="Créer Fournisseur">
+                                <i class="fa fa-plus">
+                                </i>
                             </button>
-                            <button type="submit"
-                                    ui-sref="fournisseur.edit({id:fournisseur.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="fournisseur in vm.fournisseurs track by fournisseur.id">
+                        <td><a ui-sref="fournisseur-detail({id:fournisseur.id})">{{fournisseur.id}}</a></td>
+                         <td>{{fournisseur.nom}}</td>
+ <td>{{fournisseur.email}}</td>
+ <td>{{fournisseur.telephonePortable}}</td>
+ <td>{{fournisseur.telephoneFixe}}</td>
+ <td>{{fournisseur.siteWeb}}</td>
+ <td>{{fournisseur.boitePostale}}</td>
+ <td>{{fournisseur.adresse}}</td>
+ <td>{{fournisseur.logoContentType}}</td>
+ <td>{{fournisseur.responsable}}</td>
+ <td>{{fournisseur.numeroCommerce}}</td>
+                        <td >
+
+                            <button type="submit"    ui-sref="fournisseur-detail({id:fournisseur.id})"    class="btn btn-info btn-sm"   tooltip="Details">
+                                <i class="fa fa-eye">
+                                </i>
                             </button>
-                            <button type="submit"
-                                    ui-sref="fournisseur.delete({id:fournisseur.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            <button type="submit"   ui-sref="fournisseur.edit({id:fournisseur.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
                             </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+
+                            <button type="submit"  ui-sref="fournisseur.delete({id:fournisseur.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="bg-light lter b-b wrapper-md" >
     <h1 class="m-n font-thin h3">Clients</h1>
-    <small class="text-muted">Search Form and DataTables</small>
+    <small class="text-muted"></small>
 </div>
 <div>
     <jhi-alert></jhi-alert>
@@ -10,10 +10,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-xs-4 no-padding-left">
-
-                </div>
-                <div class="col-xs-8 no-padding-right">
+               
+                <div class="col-xs-12 no-padding-right">
                     <form name="searchForm" class="form-inline">
                         <div class="input-group pull-right" >
                             <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
@@ -37,10 +35,16 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                        <th jh-sort-by="nom"><span >Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
-                        <th jh-sort-by="email"><span >Email</span> <span class="glyphicon glyphicon-sort"></span></th>
-                        <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="glyphicon glyphicon-sort"></span></th>
-                        <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="glyphicon glyphicon-sort"></span></th>
+                         <th jh-sort-by="nom"><span >Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="email"><span >Email</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="adresse"><span >Adresse</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="logoContentType"><span >Logo Content Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="responsable"><span >Responsable</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="glyphicon glyphicon-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="client.new"   tooltip="Créer Client">
                                 <i class="fa fa-plus">
@@ -52,11 +56,16 @@
                 <tbody>
                     <tr ng-repeat="client in vm.clients track by client.id">
                         <td><a ui-sref="client-detail({id:client.id})">{{client.id}}</a></td>
-                        <td>{{client.nom}}</td>
-                        <td>{{client.email}}</td>
-                        <td>{{client.telephonePortable}}</td>
-                        <td>{{client.telephoneFixe}}</td>
-
+                         <td>{{client.nom}}</td>
+ <td>{{client.email}}</td>
+ <td>{{client.telephonePortable}}</td>
+ <td>{{client.telephoneFixe}}</td>
+ <td>{{client.siteWeb}}</td>
+ <td>{{client.boitePostale}}</td>
+ <td>{{client.adresse}}</td>
+ <td>{{client.logoContentType}}</td>
+ <td>{{client.responsable}}</td>
+ <td>{{client.numeroCommerce}}</td>
                         <td >
 
                             <button type="submit"    ui-sref="client-detail({id:client.id})"    class="btn btn-info btn-sm"   tooltip="Details">

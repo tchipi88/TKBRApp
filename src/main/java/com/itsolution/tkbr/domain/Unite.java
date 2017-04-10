@@ -13,7 +13,6 @@ import java.util.Objects;
  * A Unite.
  */
 @Entity
-@Table(name = "unite")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "unite")
 public class Unite implements Serializable {

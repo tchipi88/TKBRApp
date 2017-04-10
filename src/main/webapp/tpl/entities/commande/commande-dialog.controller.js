@@ -2,25 +2,22 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CommandeDialogController', CommandeDialogController);
 
-    CommandeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Commande', 'Client', 'Fournisseur', 'CommandeLigne', 'Reglement'];
+    CommandeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Commande'];
 
-    function CommandeDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Commande, Client, Fournisseur, CommandeLigne, Reglement) {
+    function CommandeDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Commande ) {
         var vm = this;
 
         vm.commande = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.clients = Client.query();
-        vm.fournisseurs = Fournisseur.query();
-        vm.commandelignes = CommandeLigne.query();
-        vm.reglements = Reglement.query();
+        
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -49,11 +46,13 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.dateEmission = false;
-        vm.datePickerOpenStatus.dateEcheance = false;
 
-        function openCalendar (date) {
+         vm.datePickerOpenStatus.dateEmission = false;
+
+        
+         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+
     }
 })();

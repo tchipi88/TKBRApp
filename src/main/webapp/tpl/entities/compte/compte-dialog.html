@@ -1,50 +1,42 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
 
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myCompteLabel" data-translate="tkbrApp.compte.home.createOrEditLabel">Create or edit a Compte</h4>
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myCompteLabel" >Créer ou modifier  Compte</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.compte.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.compte.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.compte.intitule" for="field_intitule">Intitule</label>
-            <input type="text" class="form-control" name="intitule" id="field_intitule"
-                    ng-model="vm.compte.intitule"
-                    required/>
-            <div ng-show="editForm.intitule.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.intitule.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.compte.debit" for="field_debit">Debit</label>
-            <input type="number" class="form-control" name="debit" id="field_debit"
-                    ng-model="vm.compte.debit"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.compte.credit" for="field_credit">Credit</label>
-            <input type="number" class="form-control" name="credit" id="field_credit"
-                    ng-model="vm.compte.credit"
-                    />
-        </div>
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_intitule">Intitule <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_intitule" ng-model="vm.compte.intitule"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_debit">Debit</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_debit" ng-model="vm.compte.debit"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_credit">Credit</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_credit" ng-model="vm.compte.credit"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_solde">Solde</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_solde" ng-model="vm.compte.solde"                     ng-readonly="true"  ng-required="false"                     />
+ </div>
 
+        </div>
+       
     </div>
     <div class="modal-footer">
+        
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
         </button>
     </div>
 </form>

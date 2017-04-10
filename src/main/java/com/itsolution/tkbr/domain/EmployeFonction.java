@@ -13,7 +13,6 @@ import java.util.Objects;
  * A EmployeFonction.
  */
 @Entity
-@Table(name = "employe_fonction")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "employefonction")
 public class EmployeFonction implements Serializable {

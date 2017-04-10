@@ -5,17 +5,20 @@
         .module('app')
         .controller('ClientDialogController', ClientDialogController);
 
-    ClientDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Client', 'Employe'];
+    ClientDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Client','Employe'];
 
-    function ClientDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Client, Employe) {
+    function ClientDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Client ,Employe) {
         var vm = this;
 
         vm.client = entity;
         vm.clear = clear;
+        vm.datePickerOpenStatus = {};
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.employes = Employe.query();
+
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -45,19 +48,11 @@
         }
 
 
-        vm.setLogo = function ($file, client) {
-            if ($file && $file.$error === 'pattern') {
-                return;
-            }
-            if ($file) {
-                DataUtils.toBase64($file, function(base64Data) {
-                    $scope.$apply(function() {
-                        client.logo = base64Data;
-                        client.logoContentType = $file.type;
-                    });
-                });
-            }
-        };
+        
+        
+         function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
 
     }
 })();

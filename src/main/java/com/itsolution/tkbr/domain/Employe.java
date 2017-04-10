@@ -18,7 +18,7 @@ import java.util.Objects;
 @Table(name = "employe")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "employe")
-public class Employe implements Serializable {
+public class Employe extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -60,6 +60,10 @@ public class Employe implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private EmployeFonction fonction;
+    
+    @ManyToOne
+    @NotNull
+    private EmployeDepartement departement;
 
     public Long getId() {
         return id;
@@ -207,6 +211,17 @@ public class Employe implements Serializable {
         this.fonction = employeFonction;
         return this;
     }
+
+    public EmployeDepartement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(EmployeDepartement departement) {
+        this.departement = departement;
+    }
+
+    
+    
 
     public void setFonction(EmployeFonction employeFonction) {
         this.fonction = employeFonction;

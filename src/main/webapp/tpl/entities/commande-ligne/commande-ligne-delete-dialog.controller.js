@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CommandeLigneDeleteController',CommandeLigneDeleteController);
 
     CommandeLigneDeleteController.$inject = ['$uibModalInstance', 'entity', 'CommandeLigne'];

@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.hibernate.annotations.Formula;
 
 /**
  * A CommandeLigne.
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Table(name = "commande_ligne")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "commandeligne")
-public class CommandeLigne implements Serializable {
+public class CommandeLigne extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +27,14 @@ public class CommandeLigne implements Serializable {
     private Long id;
 
     @Column(name = "quantite")
+    @NotNull
     private Double quantite;
 
     @Column(name = "prix_unitaire", precision=10, scale=2)
     private BigDecimal prixUnitaire;
+    
+    @Formula("prixUnitaire*quantite")
+    private BigDecimal sousTotal;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -98,6 +103,16 @@ public class CommandeLigne implements Serializable {
     public void setProduit(Produit produit) {
         this.produit = produit;
     }
+
+    public BigDecimal getSousTotal() {
+        return sousTotal;
+    }
+
+    public void setSousTotal(BigDecimal sousTotal) {
+        this.sousTotal = sousTotal;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {

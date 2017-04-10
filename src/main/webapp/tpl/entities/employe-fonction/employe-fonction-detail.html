@@ -1,23 +1,24 @@
 
 <div>
-    <h2><span data-translate="tkbrApp.employeFonction.detail.title">Employe Fonction</span> {{vm.employeFonction.id}}</h2>
+    <h2><span >EmployeFonction</span> {{vm.employeFonction.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tkbrApp.employeFonction.libelle">Libelle</span></dt>
+        
+       <dt><span >Libelle</span></dt>
         <dd>
             <span>{{vm.employeFonction.libelle}}</span>
-        </dd>
+        </dd> 
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
-    <button type="button" ui-sref="employe-fonction-detail.edit({id:vm.employeFonction.id})" class="btn btn-primary">
+    <button type="button" ui-sref="employeFonction-detail.edit({id:vm.employeFonction.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" > Modifier</span>
     </button>
 </div>

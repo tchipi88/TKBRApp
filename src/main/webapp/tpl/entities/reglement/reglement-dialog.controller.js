@@ -2,20 +2,23 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('ReglementDialogController', ReglementDialogController);
 
-    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Reglement', 'Commande'];
+    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Reglement','Commande'];
 
-    function ReglementDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Reglement, Commande) {
+    function ReglementDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Reglement ,Commande) {
         var vm = this;
 
         vm.reglement = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.commandes = Commande.query();
+
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -44,10 +47,13 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.dateVersement = false;
 
-        function openCalendar (date) {
+         vm.datePickerOpenStatus.dateVersement = false;
+
+        
+         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+
     }
 })();

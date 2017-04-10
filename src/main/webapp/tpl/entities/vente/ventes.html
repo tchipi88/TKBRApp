@@ -1,0 +1,94 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Ventes</h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+               
+                <div class="col-xs-12 no-padding-right">
+                    <form name="searchForm" class="form-inline">
+                        <div class="input-group pull-right" >
+                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
+                            <span  class="input-group-btn width-min" >
+                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                                <button class="btn btn-info" ng-click="vm.clear()">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                         <th jh-sort-by="client"><span >Client</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="statut"><span >Statut</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="dateEmission"><span >Date Emission</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="delai"><span >Delai</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="prixHT"><span >Prix HT</span> <span class="glyphicon glyphicon-sort"></span></th>
+ <th jh-sort-by="prixTTC"><span >Prix TTC</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th >
+                            <button class="btn btn-primary" ui-sref="vente.new"   tooltip="Créer Vente">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="vente in vm.ventes track by vente.id">
+                        <td><a ui-sref="vente-detail({id:vente.id})">{{vente.id}}</a></td>
+                         <td>{{vente.client}}</td>
+ <td>{{vente.statut}}</td>
+ <td>{{vente.dateEmission | date:'mediumDate'}}</td>
+ <td>{{vente.delai}}</td>
+ <td>{{vente.prixHT}}</td>
+ <td>{{vente.prixTTC}}</td>
+                        <td >
+
+                            <button type="submit"    ui-sref="vente-detail({id:vente.id})"    class="btn btn-info btn-sm"   tooltip="Details">
+                                <i class="fa fa-eye">
+                                </i>
+                            </button>
+                            <button type="submit"   ui-sref="vente.edit({id:vente.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+                            <button type="submit"  ui-sref="vente.delete({id:vente.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

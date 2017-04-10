@@ -1,12 +1,12 @@
 (function() {
     'use strict';
     angular
-        .module('tkbrApp')
+        .module('app')
         .factory('Reglement', Reglement);
 
-    Reglement.$inject = ['$resource', 'DateUtils'];
+    Reglement.$inject = ['$resource'];
 
-    function Reglement ($resource, DateUtils) {
+    function Reglement ($resource) {
         var resourceUrl =  'api/reglements/:id';
 
         return $resource(resourceUrl, {}, {
@@ -16,27 +16,11 @@
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
-                        data.dateVersement = DateUtils.convertLocalDateFromServer(data.dateVersement);
                     }
                     return data;
                 }
             },
-            'update': {
-                method: 'PUT',
-                transformRequest: function (data) {
-                    var copy = angular.copy(data);
-                    copy.dateVersement = DateUtils.convertLocalDateToServer(copy.dateVersement);
-                    return angular.toJson(copy);
-                }
-            },
-            'save': {
-                method: 'POST',
-                transformRequest: function (data) {
-                    var copy = angular.copy(data);
-                    copy.dateVersement = DateUtils.convertLocalDateToServer(copy.dateVersement);
-                    return angular.toJson(copy);
-                }
-            }
+            'update': { method:'PUT' }
         });
     }
 })();

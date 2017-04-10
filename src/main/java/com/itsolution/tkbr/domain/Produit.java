@@ -16,10 +16,9 @@ import com.itsolution.tkbr.domain.enumeration.ProduitType;
  * A Produit.
  */
 @Entity
-@Table(name = "produit")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "produit")
-public class Produit implements Serializable {
+public class Produit extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -28,11 +27,9 @@ public class Produit implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "libelle", nullable = false)
-    private String libelle;
+    private String denomination;
 
-    @Column(name = "prix", precision=10, scale=2)
-    private BigDecimal prix;
+    
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -53,31 +50,17 @@ public class Produit implements Serializable {
         this.id = id;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public String getDenomination() {
+        return denomination;
     }
 
-    public Produit libelle(String libelle) {
-        this.libelle = libelle;
-        return this;
+    public void setDenomination(String denomination) {
+        this.denomination = denomination;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
+   
 
-    public BigDecimal getPrix() {
-        return prix;
-    }
-
-    public Produit prix(BigDecimal prix) {
-        this.prix = prix;
-        return this;
-    }
-
-    public void setPrix(BigDecimal prix) {
-        this.prix = prix;
-    }
+    
 
     public ProduitType getType() {
         return type;
@@ -142,8 +125,7 @@ public class Produit implements Serializable {
     public String toString() {
         return "Produit{" +
             "id=" + id +
-            ", libelle='" + libelle + "'" +
-            ", prix='" + prix + "'" +
+            ", denomination='" + denomination + "'" +
             ", type='" + type + "'" +
             '}';
     }

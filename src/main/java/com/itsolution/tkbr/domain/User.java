@@ -1,6 +1,6 @@
 package com.itsolution.tkbr.domain;
 
-import com.itsolution.tkbr.domain.security.Authority;
+import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -63,10 +63,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @Size(min = 2, max = 5)
-    @Column(name = "lang_key", length = 5)
-    private String langKey;
-
+   
     @Size(max = 256)
     @Column(name = "image_url", length = 256)
     private String imageUrl;
@@ -86,7 +83,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "jhi_user_authority",
+        name = "user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -187,14 +184,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
        this.resetDate = resetDate;
     }
 
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
-    }
-
+    
     public Set<Authority> getAuthorities() {
         return authorities;
     }
@@ -239,7 +229,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", email='" + email + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             "}";
     }

@@ -1,0 +1,36 @@
+
+<div>
+    <h2><span >CaisseMouvement</span> {{vm.caisseMouvement.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Caisse</span></dt>
+        <dd>
+            <span>{{vm.caisseMouvement.caisse}}</span>
+        </dd> 
+<dt><span >Date Mouvement</span></dt>
+        <dd>
+            <span>{{vm.caisseMouvement.dateMouvement}}</span>
+        </dd> 
+<dt><span >Commentaires</span></dt>
+        <dd>
+            <span>{{vm.caisseMouvement.commentaires}}</span>
+        </dd> 
+<dt><span >Montant</span></dt>
+        <dd>
+            <span>{{vm.caisseMouvement.montant}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="caisseMouvement-detail.edit({id:vm.caisseMouvement.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

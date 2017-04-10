@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('ProduitController', ProduitController);
 
-    ProduitController.$inject = ['$state', 'Produit', 'ProduitSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    ProduitController.$inject = ['$state', 'DataUtils', 'Produit', 'ProduitSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function ProduitController($state, Produit, ProduitSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function ProduitController($state, DataUtils, Produit, ProduitSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

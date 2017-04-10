@@ -2,23 +2,25 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('MouvementStockDialogController', MouvementStockDialogController);
 
-    MouvementStockDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'MouvementStock', 'Entrepot', 'Produit'];
+    MouvementStockDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'MouvementStock','Entrepot','Entrepot','Produit'];
 
-    function MouvementStockDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, MouvementStock, Entrepot, Produit) {
+    function MouvementStockDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, MouvementStock ,Entrepot,Entrepot,Produit) {
         var vm = this;
 
         vm.mouvementStock = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.entrepots = Entrepot.query();
-        vm.produits = Produit.query();
+vm.entrepots = Entrepot.query();
+vm.produits = Produit.query();
+
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -47,10 +49,13 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.dateTransaction = false;
 
-        function openCalendar (date) {
+         vm.datePickerOpenStatus.dateTransaction = false;
+
+        
+         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+
     }
 })();

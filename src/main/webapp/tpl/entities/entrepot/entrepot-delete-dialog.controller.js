@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('EntrepotDeleteController',EntrepotDeleteController);
 
     EntrepotDeleteController.$inject = ['$uibModalInstance', 'entity', 'Entrepot'];

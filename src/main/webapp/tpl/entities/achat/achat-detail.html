@@ -1,0 +1,52 @@
+
+<div>
+    <h2><span >Achat</span> {{vm.achat.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Fournisseur</span></dt>
+        <dd>
+            <span>{{vm.achat.fournisseur}}</span>
+        </dd> 
+<dt><span >Date Emission</span></dt>
+        <dd>
+            <span>{{vm.achat.dateEmission}}</span>
+        </dd> 
+<dt><span >Delai</span></dt>
+        <dd>
+            <span>{{vm.achat.delai}}</span>
+        </dd> 
+<dt><span >Prix HT</span></dt>
+        <dd>
+            <span>{{vm.achat.prixHT}}</span>
+        </dd> 
+<dt><span >Prix TTC</span></dt>
+        <dd>
+            <span>{{vm.achat.prixTTC}}</span>
+        </dd> 
+<dt><span >Commentaires</span></dt>
+        <dd>
+            <span>{{vm.achat.commentaires}}</span>
+        </dd> 
+<dt><span >Commande Lignes</span></dt>
+        <dd>
+            <span>{{vm.achat.commandeLignes}}</span>
+        </dd> 
+<dt><span >Reglements</span></dt>
+        <dd>
+            <span>{{vm.achat.reglements}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="achat-detail.edit({id:vm.achat.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

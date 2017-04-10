@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .factory('CompteSearch', CompteSearch);
 
     CompteSearch.$inject = ['$resource'];

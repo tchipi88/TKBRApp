@@ -1,108 +1,72 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
 
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myFournisseurLabel" data-translate="tkbrApp.fournisseur.home.createOrEditLabel">Create or edit a Fournisseur</h4>
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myFournisseurLabel" >Créer ou modifier  Fournisseur</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.fournisseur.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.fournisseur.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.nom" for="field_nom">Nom</label>
-            <input type="text" class="form-control" name="nom" id="field_nom"
-                    ng-model="vm.fournisseur.nom"
-                    required/>
-            <div ng-show="editForm.nom.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.nom.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.email" for="field_email">Email</label>
-            <input type="text" class="form-control" name="email" id="field_email"
-                    ng-model="vm.fournisseur.email"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.telephonePortable" for="field_telephonePortable">Telephone Portable</label>
-            <input type="text" class="form-control" name="telephonePortable" id="field_telephonePortable"
-                    ng-model="vm.fournisseur.telephonePortable"
-                    required/>
-            <div ng-show="editForm.telephonePortable.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.telephonePortable.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.telephoneFixe" for="field_telephoneFixe">Telephone Fixe</label>
-            <input type="text" class="form-control" name="telephoneFixe" id="field_telephoneFixe"
-                    ng-model="vm.fournisseur.telephoneFixe"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.siteWeb" for="field_siteWeb">Site Web</label>
-            <input type="text" class="form-control" name="siteWeb" id="field_siteWeb"
-                    ng-model="vm.fournisseur.siteWeb"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.boitePostale" for="field_boitePostale">Boite Postale</label>
-            <input type="text" class="form-control" name="boitePostale" id="field_boitePostale"
-                    ng-model="vm.fournisseur.boitePostale"
-                    />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.adresse" for="field_adresse">Adresse</label>
-            <input type="text" class="form-control" name="adresse" id="field_adresse"
-                    ng-model="vm.fournisseur.adresse"
-                    required/>
-            <div ng-show="editForm.adresse.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.adresse.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group" ngf-drop ngf-change="vm.setLogo($file, vm.fournisseur)" ngf-pattern="'image/*'">
-            <label class="control-label" data-translate="tkbrApp.fournisseur.logo" for="field_logo">Logo</label>
-            <div>
-                <img data-ng-src="{{'data:' + vm.fournisseur.logoContentType + ';base64,' + vm.fournisseur.logo}}" style="max-height: 100px;" ng-if="vm.fournisseur.logo" alt="fournisseur image"/>
-                <div ng-if="vm.fournisseur.logo" class="help-block clearfix">
-                    <span class="pull-left">{{vm.fournisseur.logoContentType}}, {{vm.byteSize(vm.fournisseur.logo)}}</span>
-                    <button type="button" ng-click="vm.fournisseur.logo=null;vm.fournisseur.logoContentType=null;"
-                            class="btn btn-default btn-xs pull-right">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                </div>
-                <button type="button" ngf-select class="btn btn-default btn-block"
-                        ngf-change="vm.setLogo($file, vm.fournisseur)" accept="image/*" data-translate="entity.action.addimage">
-                    Add image
-                </button>
-            </div>
-            <input type="hidden" class="form-control" name="logo" id="field_logo"
-                    ng-model="vm.fournisseur.logo"
-                    />
-            <input type="hidden" class="form-control" name="logoContentType" id="field_logoContentType"
-                    ng-model="vm.fournisseur.logoContentType" />
-        </div>
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.fournisseur.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_email">Email</label>
+  <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.fournisseur.email"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_telephonePortable">Telephone Portable <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_telephonePortable" ng-model="vm.fournisseur.telephonePortable"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_telephoneFixe">Telephone Fixe</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_telephoneFixe" ng-model="vm.fournisseur.telephoneFixe"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_siteWeb">Site Web</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_siteWeb" ng-model="vm.fournisseur.siteWeb"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_boitePostale">Boite Postale</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_boitePostale" ng-model="vm.fournisseur.boitePostale"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_adresse">Adresse <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.fournisseur.adresse"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_logo">Logo</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_logo" ng-model="vm.fournisseur.logo"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_logoContentType">Logo Content Type</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_logoContentType" ng-model="vm.fournisseur.logoContentType"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_responsable">Responsable</label>
+  <select class="form-control" name="responsable"  ng-model="vm.fournisseur.responsable"  id="field_responsable" ng-options="employe as employe.id for employe in vm.employes track by employe.id" >
+                <option value=""></option>
+            </select>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_numeroCommerce">Numero Commerce</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_numeroCommerce" ng-model="vm.fournisseur.numeroCommerce"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
 
+        </div>
+       
     </div>
     <div class="modal-footer">
+        
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
         </button>
     </div>
 </form>

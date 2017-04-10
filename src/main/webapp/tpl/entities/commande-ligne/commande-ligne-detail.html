@@ -1,35 +1,40 @@
 
 <div>
-    <h2><span data-translate="tkbrApp.commandeLigne.detail.title">Commande Ligne</span> {{vm.commandeLigne.id}}</h2>
+    <h2><span >CommandeLigne</span> {{vm.commandeLigne.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tkbrApp.commandeLigne.quantite">Quantite</span></dt>
+        
+       <dt><span >Quantite</span></dt>
         <dd>
             <span>{{vm.commandeLigne.quantite}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.commandeLigne.prixUnitaire">Prix Unitaire</span></dt>
+        </dd> 
+<dt><span >Prix Unitaire</span></dt>
         <dd>
             <span>{{vm.commandeLigne.prixUnitaire}}</span>
-        </dd>
-        <dt><span data-translate="tkbrApp.commandeLigne.commande">Commande</span></dt>
+        </dd> 
+<dt><span >Sous Total</span></dt>
         <dd>
-            <a ui-sref="commande-detail({id:vm.commandeLigne.commande.id})">{{vm.commandeLigne.commande.id}}</a>
-        </dd>
-        <dt><span data-translate="tkbrApp.commandeLigne.produit">Produit</span></dt>
+            <span>{{vm.commandeLigne.sousTotal}}</span>
+        </dd> 
+<dt><span >Commande</span></dt>
         <dd>
-            <a ui-sref="produit-detail({id:vm.commandeLigne.produit.id})">{{vm.commandeLigne.produit.id}}</a>
-        </dd>
+            <span>{{vm.commandeLigne.commande}}</span>
+        </dd> 
+<dt><span >Produit</span></dt>
+        <dd>
+            <span>{{vm.commandeLigne.produit}}</span>
+        </dd> 
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
-    <button type="button" ui-sref="commande-ligne-detail.edit({id:vm.commandeLigne.id})" class="btn btn-primary">
+    <button type="button" ui-sref="commandeLigne-detail.edit({id:vm.commandeLigne.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+        <span class="hidden-sm-down" > Modifier</span>
     </button>
 </div>

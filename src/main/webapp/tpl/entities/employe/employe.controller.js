@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('EmployeController', EmployeController);
 
-    EmployeController.$inject = ['$state', 'Employe', 'EmployeSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    EmployeController.$inject = ['$state', 'DataUtils', 'Employe', 'EmployeSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function EmployeController($state, Employe, EmployeSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function EmployeController($state, DataUtils, Employe, EmployeSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

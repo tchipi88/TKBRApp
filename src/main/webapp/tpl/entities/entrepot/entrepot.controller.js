@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('EntrepotController', EntrepotController);
 
-    EntrepotController.$inject = ['$state', 'Entrepot', 'EntrepotSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    EntrepotController.$inject = ['$state', 'DataUtils', 'Entrepot', 'EntrepotSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function EntrepotController($state, Entrepot, EntrepotSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function EntrepotController($state, DataUtils, Entrepot, EntrepotSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

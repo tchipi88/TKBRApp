@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('ReglementController', ReglementController);
 
-    ReglementController.$inject = ['$state', 'Reglement', 'ReglementSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    ReglementController.$inject = ['$state', 'DataUtils', 'Reglement', 'ReglementSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function ReglementController($state, Reglement, ReglementSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function ReglementController($state, DataUtils, Reglement, ReglementSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

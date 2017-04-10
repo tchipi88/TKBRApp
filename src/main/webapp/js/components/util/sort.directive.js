@@ -36,9 +36,9 @@
 
         function applyClass (element) {
             var thisIcon = element.find('span.glyphicon'),
-                sortIcon = 'glyphicon-sort',
-                sortAsc = 'glyphicon-sort-by-attributes',
-                sortDesc = 'glyphicon-sort-by-attributes-alt',
+                sortIcon = 'fa fa-sort',
+                sortAsc = 'fa fa-sort-asc',
+                sortDesc = 'fa fa-sort-desc',
                 remove = sortIcon + ' ' + sortDesc,
                 add = sortAsc;
             if (!vm.ascending) {
@@ -52,9 +52,9 @@
 
         function resetClasses () {
             var allThIcons = $element.find('span.glyphicon'),
-                sortIcon = 'glyphicon-sort',
-                sortAsc = 'glyphicon-sort-by-attributes',
-                sortDesc = 'glyphicon-sort-by-attributes-alt';
+                sortIcon = 'fa fa-sort',
+                sortAsc = 'fa fa-sort-asc',
+                sortDesc = 'fa fa-sort-desc';
             allThIcons.removeClass(sortAsc + ' ' + sortDesc);
             allThIcons.addClass(sortIcon);
         }

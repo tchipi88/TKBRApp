@@ -2,17 +2,15 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Commande;
-import com.itsolution.tkbr.service.CommandeService;
+
+import com.itsolution.tkbr.repository.CommandeRepository;
+import com.itsolution.tkbr.repository.search.CommandeSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * REST controller for managing Commande.
@@ -37,10 +39,13 @@ public class CommandeResource {
 
     private static final String ENTITY_NAME = "commande";
         
-    private final CommandeService commandeService;
+    private final CommandeRepository commandeRepository;
 
-    public CommandeResource(CommandeService commandeService) {
-        this.commandeService = commandeService;
+    private final CommandeSearchRepository commandeSearchRepository;
+
+    public CommandeResource(CommandeRepository commandeRepository, CommandeSearchRepository commandeSearchRepository) {
+        this.commandeRepository = commandeRepository;
+        this.commandeSearchRepository = commandeSearchRepository;
     }
 
     /**
@@ -57,7 +62,8 @@ public class CommandeResource {
         if (commande.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commande cannot already have an ID")).body(null);
         }
-        Commande result = commandeService.save(commande);
+        Commande result = commandeRepository.save(commande);
+        commandeSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/commandes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,23 +85,23 @@ public class CommandeResource {
         if (commande.getId() == null) {
             return createCommande(commande);
         }
-        Commande result = commandeService.save(commande);
+        Commande result = commandeRepository.save(commande);
+        commandeSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commande.getId().toString()))
             .body(result);
     }
 
-    /**
+   /**
      * GET  /commandes : get all the commandes.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of commandes in body
      */
     @GetMapping("/commandes")
     @Timed
     public ResponseEntity<List<Commande>> getAllCommandes(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Commandes");
-        Page<Commande> page = commandeService.findAll(pageable);
+        log.debug("REST request to get all Commandes");
+        Page<Commande> page = commandeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/commandes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -110,7 +116,7 @@ public class CommandeResource {
     @Timed
     public ResponseEntity<Commande> getCommande(@PathVariable Long id) {
         log.debug("REST request to get Commande : {}", id);
-        Commande commande = commandeService.findOne(id);
+        Commande commande = commandeRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(commande));
     }
 
@@ -124,7 +130,8 @@ public class CommandeResource {
     @Timed
     public ResponseEntity<Void> deleteCommande(@PathVariable Long id) {
         log.debug("REST request to delete Commande : {}", id);
-        commandeService.delete(id);
+        commandeRepository.delete(id);
+        commandeSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -133,16 +140,15 @@ public class CommandeResource {
      * to the query.
      *
      * @param query the query of the commande search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/commandes")
     @Timed
-    public ResponseEntity<List<Commande>> searchCommandes(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Commandes for query {}", query);
-        Page<Commande> page = commandeService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/commandes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Commande> searchCommandes(@RequestParam String query) {
+        log.debug("REST request to search Commandes for query {}", query);
+        return StreamSupport
+            .stream(commandeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

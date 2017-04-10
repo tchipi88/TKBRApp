@@ -38,7 +38,12 @@ public class CacheConfiguration {
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
             cm.createCache(com.itsolution.tkbr.domain.User.class.getName(), jcacheConfiguration);
-            cm.createCache(com.itsolution.tkbr.domain.security.Authority.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Authority.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Authority.class.getName()+".accessGroups", jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.AccessGroup.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.AccessGroup.class.getName()+".access", jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Access.class.getName(), jcacheConfiguration);
+             cm.createCache(com.itsolution.tkbr.domain.Access.class.getName()+".groupes", jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
@@ -57,9 +62,14 @@ public class CacheConfiguration {
             cm.createCache(com.itsolution.tkbr.domain.Produit.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.ProduitCategorie.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.ProduitFournisseur.class.getName(), jcacheConfiguration);
-            cm.createCache(com.itsolution.tkbr.domain.PvReception.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Reglement.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Unite.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.BonLivraison.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.BonReception.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Facture.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Achat.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Vente.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.EmployeDepartement.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

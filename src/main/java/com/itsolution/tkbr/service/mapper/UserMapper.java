@@ -1,6 +1,6 @@
 package com.itsolution.tkbr.service.mapper;
 
-import com.itsolution.tkbr.domain.security.Authority;
+import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.domain.User;
 import com.itsolution.tkbr.service.dto.UserDTO;
 import org.mapstruct.*;

@@ -2,19 +2,24 @@
     'use strict';
 
     angular
-        .module('tkbrApp')
+        .module('app')
         .controller('CommandeLigneDialogController', CommandeLigneDialogController);
 
-    CommandeLigneDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'CommandeLigne', 'Commande', 'Produit'];
+    CommandeLigneDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'CommandeLigne','Commande','Produit'];
 
-    function CommandeLigneDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, CommandeLigne, Commande, Produit) {
+    function CommandeLigneDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, CommandeLigne ,Commande,Produit) {
         var vm = this;
 
         vm.commandeLigne = entity;
         vm.clear = clear;
+        vm.datePickerOpenStatus = {};
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.commandes = Commande.query();
-        vm.produits = Produit.query();
+vm.produits = Produit.query();
+
+      
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -43,6 +48,12 @@
             vm.isSaving = false;
         }
 
+
+        
+        
+         function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
 
     }
 })();

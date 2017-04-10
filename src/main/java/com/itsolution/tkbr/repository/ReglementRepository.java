@@ -1,15 +1,26 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Reglement;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.data.jpa.repository.*;
-
-import java.util.List;
-
+/**
+ *
+ * @author tchipi
+ */
 /**
  * Spring Data JPA repository for the Reglement entity.
  */
-@SuppressWarnings("unused")
-public interface ReglementRepository extends JpaRepository<Reglement,Long> {
+public interface ReglementRepository extends JpaRepository<Reglement, Long> {
+
+    
 
 }
+
+
+
+

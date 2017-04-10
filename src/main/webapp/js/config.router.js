@@ -28,7 +28,7 @@ angular.module('app')
                                     resolve: {
                                         authorize: ['Auth',
                                             function (Auth) {
-                                                return Auth.authorize();
+                                               // return Auth.authorize();
                                             }
                                         ]
                                     }
