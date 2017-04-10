@@ -36,6 +36,33 @@ public class Caisse extends AbstractAuditingEntity {
     
     private BigDecimal  soldeReel;
 
+    public Employe getGerant() {
+        return gerant;
+    }
+
+    public void setGerant(Employe gerant) {
+        this.gerant = gerant;
+    }
+
+    public EtatCaisse getEtatCaisse() {
+        return etatCaisse;
+    }
+
+    public void setEtatCaisse(EtatCaisse etatCaisse) {
+        this.etatCaisse = etatCaisse;
+    }
+
+    public BigDecimal getSoldeReel() {
+        return soldeReel;
+    }
+
+    public void setSoldeReel(BigDecimal soldeReel) {
+        this.soldeReel = soldeReel;
+    }
+    
+    
+    
+
     public Long getId() {
         return id;
     }

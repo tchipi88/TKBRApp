@@ -35,7 +35,7 @@
         vm.triggerApply();
 
         function applyClass (element) {
-            var thisIcon = element.find('span.glyphicon'),
+            var thisIcon = element.find('span.fa'),
                 sortIcon = 'fa fa-sort',
                 sortAsc = 'fa fa-sort-asc',
                 sortDesc = 'fa fa-sort-desc',
@@ -51,7 +51,7 @@
         }
 
         function resetClasses () {
-            var allThIcons = $element.find('span.glyphicon'),
+            var allThIcons = $element.find('span.fa'),
                 sortIcon = 'fa fa-sort',
                 sortAsc = 'fa fa-sort-asc',
                 sortDesc = 'fa fa-sort-desc';

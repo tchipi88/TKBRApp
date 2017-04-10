@@ -16,7 +16,7 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/access/accesss.html',
+                    templateUrl: 'tpl/admin/access/accesss.html',
                     controller: 'AccessController',
                     controllerAs: 'vm',
                     params: {
@@ -49,12 +49,12 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/access/access-detail.html',
+                    templateUrl: 'tpl/admin/access/access-detail.html',
                     controller: 'AccessDetailController',
                     controllerAs: 'vm',
 
                     resolve: {
-                        admin: ['$stateParams', 'Access', function ($stateParams, Access) {
+                        entity: ['$stateParams', 'Access', function ($stateParams, Access) {
                                 return Access.get({id: $stateParams.id}).$promise;
                             }],
                         previousState: ["$state", function ($state) {
@@ -75,13 +75,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access/access-dialog.html',
+                                templateUrl: 'tpl/admin/access/access-dialog.html',
                                 controller: 'AccessDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: ['Access', function (Access) {
+                                    entity: ['Access', function (Access) {
                                             return Access.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
@@ -100,13 +100,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access/access-dialog.html',
+                                templateUrl: 'tpl/admin/access/access-dialog.html',
                                 controller: 'AccessDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: function () {
+                                    entity: function () {
                                         return {
                                             
                                         };
@@ -127,13 +127,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access/access-dialog.html',
+                                templateUrl: 'tpl/admin/access/access-dialog.html',
                                 controller: 'AccessDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: ['Access', function (Access) {
+                                    entity: ['Access', function (Access) {
                                             return Access.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
@@ -152,12 +152,12 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access/access-delete-dialog.html',
+                                templateUrl: 'tpl/admin/access/access-delete-dialog.html',
                                 controller: 'AccessDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
                                 resolve: {
-                                    admin: ['Access', function (Access) {
+                                    entity: ['Access', function (Access) {
                                             return Access.get({id: $stateParams.id}).$promise;
                                         }]
                                 }

@@ -38,6 +38,18 @@ public class Produit extends AbstractAuditingEntity{
     @ManyToOne(optional = false)
     @NotNull
     private ProduitCategorie categorie;
+    
+    private BigDecimal prix;
+
+    public BigDecimal getPrix() {
+        return prix;
+    }
+
+    public void setPrix(BigDecimal prix) {
+        this.prix = prix;
+    }
+    
+    
 
     @ManyToOne
     private Unite unite;

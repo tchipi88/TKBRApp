@@ -5,6 +5,7 @@
  */
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.service.util.Image;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,6 +63,7 @@ public class PersonCommercial extends AbstractAuditingEntity {
 
     @Lob
     @Column(name = "logo")
+    @Image
     private byte[] logo;
 
     @Column(name = "logo_content_type")

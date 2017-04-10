@@ -5,7 +5,7 @@
         .module('app')
         .controller('AccessDialogController', AccessDialogController);
 
-    AccessDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Access'];
+    AccessDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Access','AccessGroup'];
 
     function AccessDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Access,AccessGroup ) {
         var vm = this;

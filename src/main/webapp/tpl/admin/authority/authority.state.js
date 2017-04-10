@@ -16,7 +16,7 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/authority/authoritys.html',
+                    templateUrl: 'tpl/admin/authority/authoritys.html',
                     controller: 'AuthorityController',
                     controllerAs: 'vm',
                     params: {
@@ -49,12 +49,12 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/authority/authority-detail.html',
+                    templateUrl: 'tpl/admin/authority/authority-detail.html',
                     controller: 'AuthorityDetailController',
                     controllerAs: 'vm',
 
                     resolve: {
-                        admin: ['$stateParams', 'Authority', function ($stateParams, Authority) {
+                        entity: ['$stateParams', 'Authority', function ($stateParams, Authority) {
                                 return Authority.get({id: $stateParams.id}).$promise;
                             }],
                         previousState: ["$state", function ($state) {
@@ -75,13 +75,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/authority/authority-dialog.html',
+                                templateUrl: 'tpl/admin/authority/authority-dialog.html',
                                 controller: 'AuthorityDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: ['Authority', function (Authority) {
+                                    entity: ['Authority', function (Authority) {
                                             return Authority.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
@@ -100,13 +100,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/authority/authority-dialog.html',
+                                templateUrl: 'tpl/admin/authority/authority-dialog.html',
                                 controller: 'AuthorityDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: function () {
+                                    entity: function () {
                                         return {
                                             
                                         };
@@ -127,13 +127,13 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/authority/authority-dialog.html',
+                                templateUrl: 'tpl/admin/authority/authority-dialog.html',
                                 controller: 'AuthorityDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    admin: ['Authority', function (Authority) {
+                                    entity: ['Authority', function (Authority) {
                                             return Authority.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
@@ -152,12 +152,12 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/authority/authority-delete-dialog.html',
+                                templateUrl: 'tpl/admin/authority/authority-delete-dialog.html',
                                 controller: 'AuthorityDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
                                 resolve: {
-                                    admin: ['Authority', function (Authority) {
+                                    entity: ['Authority', function (Authority) {
                                             return Authority.get({id: $stateParams.id}).$promise;
                                         }]
                                 }

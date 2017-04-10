@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label class="control-label"  for="field_groupes">Groupes</label>
                 <select class="form-control" multiple name="groupes"  ng-model="vm.access.groupes"   
-                        ng-options="accessGroup for accessGroup in vm.accessGroups">
+                        ng-options="accessGroup as accessGroup.libelle for accessGroup in vm.accessGroups">
                 </select>
             </div>
 

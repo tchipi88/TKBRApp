@@ -25,12 +25,13 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
@@ -55,16 +56,16 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
  */
 @Service
 public class TemplateService {
-    
+
     private final Logger log = LoggerFactory.getLogger(TemplateService.class);
-    
+
     @Autowired
     private SpringTemplateEngine templateEngine;
     @Autowired
     private EntityManager em;
     @Autowired
     private ResourceLoader resourceLoader;
-    
+
     public void processTemplateEngine(String basePackage) throws Exception {
         log.debug("Start entity templates Rendering");
         cleanUpDirectories();
@@ -72,33 +73,33 @@ public class TemplateService {
         Metamodel metamodel = em.getMetamodel();
         for (EntityType et : metamodel.getEntities()) {
             if (et.getJavaType().equals(User.class)
-                   || et.getJavaType().equals(Authority.class)
-                   || et.getJavaType().equals(Access.class)
-                   || et.getJavaType().equals(AccessGroup.class)
-                   || et.getJavaType().equals(Authority.class)
+                    || et.getJavaType().equals(Authority.class)
+                    || et.getJavaType().equals(Access.class)
+                    || et.getJavaType().equals(AccessGroup.class)
+                    || et.getJavaType().equals(Authority.class)
                     || et.getJavaType().equals(PersistentToken.class)
                     || et.getJavaType().equals(PersistentAuditEvent.class)) {
                 continue;
             }
-            
+
             Context context = new Context();
             context.setVariable("entity", et.getJavaType().getSimpleName());
             context.setVariable("entity_var", et.getJavaType().getSimpleName().toLowerCase().substring(0, 1).concat(et.getJavaType().getSimpleName().substring(1)));
             context.setVariable("entity_url", entityUrl(et.getJavaType().getSimpleName()));
             context.setVariable("entityid", et.getIdType().getJavaType().getSimpleName());
             context.setVariable("entitypackage", et.getJavaType().getCanonicalName());
-            
+
             context.setVariable("repositorypackage", basePackage.concat(".repository"));
             context.setVariable("searchrepositorypackage", basePackage.concat(".repository.search"));
             context.setVariable("controllerpackage", basePackage.concat(".web.rest"));
-            
+
             creatingEntityRepositories(context);
             if (et.getJavaType().isAnnotationPresent(Cache.class)) {
                 creatingEntitySearchRepositories(context);
             }
-            creatingEntityController(context,et.getJavaType().isAnnotationPresent(Cache.class));
+            creatingEntityController(context, et.getJavaType().isAnnotationPresent(Cache.class));
             creatingEntityClient(context, et);
-            
+
             index += "  <script src=\"tpl/entities/" + entityUrl(et.getJavaType().getSimpleName()) + "/" + entityUrl(et.getJavaType().getSimpleName()) + "-dialog.controller.js\"></script>\n"
                     + "        <script src=\"tpl/entities/" + entityUrl(et.getJavaType().getSimpleName()) + "/" + entityUrl(et.getJavaType().getSimpleName()) + "-detail.controller.js\"></script>\n"
                     + "        <script src=\"tpl/entities/" + entityUrl(et.getJavaType().getSimpleName()) + "/" + entityUrl(et.getJavaType().getSimpleName()) + "-delete-dialog.controller.js\"></script>\n"
@@ -110,65 +111,65 @@ public class TemplateService {
         creatingFiles(index, "index.html");
         log.debug("End entity templates Rendering");
     }
-    
+
     public void creatingEntityClient(Context context, EntityType et) throws Exception {
         log.debug("Creating " + (String) context.getVariable("entity") + " Client Files");
         creatingEntityClientPart(context, et, "-delete-dialog.controller.js");
         creatingEntityClientPart(context, et, "-delete-dialog.html");
-        
+
         context.setVariable("entity_selects_header", entitySelectsHeader(et));
         context.setVariable("entity_selects_header1", entitySelectsHeader1(et));
         context.setVariable("entity_selects", entitySelects(et));
         context.setVariable("entity_dates", entityDates(et));
         creatingEntityClientPart(context, et, "-dialog.controller.js");
-        
+
         context.setVariable("form", entityForm(et));
         creatingEntityClientPart(context, et, "-dialog.html");
-        
+
         context.setVariable("entity_detail", entityDetail(et));
         creatingEntityClientPart(context, et, "-detail.html");
         creatingEntityClientPart(context, et, "-detail.controller.js");
-        
+
         creatingEntityClientPart(context, et, ".controller.js");
         creatingEntityClientPart(context, et, ".search.service.js");
         creatingEntityClientPart(context, et, ".service.js");
         creatingEntityClientPart(context, et, ".state.js");
-        
+
         context.setVariable("tableHeader", entityTableHeader(et));
         context.setVariable("tableBody", entityTableBody(et));
         creatingEntityClientPart(context, et, "s.html");
-        
+
     }
-    
+
     public void creatingEntityClientPart(Context context, EntityType et, String file) throws Exception {
         String content = templateEngine.process("entity" + file, context);
         creatingFiles(content, "views" + File.separator + context.getVariable("entity_url") + File.separator + context.getVariable("entity_url") + file);
-        
+
     }
-    
+
     public void creatingEntityRepositories(Context context) throws Exception {
         log.debug("Creating " + (String) context.getVariable("entity") + " repositories");
         String content = templateEngine.process("TemplateRepository.txt", context);
         creatingFiles(content, "repository" + File.separator + (String) context.getVariable("entity") + "Repository.java");
     }
-    
+
     public void creatingEntitySearchRepositories(Context context) throws Exception {
         log.debug("Creating " + (String) context.getVariable("entity") + " Searchrepositories");
         String content = templateEngine.process("TemplateSearchRepository.txt", context);
         creatingFiles(content, "searchrepository" + File.separator + (String) context.getVariable("entity") + "SearchRepository.java");
     }
-    
-    public void creatingEntityController(Context context,boolean search) throws Exception {
+
+    public void creatingEntityController(Context context, boolean search) throws Exception {
         log.debug("Creating " + (String) context.getVariable("entity") + " controllers ");
-        String content = templateEngine.process("TemplateController"+(search?"Search":"")+".txt", context);
+        String content = templateEngine.process("TemplateController" + (search ? "Search" : "") + ".txt", context);
         creatingFiles(content, "controller" + File.separator + (String) context.getVariable("entity") + "Resource.java");
     }
-    
+
     public void creatingFiles(String content, String filename) throws Exception {
         Resource dir = resourceLoader.getResource("classpath:templates");
         // create file-in-subdirectory path
         Path file = Paths.get(dir.getFilename() + File.separator + filename);
-        
+
         if (!Files.exists(file.getParent())) {
             try {
                 Files.createDirectory(file.getParent());
@@ -179,13 +180,13 @@ public class TemplateService {
         //    deleteAllFilesDirOrCreateDir(Paths.get(dir.getFilename()), false);
         Files.write(file, content.getBytes());
     }
-    
+
     public void cleanUpDirectories() throws IOException {
         Resource dir = resourceLoader.getResource("classpath:templates");
         deleteAllFilesDirOrCreateDir(Paths.get(dir.getFilename()), false);
-        
+
     }
-    
+
     public static String entityUrl(String inputString) {
         String result = "";
         if (inputString.length() == 0) {
@@ -203,7 +204,7 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     public static String toLowerCase(String inputString) {
         String result = "";
         if (inputString.length() == 0) {
@@ -219,7 +220,7 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     public static String toCamelCase(String inputString) {
         String result = "";
         if (inputString.length() == 0) {
@@ -241,7 +242,7 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     public static void deleteAllFilesDirOrCreateDir(Path dir, boolean deletedir) throws IOException {
         if (Files.exists(dir)) {
             deleteAllFilesDir(dir, deletedir);
@@ -249,7 +250,7 @@ public class TemplateService {
             Files.createDirectories(dir);
         };
     }
-    
+
     public static void deleteAllFilesDir(Path dir, boolean deletedir) {
         try {
             Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
@@ -260,7 +261,7 @@ public class TemplateService {
                     Files.delete(file);
                     return FileVisitResult.CONTINUE;
                 }
-                
+
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir,
                         IOException exc) throws IOException {
@@ -275,13 +276,13 @@ public class TemplateService {
                     }
                     return FileVisitResult.CONTINUE;
                 }
-                
+
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     private String entityDates(EntityType et) throws Exception {
         String result = "";
         List<Field> inputs = new ArrayList();
@@ -295,7 +296,7 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     private String entitySelectsHeader(EntityType et) throws Exception {
         String result = "";
         List<Field> inputs = new ArrayList();
@@ -309,21 +310,18 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     private String entitySelectsHeader1(EntityType et) throws Exception {
-        String result = "";
-        List<Field> inputs = new ArrayList();
+
+        Set<String> inputs = new HashSet();
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
-            inputs.add(field);
+            inputs.add(field.getType().getSimpleName());
         }, (java.lang.reflect.Field f)
                 -> FieldUtils.getInputType(f).equals(InputType.SELECT)
         );
-        for (Field f : inputs) {
-            result += "," + f.getType().getSimpleName();
-        }
-        return result;
+        return inputs.stream().collect(Collectors.joining(","));
     }
-    
+
     private String entitySelects(EntityType et) throws Exception {
         String result = "";
         List<Field> inputs = new ArrayList();
@@ -333,11 +331,11 @@ public class TemplateService {
                 -> FieldUtils.getInputType(f).equals(InputType.SELECT)
         );
         for (Field f : inputs) {
-            result += "vm." + f.getType().getSimpleName().toLowerCase().substring(0, 1).concat(f.getType().getSimpleName().substring(1)) + "s = " + f.getType().getSimpleName() + ".query();\n";
+            result += "vm." + f.getName().toLowerCase() + "s = " + f.getType().getSimpleName() + ".query();\n";
         }
         return result;
     }
-    
+
     public String entityForm(EntityType et) throws Exception {
         String entity = et.getJavaType().getSimpleName().toLowerCase().substring(0, 1).concat(et.getJavaType().getSimpleName().substring(1));
         String result = "";
@@ -365,14 +363,18 @@ public class TemplateService {
                             + (FieldUtils.getMaxLength(f) != null ? "   ng-maxlength=\"" + FieldUtils.getMaxLength(f) + "\"  " : "")
                             + "                    />\n";
                     break;
-                
+
                 case EMAIL:
-                    result += "  <input  class=\"form-control\"   type=\"email\"  autocomplete=\"off\"  id=\"field_" + f.getName() + "\"  ng-model=\"vm." + entity + "." + f.getName() + "\" "
+                    result += "  <div class=\"input-group\"> <input  class=\"form-control\"   type=\"email\"  autocomplete=\"off\"  id=\"field_" + f.getName() + "\"  ng-model=\"vm." + entity + "." + f.getName() + "\" "
                             + "                    ng-readonly=\"" + FieldUtils.isReadOnlyField(f) + "\" "
                             + " ng-required=\"" + FieldUtils.isRequiredField(f) + "\" "
-                            + "                    />\n";
+                            + "                    /><span class=\"input-group-addon\" >  <span >\n"
+                            + "                        <i class=\"fa fa-envelope\"></i>\n"
+                            + "                    </span> </span>\n"
+                            + "        </div>\n";
                     break;
                 case TEL:
+
                     break;
                 case NUMBER:
                     result += "  <input  class=\"form-control\"   type=\"number\"  autocomplete=\"off\"  id=\"field_" + f.getName() + "\" ng-model=\"vm." + entity + "." + f.getName() + "\" "
@@ -398,9 +400,10 @@ public class TemplateService {
                 case FILE:
                     break;
                 case IMAGE:
+                    result += "";
                     break;
                 case SELECT:
-                    String manytoone = f.getType().getSimpleName().toLowerCase().substring(0, 1).concat(f.getType().getSimpleName().substring(1));
+                    String manytoone = f.getName().toLowerCase();
                     result += "  <select class=\"form-control\" name=\"" + f.getName() + "\"  ng-model=\"vm." + entity + "." + f.getName() + "\"  id=\"field_" + f.getName() + "\" ng-options=\"" + manytoone + " as " + manytoone + ".id for " + manytoone + " in vm." + manytoone + "s track by " + manytoone + ".id\" " + (FieldUtils.isRequiredField(f) ? "required" : "") + ">\n"
                             + "                <option value=\"\"></option>\n"
                             + "            </select>\n";
@@ -427,7 +430,7 @@ public class TemplateService {
         }
         return result;
     }
-    
+
     private String entityTableBody(EntityType et) throws Exception {
         String result = "";
         List<String> ths = new ArrayList();
@@ -444,12 +447,12 @@ public class TemplateService {
         result = ths.stream().collect(Collectors.joining("\n"));
         return result;
     }
-    
+
     private String entityDetail(EntityType et) throws Exception {
         String result = "";
         List<String> ths = new ArrayList();
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
-            
+
             ths.add("<dt><span >" + FieldUtils.coollabel(field.getName()) + "</span></dt>\n"
                     + "        <dd>\n"
                     + "            <span>{{vm." + et.getJavaType().getSimpleName().toLowerCase().substring(0, 1).concat(et.getJavaType().getSimpleName().substring(1)) + "." + field.getName() + "}}</span>\n"
@@ -463,12 +466,12 @@ public class TemplateService {
         result = ths.stream().collect(Collectors.joining("\n"));
         return result;
     }
-    
+
     private String entityTableHeader(EntityType et) throws Exception {
         String result = "";
         List<String> ths = new ArrayList();
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
-            ths.add(" <th jh-sort-by=\"" + field.getName() + "\"><span >" + FieldUtils.coollabel(field.getName()) + "</span> <span class=\"glyphicon glyphicon-sort\"></span></th>");
+            ths.add(" <th jh-sort-by=\"" + field.getName() + "\"><span >" + FieldUtils.coollabel(field.getName()) + "</span> <span class=\"fa fa-sort\"></span></th>");
         }, (java.lang.reflect.Field f)
                 -> !f.isAnnotationPresent(Id.class) && !f.isAnnotationPresent(CreatedBy.class) && !f.isAnnotationPresent(CreatedDate.class)
                 && !f.isAnnotationPresent(LastModifiedBy.class) && !f.isAnnotationPresent(LastModifiedDate.class)
@@ -480,5 +483,5 @@ public class TemplateService {
         result = ths.stream().collect(Collectors.joining("\n"));
         return result;
     }
-    
+
 }

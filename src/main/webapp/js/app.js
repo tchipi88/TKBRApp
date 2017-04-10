@@ -12,7 +12,9 @@ angular.module('app', [
     'ngStorage',
     'ui.router',
     'ui.bootstrap',
+    'ui.bootstrap.datetimepicker',
     'ui.utils',
     'ui.load',
     'ui.jq',
-    'oc.lazyLoad']);
+    'oc.lazyLoad',
+    'ngFileUpload']);

@@ -16,7 +16,7 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/access-group/access-groups.html',
+                    templateUrl: 'tpl/admin/access-group/access-groups.html',
                     controller: 'AccessGroupController',
                     controllerAs: 'vm',
                     params: {
@@ -49,7 +49,7 @@
                         authorities: ['ROLE_USER']
                     },
 
-                    templateUrl: 'tpl/entities/access-group/access-group-detail.html',
+                    templateUrl: 'tpl/admin/access-group/access-group-detail.html',
                     controller: 'AccessGroupDetailController',
                     controllerAs: 'vm',
 
@@ -75,7 +75,7 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access-group/access-group-dialog.html',
+                                templateUrl: 'tpl/admin/access-group/access-group-dialog.html',
                                 controller: 'AccessGroupDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
@@ -100,7 +100,7 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access-group/access-group-dialog.html',
+                                templateUrl: 'tpl/admin/access-group/access-group-dialog.html',
                                 controller: 'AccessGroupDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
@@ -127,7 +127,7 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access-group/access-group-dialog.html',
+                                templateUrl: 'tpl/admin/access-group/access-group-dialog.html',
                                 controller: 'AccessGroupDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
@@ -152,7 +152,7 @@
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/access-group/access-group-delete-dialog.html',
+                                templateUrl: 'tpl/admin/access-group/access-group-delete-dialog.html',
                                 controller: 'AccessGroupDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
