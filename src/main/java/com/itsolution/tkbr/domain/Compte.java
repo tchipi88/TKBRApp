@@ -1,5 +1,6 @@
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.service.util.ReadOnly;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -16,23 +17,23 @@ import org.hibernate.annotations.Formula;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "compte")
 public class Compte implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Column(name = "intitule", nullable = false)
     private String intitule;
 
     @Column(name = "debit", precision = 10, scale = 2)
+    @ReadOnly
     private BigDecimal debit;
 
     @Column(name = "credit", precision = 10, scale = 2)
+    @ReadOnly
     private BigDecimal credit;
 
     @Formula("credit-debit")
@@ -46,11 +47,11 @@ public class Compte implements Serializable {
         this.solde = solde;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

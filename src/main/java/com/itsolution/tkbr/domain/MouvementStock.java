@@ -1,22 +1,21 @@
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.service.util.ReadOnly;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
+import org.hibernate.annotations.Formula;
 
 /**
  * A MouvementStock.
  */
 @Entity
-@Table(name = "mouvement_stock")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "mouvementstock")
 public class MouvementStock extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
@@ -26,11 +25,11 @@ public class MouvementStock extends AbstractAuditingEntity{
     private Long id;
 
     @Column(name = "quantite")
-    private Double quantite;
+    private Float quantite;
 
     @NotNull
     @Column(name = "date_transaction", nullable = false)
-    private LocalDate dateTransaction;
+    private ZonedDateTime dateTransaction;
 
     @Lob
     @Column(name = "motif_transaction")
@@ -47,6 +46,52 @@ public class MouvementStock extends AbstractAuditingEntity{
     @ManyToOne(optional = false)
     @NotNull
     private Produit produit;
+    
+    
+    
+     @Column
+    @ReadOnly
+    private Float stockEntrepotDepart;
+    @Formula("stock-entrepot-depart-quantite")
+    private Float stockFinalEntrepotDepart;
+
+    @Column
+    @ReadOnly
+    private Float stockEntrepotDestination;
+    @Formula("stock-entrepot-destination+quantite")
+    private Float stockFinalEntrepotDestination;
+
+    public Float getStockEntrepotDepart() {
+        return stockEntrepotDepart;
+    }
+
+    public void setStockEntrepotDepart(Float stockEntrepotDepart) {
+        this.stockEntrepotDepart = stockEntrepotDepart;
+    }
+
+    public Float getStockFinalEntrepotDepart() {
+        return stockFinalEntrepotDepart;
+    }
+
+    public void setStockFinalEntrepotDepart(Float stockFinalEntrepotDepart) {
+        this.stockFinalEntrepotDepart = stockFinalEntrepotDepart;
+    }
+
+    public Float getStockEntrepotDestination() {
+        return stockEntrepotDestination;
+    }
+
+    public void setStockEntrepotDestination(Float stockEntrepotDestination) {
+        this.stockEntrepotDestination = stockEntrepotDestination;
+    }
+
+    public Float getStockFinalEntrepotDestination() {
+        return stockFinalEntrepotDestination;
+    }
+
+    public void setStockFinalEntrepotDestination(Float stockFinalEntrepotDestination) {
+        this.stockFinalEntrepotDestination = stockFinalEntrepotDestination;
+    }
 
     public Long getId() {
         return id;
@@ -56,39 +101,24 @@ public class MouvementStock extends AbstractAuditingEntity{
         this.id = id;
     }
 
-    public Double getQuantite() {
+    public Float getQuantite() {
         return quantite;
     }
 
-    public MouvementStock quantite(Double quantite) {
-        this.quantite = quantite;
-        return this;
-    }
-
-    public void setQuantite(Double quantite) {
+    public void setQuantite(Float quantite) {
         this.quantite = quantite;
     }
 
-    public LocalDate getDateTransaction() {
+    public ZonedDateTime getDateTransaction() {
         return dateTransaction;
     }
 
-    public MouvementStock dateTransaction(LocalDate dateTransaction) {
-        this.dateTransaction = dateTransaction;
-        return this;
-    }
-
-    public void setDateTransaction(LocalDate dateTransaction) {
+    public void setDateTransaction(ZonedDateTime dateTransaction) {
         this.dateTransaction = dateTransaction;
     }
 
     public String getMotifTransaction() {
         return motifTransaction;
-    }
-
-    public MouvementStock motifTransaction(String motifTransaction) {
-        this.motifTransaction = motifTransaction;
-        return this;
     }
 
     public void setMotifTransaction(String motifTransaction) {
@@ -99,32 +129,26 @@ public class MouvementStock extends AbstractAuditingEntity{
         return entrepotDepart;
     }
 
-    public MouvementStock entrepotDepart(Entrepot entrepot) {
-        this.entrepotDepart = entrepot;
-        return this;
-    }
-
-    public void setEntrepotDepart(Entrepot entrepot) {
-        this.entrepotDepart = entrepot;
+    public void setEntrepotDepart(Entrepot entrepotDepart) {
+        this.entrepotDepart = entrepotDepart;
     }
 
     public Entrepot getEntrepotDestination() {
         return entrepotDestination;
     }
 
-    public MouvementStock entrepotDestination(Entrepot entrepot) {
-        this.entrepotDestination = entrepot;
-        return this;
-    }
-
-    public void setEntrepotDestination(Entrepot entrepot) {
-        this.entrepotDestination = entrepot;
+    public void setEntrepotDestination(Entrepot entrepotDestination) {
+        this.entrepotDestination = entrepotDestination;
     }
 
     public Produit getProduit() {
         return produit;
     }
+    
+    
 
+
+   
     public MouvementStock produit(Produit produit) {
         this.produit = produit;
         return this;

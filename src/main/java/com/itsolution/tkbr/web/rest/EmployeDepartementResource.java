@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.EmployeDepartement;
 
 import com.itsolution.tkbr.repository.EmployeDepartementRepository;
-import com.itsolution.tkbr.repository.search.EmployeDepartementSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class EmployeDepartementResource {
         
     private final EmployeDepartementRepository employeDepartementRepository;
 
-    private final EmployeDepartementSearchRepository employeDepartementSearchRepository;
 
-    public EmployeDepartementResource(EmployeDepartementRepository employeDepartementRepository, EmployeDepartementSearchRepository employeDepartementSearchRepository) {
+    public EmployeDepartementResource(EmployeDepartementRepository employeDepartementRepository) {
         this.employeDepartementRepository = employeDepartementRepository;
-        this.employeDepartementSearchRepository = employeDepartementSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class EmployeDepartementResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new employeDepartement cannot already have an ID")).body(null);
         }
         EmployeDepartement result = employeDepartementRepository.save(employeDepartement);
-        employeDepartementSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/employe-departements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class EmployeDepartementResource {
             return createEmployeDepartement(employeDepartement);
         }
         EmployeDepartement result = employeDepartementRepository.save(employeDepartement);
-        employeDepartementSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, employeDepartement.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /employe-departements : get all the employeDepartements.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of employeDepartements in body
@@ -105,6 +100,8 @@ public class EmployeDepartementResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/employe-departements");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /employe-departements/:id : get the "id" employeDepartement.
@@ -131,25 +128,10 @@ public class EmployeDepartementResource {
     public ResponseEntity<Void> deleteEmployeDepartement(@PathVariable Long id) {
         log.debug("REST request to delete EmployeDepartement : {}", id);
         employeDepartementRepository.delete(id);
-        employeDepartementSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/employe-departements?query=:query : search for the employeDepartement corresponding
-     * to the query.
-     *
-     * @param query the query of the employeDepartement search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/employe-departements")
-    @Timed
-    public List<EmployeDepartement> searchEmployeDepartements(@RequestParam String query) {
-        log.debug("REST request to search EmployeDepartements for query {}", query);
-        return StreamSupport
-            .stream(employeDepartementSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

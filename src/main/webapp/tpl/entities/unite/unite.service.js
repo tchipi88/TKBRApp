@@ -4,9 +4,9 @@
         .module('app')
         .factory('Unite', Unite);
 
-    Unite.$inject = ['$resource'];
+    Unite.$inject = ['$resource','DateUtils'];
 
-    function Unite ($resource) {
+    function Unite ($resource,DateUtils) {
         var resourceUrl =  'api/unites/:id';
 
         return $resource(resourceUrl, {}, {

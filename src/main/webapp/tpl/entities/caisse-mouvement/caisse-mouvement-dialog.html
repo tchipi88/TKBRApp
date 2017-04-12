@@ -11,6 +11,10 @@
         <jhi-alert-error></jhi-alert-error>
         <div>
               <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.caisseMouvement.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_caisse">Caisse <span style="color:red" >*</span></label>
   <select class="form-control" name="caisse"  ng-model="vm.caisseMouvement.caisse"  id="field_caisse" ng-options="caisse as caisse.id for caisse in vm.caisses track by caisse.id" required>
                 <option value=""></option>

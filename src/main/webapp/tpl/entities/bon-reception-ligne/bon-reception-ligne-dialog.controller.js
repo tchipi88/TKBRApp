@@ -13,11 +13,12 @@
         vm.bonReceptionLigne = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.bonReceptions = BonReception.query();
-vm.commandeLignes = CommandeLigne.query();
+        vm.bonreceptions = BonReception.query();
+vm.commandelignes = CommandeLigne.query();
 
       
 

@@ -4,9 +4,9 @@
         .module('app')
         .factory('Client', Client);
 
-    Client.$inject = ['$resource'];
+    Client.$inject = ['$resource','DateUtils'];
 
-    function Client ($resource) {
+    function Client ($resource,DateUtils) {
         var resourceUrl =  'api/clients/:id';
 
         return $resource(resourceUrl, {}, {

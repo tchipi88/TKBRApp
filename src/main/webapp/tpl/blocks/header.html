@@ -49,37 +49,37 @@
             <ul class="dropdown-menu" uib-dropdown-menu>
                
                 <li ui-sref-active="active">
-                    <a ui-sref="jhi-metrics" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="jhi-metrics" >
                         <span class="glyphicon glyphicon-dashboard"></span>&nbsp;
                         <span data-translate="global.menu.admin.metrics">Metrics</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="jhi-health" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="jhi-health" >
                         <span class="glyphicon glyphicon-heart"></span>&nbsp;
                         <span data-translate="global.menu.admin.health">Health</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="jhi-configuration" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="jhi-configuration" >
                         <span class="glyphicon glyphicon-list-alt"></span>&nbsp;
                         <span data-translate="global.menu.admin.configuration">Configuration</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="audits" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="audits" >
                         <span class="glyphicon glyphicon-bell"></span>&nbsp;
                         <span data-translate="global.menu.admin.audits">Audits</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
-                    <a ui-sref="logs" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="logs" >
                         <span class="glyphicon glyphicon-tasks"></span>&nbsp;
                         <span data-translate="global.menu.admin.logs">Logs</span>
                     </a>
                 </li>
                 <li ng-show="vm.swaggerEnabled" ui-sref-active="active">
-                    <a ui-sref="docs" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="docs" >
                         <span class="glyphicon glyphicon-book"></span>&nbsp;
                         <span data-translate="global.menu.admin.apidocs">API</span>
                     </a>
@@ -137,41 +137,30 @@
             <!-- dropdown -->
             <ul class="dropdown-menu" uib-dropdown-menu>
                 <li ui-sref-active="active" >
-                    <a ui-sref="settings" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="settings" >
                         <span class="glyphicon glyphicon-wrench"></span>&nbsp;
                         <span data-translate="global.menu.account.settings">Settings</span>
                     </a>
                 </li>
                 <li ui-sref-active="active" >
-                    <a ui-sref="password" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="password" >
                         <span class="glyphicon glyphicon-lock"></span>&nbsp;
                         <span data-translate="global.menu.account.password">Password</span>
                     </a>
                 </li>
                 <li ui-sref-active="active" >
-                    <a ui-sref="sessions" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="sessions" >
                         <span class="glyphicon glyphicon-cloud"></span>&nbsp;
-                        <span data-translate="global.menu.account.sessions">Sessions</span>
+                        <span>Sessions</span>
                     </a>
                 </li>
                 <li ui-sref-active="active" >
-                    <a href="" ng-click="vm.logout()" id="logout">
+                    <a href="" ng-click="vm.logout()" id="logout"  >
                         <span class="glyphicon glyphicon-log-out"></span>&nbsp;
-                        <span data-translate="global.menu.account.logout">Sign out</span>
+                        <span >Sign out</span>
                     </a>
                 </li>
-                <li ui-sref-active="active" >
-                    <a href="" ng-click="vm.login()" id="login">
-                        <span class="glyphicon glyphicon-log-in"></span>&nbsp;
-                        <span data-translate="global.menu.account.login">Sign in</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active" >
-                    <a ui-sref="register" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
-                        <span data-translate="global.menu.account.register">Register</span>
-                    </a>
-                </li>
+              
             </ul>
             <!-- / dropdown -->
         </li>

@@ -4,9 +4,9 @@
         .module('app')
         .factory('Entrepot', Entrepot);
 
-    Entrepot.$inject = ['$resource'];
+    Entrepot.$inject = ['$resource','DateUtils'];
 
-    function Entrepot ($resource) {
+    function Entrepot ($resource,DateUtils) {
         var resourceUrl =  'api/entrepots/:id';
 
         return $resource(resourceUrl, {}, {

@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.EmployeFonction;
 
 import com.itsolution.tkbr.repository.EmployeFonctionRepository;
-import com.itsolution.tkbr.repository.search.EmployeFonctionSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class EmployeFonctionResource {
         
     private final EmployeFonctionRepository employeFonctionRepository;
 
-    private final EmployeFonctionSearchRepository employeFonctionSearchRepository;
 
-    public EmployeFonctionResource(EmployeFonctionRepository employeFonctionRepository, EmployeFonctionSearchRepository employeFonctionSearchRepository) {
+    public EmployeFonctionResource(EmployeFonctionRepository employeFonctionRepository) {
         this.employeFonctionRepository = employeFonctionRepository;
-        this.employeFonctionSearchRepository = employeFonctionSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class EmployeFonctionResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new employeFonction cannot already have an ID")).body(null);
         }
         EmployeFonction result = employeFonctionRepository.save(employeFonction);
-        employeFonctionSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/employe-fonctions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class EmployeFonctionResource {
             return createEmployeFonction(employeFonction);
         }
         EmployeFonction result = employeFonctionRepository.save(employeFonction);
-        employeFonctionSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, employeFonction.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /employe-fonctions : get all the employeFonctions.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of employeFonctions in body
@@ -105,6 +100,8 @@ public class EmployeFonctionResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/employe-fonctions");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /employe-fonctions/:id : get the "id" employeFonction.
@@ -131,25 +128,10 @@ public class EmployeFonctionResource {
     public ResponseEntity<Void> deleteEmployeFonction(@PathVariable Long id) {
         log.debug("REST request to delete EmployeFonction : {}", id);
         employeFonctionRepository.delete(id);
-        employeFonctionSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/employe-fonctions?query=:query : search for the employeFonction corresponding
-     * to the query.
-     *
-     * @param query the query of the employeFonction search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/employe-fonctions")
-    @Timed
-    public List<EmployeFonction> searchEmployeFonctions(@RequestParam String query) {
-        log.debug("REST request to search EmployeFonctions for query {}", query);
-        return StreamSupport
-            .stream(employeFonctionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

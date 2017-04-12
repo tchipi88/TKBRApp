@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Spring Data JPA repository for the Compte entity.
  */
-public interface CompteRepository extends JpaRepository<Compte, Long> {
+public interface CompteRepository extends JpaRepository<Compte, Integer> {
 
     
 

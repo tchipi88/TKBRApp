@@ -14,7 +14,6 @@ import java.util.Objects;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "employefonction")
 public class EmployeFonction implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -4,9 +4,9 @@
         .module('app')
         .factory('CommandeLigne', CommandeLigne);
 
-    CommandeLigne.$inject = ['$resource'];
+    CommandeLigne.$inject = ['$resource','DateUtils'];
 
-    function CommandeLigne ($resource) {
+    function CommandeLigne ($resource,DateUtils) {
         var resourceUrl =  'api/commande-lignes/:id';
 
         return $resource(resourceUrl, {}, {

@@ -13,11 +13,12 @@
         vm.employe = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.employeFonctions = EmployeFonction.query();
-vm.employeDepartements = EmployeDepartement.query();
+        vm.fonctions = EmployeFonction.query();
+vm.departements = EmployeDepartement.query();
 
       
 

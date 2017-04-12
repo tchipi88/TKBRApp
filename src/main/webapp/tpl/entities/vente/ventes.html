@@ -4,6 +4,7 @@
 </div>
 <div>
     <jhi-alert></jhi-alert>
+      <alert  type="success" close="closeAlert($index)">Well done! You successfully read this important alert message.</alert>
 </div>
 
 <div class="wrapper-md">
@@ -34,13 +35,13 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                        <th jh-sort-by="id"><span >ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                         <th jh-sort-by="client"><span >Client</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="statut"><span >Statut</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="dateEmission"><span >Date Emission</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="delai"><span >Delai</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="prixHT"><span >Prix HT</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="prixTTC"><span >Prix TTC</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="client"><span >Client</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="statut"><span >Statut</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateEmission"><span >Date Emission</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="delai"><span >Delai</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="prixHT"><span >Prix HT</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="prixTTC"><span >Prix TTC</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="vente.new"   tooltip="Créer Vente">
                                 <i class="fa fa-plus">

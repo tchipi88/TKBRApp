@@ -15,10 +15,11 @@
                 authorities: ['ROLE_USER'],
                 pageTitle: 'global.menu.account.password'
             },
-
-            templateUrl: 'tpl/account/password/password.html',
-            controller: 'PasswordController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/account/password/password.html',
+                    controller: 'PasswordController',
+                    controllerAs: 'vm'}}
         });
     }
 })();

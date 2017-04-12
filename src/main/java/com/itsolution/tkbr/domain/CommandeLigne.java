@@ -17,7 +17,6 @@ import org.hibernate.annotations.Formula;
 @Entity
 @Table(name = "commande_ligne")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "commandeligne")
 public class CommandeLigne extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +27,7 @@ public class CommandeLigne extends AbstractAuditingEntity{
 
     @Column(name = "quantite")
     @NotNull
-    private Double quantite;
+    private Float quantite;
 
     @Column(name = "prix_unitaire", precision=10, scale=2)
     private BigDecimal prixUnitaire;
@@ -52,18 +51,15 @@ public class CommandeLigne extends AbstractAuditingEntity{
         this.id = id;
     }
 
-    public Double getQuantite() {
+    public Float getQuantite() {
         return quantite;
     }
 
-    public CommandeLigne quantite(Double quantite) {
+    public void setQuantite(Float quantite) {
         this.quantite = quantite;
-        return this;
     }
 
-    public void setQuantite(Double quantite) {
-        this.quantite = quantite;
-    }
+  
 
     public BigDecimal getPrixUnitaire() {
         return prixUnitaire;

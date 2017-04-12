@@ -14,9 +14,11 @@
             data: {
                 authorities: ['ROLE_ADMIN']
             },
-            templateUrl: 'tpl/admin/configuration/configuration.html',
-            controller: 'JhiConfigurationController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/admin/configuration/configuration.html',
+                    controller: 'JhiConfigurationController',
+                    controllerAs: 'vm'}}
 
         });
     }

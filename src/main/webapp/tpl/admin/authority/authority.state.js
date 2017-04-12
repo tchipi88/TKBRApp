@@ -15,10 +15,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/authority/authoritys.html',
-                    controller: 'AuthorityController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/authority/authoritys.html',
+                            controller: 'AuthorityController',
+                            controllerAs: 'vm'}},
                     params: {
                         page: {
                             value: '1',
@@ -48,10 +49,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/authority/authority-detail.html',
-                    controller: 'AuthorityDetailController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/authority/authority-detail.html',
+                            controller: 'AuthorityDetailController',
+                            controllerAs: 'vm'}},
 
                     resolve: {
                         entity: ['$stateParams', 'Authority', function ($stateParams, Authority) {
@@ -108,7 +110,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            
+
                                         };
                                     }
                                 }

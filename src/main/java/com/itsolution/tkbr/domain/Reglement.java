@@ -21,7 +21,6 @@ import com.itsolution.tkbr.domain.enumeration.ReglementEtat;
 @Entity
 @Table(name = "reglement")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "reglement")
 public class Reglement extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;

@@ -21,7 +21,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "employedepartement")
 public class EmployeDepartement implements Serializable {
 
     private static final long serialVersionUID = 1L;

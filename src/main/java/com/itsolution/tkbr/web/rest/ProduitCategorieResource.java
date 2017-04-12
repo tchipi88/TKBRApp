@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.ProduitCategorie;
 
 import com.itsolution.tkbr.repository.ProduitCategorieRepository;
-import com.itsolution.tkbr.repository.search.ProduitCategorieSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class ProduitCategorieResource {
         
     private final ProduitCategorieRepository produitCategorieRepository;
 
-    private final ProduitCategorieSearchRepository produitCategorieSearchRepository;
 
-    public ProduitCategorieResource(ProduitCategorieRepository produitCategorieRepository, ProduitCategorieSearchRepository produitCategorieSearchRepository) {
+    public ProduitCategorieResource(ProduitCategorieRepository produitCategorieRepository) {
         this.produitCategorieRepository = produitCategorieRepository;
-        this.produitCategorieSearchRepository = produitCategorieSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class ProduitCategorieResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new produitCategorie cannot already have an ID")).body(null);
         }
         ProduitCategorie result = produitCategorieRepository.save(produitCategorie);
-        produitCategorieSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/produit-categories/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class ProduitCategorieResource {
             return createProduitCategorie(produitCategorie);
         }
         ProduitCategorie result = produitCategorieRepository.save(produitCategorie);
-        produitCategorieSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, produitCategorie.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /produit-categories : get all the produitCategories.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of produitCategories in body
@@ -105,6 +100,8 @@ public class ProduitCategorieResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/produit-categories");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /produit-categories/:id : get the "id" produitCategorie.
@@ -131,25 +128,10 @@ public class ProduitCategorieResource {
     public ResponseEntity<Void> deleteProduitCategorie(@PathVariable Long id) {
         log.debug("REST request to delete ProduitCategorie : {}", id);
         produitCategorieRepository.delete(id);
-        produitCategorieSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/produit-categories?query=:query : search for the produitCategorie corresponding
-     * to the query.
-     *
-     * @param query the query of the produitCategorie search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/produit-categories")
-    @Timed
-    public List<ProduitCategorie> searchProduitCategories(@RequestParam String query) {
-        log.debug("REST request to search ProduitCategories for query {}", query);
-        return StreamSupport
-            .stream(produitCategorieSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

@@ -14,8 +14,10 @@
             data: {
                 authorities: ['ROLE_ADMIN'],
             },
-            templateUrl: 'app/admin/docs/docs.html'
-
+            views: {
+                'content@app': {
+                    templateUrl: 'app/admin/docs/docs.html'
+                }}
         });
     }
 })();

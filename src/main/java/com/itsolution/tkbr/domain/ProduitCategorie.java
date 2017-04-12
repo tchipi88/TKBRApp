@@ -15,7 +15,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "produit_categorie")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "produitcategorie")
 public class ProduitCategorie implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -4,23 +4,42 @@
         .module('app')
         .factory('Commande', Commande);
 
-    Commande.$inject = ['$resource'];
+    Commande.$inject = ['$resource','DateUtils'];
 
-    function Commande ($resource) {
+    function Commande ($resource,DateUtils) {
         var resourceUrl =  'api/commandes/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
-            'get': {
+             'get': {
                 method: 'GET',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
+                          data.dateEmission =DateUtils.convertLocalDateFromServer(data.dateEmission);
+
                     }
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': {
+                method: 'PUT',
+                transformRequest: function (data) {
+                    var copy = angular.copy(data);
+                     copy.dateEmission =DateUtils.convertLocalDateToServer(copy.dateEmission);
+
+                    return angular.toJson(copy);
+                }
+            },
+            'save': {
+                method: 'POST',
+                transformRequest: function (data) {
+                    var copy = angular.copy(data);
+                     copy.dateEmission =DateUtils.convertLocalDateToServer(copy.dateEmission);
+
+                    return angular.toJson(copy);
+                }
+            }
         });
     }
 })();

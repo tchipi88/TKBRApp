@@ -1,173 +1,173 @@
 (function () {
-    'use strict';
-
-    angular
-            .module('app')
-            .config(stateConfig);
-
-    stateConfig.$inject = ['$stateProvider'];
-
-    function stateConfig($stateProvider) {
+'use strict';
+        angular
+        .module('app')
+        .config(stateConfig);
+        stateConfig.$inject = ['$stateProvider'];
+        function stateConfig($stateProvider) {
         $stateProvider
                 .state('produit-categorie', {
-                    parent: 'entity',
-                    url: '/produit-categorie?page&sort&search',
-                    data: {
+                parent: 'entity',
+                        url: '/produit-categorie?page&sort&search',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-
-                    templateUrl: 'tpl/entities/produit-categorie/produit-categories.html',
-                    controller: 'ProduitCategorieController',
-                    controllerAs: 'vm',
-                    params: {
+                        },
+                        views: {
+                        'content@app': {
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categories.html',
+                                controller: 'ProduitCategorieController',
+                                controllerAs: 'vm'  }
+                        },
+                        params: {
                         page: {
-                            value: '1',
-                            squash: true
+                        value: '1',
+                                squash: true
                         },
-                        sort: {
-                            value: 'id,asc',
-                            squash: true
+                                sort: {
+                                value: 'id,asc',
+                                        squash: true
+                                },
+                                search: null
                         },
-                        search: null
-                    },
-                    resolve: {
+                        resolve: {
                         pagingParams: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
-                                return {
-                                    page: PaginationUtil.parsePage($stateParams.page),
-                                    sort: $stateParams.sort,
-                                    predicate: PaginationUtil.parsePredicate($stateParams.sort),
-                                    ascending: PaginationUtil.parseAscending($stateParams.sort),
-                                    search: $stateParams.search
-                                };
-                            }]
-                    }
+                        return {
+                        page: PaginationUtil.parsePage($stateParams.page),
+                                sort: $stateParams.sort,
+                                predicate: PaginationUtil.parsePredicate($stateParams.sort),
+                                ascending: PaginationUtil.parseAscending($stateParams.sort),
+                                search: $stateParams.search
+                        };
+                        }]
+                        }
                 })
                 .state('produit-categorie-detail', {
-                    parent: 'produit-categorie',
-                    url: '/produit-categorie/{id}',
-                    data: {
+                parent: 'produit-categorie',
+                        url: '/produit-categorie/{id}',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-
-                    templateUrl: 'tpl/entities/produit-categorie/produit-categorie-detail.html',
-                    controller: 'ProduitCategorieDetailController',
-                    controllerAs: 'vm',
-
-                    resolve: {
+                        },
+                        views: {
+                        'content@app': {
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categorie-detail.html',
+                                controller: 'ProduitCategorieDetailController',
+                                controllerAs: 'vm'}
+                        },
+                        resolve: {
                         entity: ['$stateParams', 'ProduitCategorie', function ($stateParams, ProduitCategorie) {
-                                return ProduitCategorie.get({id: $stateParams.id}).$promise;
-                            }],
-                        previousState: ["$state", function ($state) {
+                        return ProduitCategorie.get({id: $stateParams.id}).$promise;
+                        }],
+                                previousState: ["$state", function ($state) {
                                 var currentStateData = {
-                                    name: $state.current.name || 'produit-categorie',
-                                    params: $state.params,
-                                    url: $state.href($state.current.name, $state.params)
+                                name: $state.current.name || 'produit-categorie',
+                                        params: $state.params,
+                                        url: $state.href($state.current.name, $state.params)
                                 };
-                                return currentStateData;
-                            }]
-                    }
+                                        return currentStateData;
+                                }]
+                        }
                 })
                 .state('produit-categorie-detail.edit', {
-                    parent: 'produit-categorie-detail',
-                    url: '/detail/edit',
-                    data: {
+                parent: 'produit-categorie-detail',
+                        url: '/detail/edit',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-                    onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                            $uibModal.open({
-                                templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
+                        },
+                        onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                        $uibModal.open({
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
                                 controller: 'ProduitCategorieDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['ProduitCategorie', function (ProduitCategorie) {
-                                            return ProduitCategorie.get({id: $stateParams.id}).$promise;
-                                        }]
+                                entity: ['ProduitCategorie', function (ProduitCategorie) {
+                                return ProduitCategorie.get({id: $stateParams.id}).$promise;
+                                }]
                                 }
-                            }).result.then(function () {
-                                $state.go('^', {}, {reload: false});
-                            }, function () {
-                                $state.go('^');
-                            });
+                        }).result.then(function () {
+                        $state.go('^', {}, {reload: false});
+                        }, function () {
+                        $state.go('^');
+                        });
                         }]
                 })
                 .state('produit-categorie.new', {
-                    parent: 'produit-categorie',
-                    url: '/new',
-                    data: {
+                parent: 'produit-categorie',
+                        url: '/new',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-                    onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                            $uibModal.open({
-                                templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
+                        },
+                        onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                        $uibModal.open({
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
                                 controller: 'ProduitCategorieDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: function () {
-                                        return {
-                                            
-                                        };
-                                    }
+                                entity: function () {
+                                return {
+
+                                };
                                 }
-                            }).result.then(function () {
-                                $state.go('produit-categorie', null, {reload: 'produit-categorie'});
-                            }, function () {
-                                $state.go('produit-categorie');
-                            });
+                                }
+                        }).result.then(function () {
+                        $state.go('produit-categorie', null, {reload: 'produit-categorie'});
+                        }, function () {
+                        $state.go('produit-categorie');
+                        });
                         }]
                 })
                 .state('produit-categorie.edit', {
-                    parent: 'produit-categorie',
-                    url: '/{id}/edit',
-                    data: {
+                parent: 'produit-categorie',
+                        url: '/{id}/edit',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-                    onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                            $uibModal.open({
-                                templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
+                        },
+                        onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                        $uibModal.open({
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categorie-dialog.html',
                                 controller: 'ProduitCategorieDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['ProduitCategorie', function (ProduitCategorie) {
-                                            return ProduitCategorie.get({id: $stateParams.id}).$promise;
-                                        }]
+                                entity: ['ProduitCategorie', function (ProduitCategorie) {
+                                return ProduitCategorie.get({id: $stateParams.id}).$promise;
+                                }]
                                 }
-                            }).result.then(function () {
-                                $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
-                            }, function () {
-                                $state.go('^');
-                            });
+                        }).result.then(function () {
+                        $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
+                        }, function () {
+                        $state.go('^');
+                        });
                         }]
                 })
                 .state('produit-categorie.delete', {
-                    parent: 'produit-categorie',
-                    url: '/{id}/delete',
-                    data: {
+                parent: 'produit-categorie',
+                        url: '/{id}/delete',
+                        data: {
                         authorities: ['ROLE_USER']
-                    },
-                    onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                            $uibModal.open({
-                                templateUrl: 'tpl/entities/produit-categorie/produit-categorie-delete-dialog.html',
+                        },
+                        onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                        $uibModal.open({
+                        templateUrl: 'tpl/entities/produit-categorie/produit-categorie-delete-dialog.html',
                                 controller: 'ProduitCategorieDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
                                 resolve: {
-                                    entity: ['ProduitCategorie', function (ProduitCategorie) {
-                                            return ProduitCategorie.get({id: $stateParams.id}).$promise;
-                                        }]
+                                entity: ['ProduitCategorie', function (ProduitCategorie) {
+                                return ProduitCategorie.get({id: $stateParams.id}).$promise;
+                                }]
                                 }
-                            }).result.then(function () {
-                                $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
-                            }, function () {
-                                $state.go('^');
-                            });
+                        }).result.then(function () {
+                        $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
+                        }, function () {
+                        $state.go('^');
+                        });
                         }]
                 });
-    }
+        }
 
 })();

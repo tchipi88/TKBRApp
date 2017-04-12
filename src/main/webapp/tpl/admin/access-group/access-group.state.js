@@ -15,10 +15,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/access-group/access-groups.html',
-                    controller: 'AccessGroupController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/access-group/access-groups.html',
+                            controller: 'AccessGroupController',
+                            controllerAs: 'vm'}},
                     params: {
                         page: {
                             value: '1',
@@ -48,10 +49,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/access-group/access-group-detail.html',
-                    controller: 'AccessGroupDetailController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/access-group/access-group-detail.html',
+                            controller: 'AccessGroupDetailController',
+                            controllerAs: 'vm'}},
 
                     resolve: {
                         entity: ['$stateParams', 'AccessGroup', function ($stateParams, AccessGroup) {
@@ -108,7 +110,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            
+
                                         };
                                     }
                                 }

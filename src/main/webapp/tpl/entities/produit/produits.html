@@ -34,11 +34,12 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                        <th jh-sort-by="id"><span >ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                         <th jh-sort-by="denomination"><span >Denomination</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="type"><span >Type</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="categorie"><span >Categorie</span> <span class="glyphicon glyphicon-sort"></span></th>
- <th jh-sort-by="unite"><span >Unite</span> <span class="glyphicon glyphicon-sort"></span></th>
+                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="denomination"><span >Denomination</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="type"><span >Type</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="categorie"><span >Categorie</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="prix"><span >Prix</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="unite"><span >Unite</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="produit.new"   tooltip="Créer Produit">
                                 <i class="fa fa-plus">
@@ -53,6 +54,7 @@
                          <td>{{produit.denomination}}</td>
  <td>{{produit.type}}</td>
  <td>{{produit.categorie}}</td>
+ <td>{{produit.prix}}</td>
  <td>{{produit.unite}}</td>
                         <td >
 

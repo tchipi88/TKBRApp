@@ -45,6 +45,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.thymeleaf.context.Context;
@@ -94,10 +95,10 @@ public class TemplateService {
             context.setVariable("controllerpackage", basePackage.concat(".web.rest"));
 
             creatingEntityRepositories(context);
-            if (et.getJavaType().isAnnotationPresent(Cache.class)) {
+            if (et.getJavaType().isAnnotationPresent(Document.class)) {
                 creatingEntitySearchRepositories(context);
             }
-            creatingEntityController(context, et.getJavaType().isAnnotationPresent(Cache.class));
+            creatingEntityController(context, et.getJavaType().isAnnotationPresent(Document.class));
             creatingEntityClient(context, et);
 
             index += "  <script src=\"tpl/entities/" + entityUrl(et.getJavaType().getSimpleName()) + "/" + entityUrl(et.getJavaType().getSimpleName()) + "-dialog.controller.js\"></script>\n"
@@ -132,12 +133,26 @@ public class TemplateService {
 
         creatingEntityClientPart(context, et, ".controller.js");
         creatingEntityClientPart(context, et, ".search.service.js");
-        creatingEntityClientPart(context, et, ".service.js");
+        if(hasLocalDate(et)){
+            context.setVariable("entity_conertDateToServer", entityDatesForServices(et).get(0)); 
+            context.setVariable("entity_convertDateFromServer", entityDatesForServices(et).get(1)); 
+             creatingEntityClientServices(context, et, ".serviceDate.js");
+        }else{
+             creatingEntityClientServices(context, et, ".service.js");
+        }
+        
+       
         creatingEntityClientPart(context, et, ".state.js");
 
         context.setVariable("tableHeader", entityTableHeader(et));
         context.setVariable("tableBody", entityTableBody(et));
         creatingEntityClientPart(context, et, "s.html");
+
+    }
+    
+    public void creatingEntityClientServices(Context context, EntityType et, String file) throws Exception {
+        String content = templateEngine.process("entity" + file, context);
+        creatingFiles(content, "views" + File.separator + context.getVariable("entity_url") + File.separator + context.getVariable("entity_url") + ".service.js");
 
     }
 
@@ -296,30 +311,65 @@ public class TemplateService {
         }
         return result;
     }
-
-    private String entitySelectsHeader(EntityType et) throws Exception {
-        String result = "";
-        List<Field> inputs = new ArrayList();
+    
+    private boolean  hasLocalDate(EntityType et) throws Exception {
+         List<Field> inputs = new ArrayList();
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
             inputs.add(field);
         }, (java.lang.reflect.Field f)
-                -> FieldUtils.getInputType(f).equals(InputType.SELECT)
+                -> f.getType().equals(LocalDate.class)
+        );
+        return !inputs.isEmpty();
+    }
+    private List<String> entityDatesForServices(EntityType et) throws Exception {
+        String r = "";
+        List<Field> inputs = new ArrayList();
+        List<String> result = new ArrayList();
+        ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
+            inputs.add(field);
+        }, (java.lang.reflect.Field f)
+                -> f.getType().equals(LocalDate.class)
         );
         for (Field f : inputs) {
-            result += ",'" + f.getType().getSimpleName() + "'";
+            r += " copy." + f.getName() + " =DateUtils.convertLocalDateToServer(copy."+f.getName()+");\n" ;
         }
+        result.add(r);
+        r="";
+        for (Field f : inputs) {
+            r += " data." + f.getName() + " =DateUtils.convertLocalDateFromServer(data."+f.getName()+");\n" ;
+        }
+        result.add(r);
+        r="";
         return result;
     }
 
-    private String entitySelectsHeader1(EntityType et) throws Exception {
-
+    private String entitySelectsHeader(EntityType et) throws Exception {
+        String result = "";
         Set<String> inputs = new HashSet();
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
             inputs.add(field.getType().getSimpleName());
         }, (java.lang.reflect.Field f)
                 -> FieldUtils.getInputType(f).equals(InputType.SELECT)
         );
-        return inputs.stream().collect(Collectors.joining(","));
+        for (String f : inputs) {
+            result += ",'" + f + "'";
+        }
+        return result;
+    }
+
+    private String entitySelectsHeader1(EntityType et) throws Exception {
+
+        String result = "";
+        Set<String> inputs = new HashSet();
+        ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
+            inputs.add(field.getType().getSimpleName());
+        }, (java.lang.reflect.Field f)
+                -> FieldUtils.getInputType(f).equals(InputType.SELECT)
+        );
+        for (String f : inputs) {
+            result += "," + f;
+        }
+        return result;
     }
 
     private String entitySelects(EntityType et) throws Exception {
@@ -343,7 +393,7 @@ public class TemplateService {
         ReflectionUtils.doWithFields(et.getJavaType(), (field) -> {
             inputs.add(field);
         }, (java.lang.reflect.Field f)
-                -> !f.isAnnotationPresent(Id.class) && !f.isAnnotationPresent(CreatedBy.class) && !f.isAnnotationPresent(CreatedDate.class)
+                ->  !f.isAnnotationPresent(CreatedBy.class) && !f.isAnnotationPresent(CreatedDate.class)
                 && !f.isAnnotationPresent(LastModifiedBy.class) && !f.isAnnotationPresent(LastModifiedDate.class)
                 && !f.getName().equalsIgnoreCase("serialVersionUID")
                 && !f.getName().equalsIgnoreCase("$jacocoData")

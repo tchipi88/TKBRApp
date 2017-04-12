@@ -11,6 +11,10 @@
         <jhi-alert-error></jhi-alert-error>
         <div>
               <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.employe.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.employe.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
  </div>
@@ -42,7 +46,10 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_email">Email</label>
-  <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.employe.email"                     ng-readonly="false"  ng-required="false"                     />
+  <div class="input-group"> <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.employe.email"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                        <i class="fa fa-envelope"></i>
+                    </span> </span>
+        </div>
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_adresse">Adresse</label>
@@ -64,13 +71,13 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_fonction">Fonction <span style="color:red" >*</span></label>
-  <select class="form-control" name="fonction"  ng-model="vm.employe.fonction"  id="field_fonction" ng-options="employeFonction as employeFonction.id for employeFonction in vm.employeFonctions track by employeFonction.id" required>
+  <select class="form-control" name="fonction"  ng-model="vm.employe.fonction"  id="field_fonction" ng-options="fonction as fonction.id for fonction in vm.fonctions track by fonction.id" required>
                 <option value=""></option>
             </select>
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_departement">Departement <span style="color:red" >*</span></label>
-  <select class="form-control" name="departement"  ng-model="vm.employe.departement"  id="field_departement" ng-options="employeDepartement as employeDepartement.id for employeDepartement in vm.employeDepartements track by employeDepartement.id" required>
+  <select class="form-control" name="departement"  ng-model="vm.employe.departement"  id="field_departement" ng-options="departement as departement.id for departement in vm.departements track by departement.id" required>
                 <option value=""></option>
             </select>
  </div>

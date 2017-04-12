@@ -15,10 +15,11 @@
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'audits.title'
             },
-
-            templateUrl: 'tpl/admin/audits/audits.html',
-            controller: 'AuditsController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/admin/audits/audits.html',
+                    controller: 'AuditsController',
+                    controllerAs: 'vm'}}
         });
     }
 })();

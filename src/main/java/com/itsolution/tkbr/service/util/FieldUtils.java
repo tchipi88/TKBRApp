@@ -103,7 +103,7 @@ public class FieldUtils {
 
     public static boolean isReadOnlyField(Field f) {
         return ((f.isAnnotationPresent(Id.class) && f.isAnnotationPresent(GeneratedValue.class))
-                || f.isAnnotationPresent(Formula.class));
+                || f.isAnnotationPresent(Formula.class)||f.isAnnotationPresent(ReadOnly.class));
 
     }
 

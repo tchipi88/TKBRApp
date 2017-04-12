@@ -4,9 +4,9 @@
         .module('app')
         .factory('Caisse', Caisse);
 
-    Caisse.$inject = ['$resource'];
+    Caisse.$inject = ['$resource','DateUtils'];
 
-    function Caisse ($resource) {
+    function Caisse ($resource,DateUtils) {
         var resourceUrl =  'api/caisses/:id';
 
         return $resource(resourceUrl, {}, {

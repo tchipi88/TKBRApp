@@ -11,12 +11,19 @@
         <jhi-alert-error></jhi-alert-error>
         <div>
               <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.fournisseur.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_nom">Nom <span style="color:red" >*</span></label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_nom" ng-model="vm.fournisseur.nom"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_email">Email</label>
-  <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.fournisseur.email"                     ng-readonly="false"  ng-required="false"                     />
+  <div class="input-group"> <input  class="form-control"   type="email"  autocomplete="off"  id="field_email"  ng-model="vm.fournisseur.email"                     ng-readonly="false"  ng-required="false"                     /><span class="input-group-addon" >  <span >
+                        <i class="fa fa-envelope"></i>
+                    </span> </span>
+        </div>
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_telephonePortable">Telephone Portable <span style="color:red" >*</span></label>
@@ -40,7 +47,6 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_logo">Logo</label>
-  <input  class="form-control"   type="text"  autocomplete="off"   id="field_logo" ng-model="vm.fournisseur.logo"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_logoContentType">Logo Content Type</label>
@@ -48,7 +54,7 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_responsable">Responsable</label>
-  <select class="form-control" name="responsable"  ng-model="vm.fournisseur.responsable"  id="field_responsable" ng-options="employe as employe.id for employe in vm.employes track by employe.id" >
+  <select class="form-control" name="responsable"  ng-model="vm.fournisseur.responsable"  id="field_responsable" ng-options="responsable as responsable.id for responsable in vm.responsables track by responsable.id" >
                 <option value=""></option>
             </select>
  </div>

@@ -5,6 +5,8 @@
  */
 package com.itsolution.tkbr.repository;
 
+import com.itsolution.tkbr.domain.Fournisseur;
+import com.itsolution.tkbr.domain.Produit;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,6 +18,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Spring Data JPA repository for the ProduitFournisseur entity.
  */
 public interface ProduitFournisseurRepository extends JpaRepository<ProduitFournisseur, Long> {
+
+    public ProduitFournisseur findByFournisseurAndProduit(Fournisseur fournisseur, Produit produit);
 
     
 

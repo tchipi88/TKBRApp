@@ -1,0 +1,78 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myEntrepotProduitLabel" >Créer ou modifier  EntrepotProduit</h3>
+         <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div>
+              <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.entrepotProduit.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_produit">Produit <span style="color:red" >*</span></label>
+  <select class="form-control" name="produit"  ng-model="vm.entrepotProduit.produit"  id="field_produit" ng-options="produit as produit.id for produit in vm.produits track by produit.id" required>
+                <option value=""></option>
+            </select>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_entrepot">Entrepot <span style="color:red" >*</span></label>
+  <select class="form-control" name="entrepot"  ng-model="vm.entrepotProduit.entrepot"  id="field_entrepot" ng-options="entrepot as entrepot.id for entrepot in vm.entrepots track by entrepot.id" required>
+                <option value=""></option>
+            </select>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_stockTheorique">Stock Theorique</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_stockTheorique" ng-model="vm.entrepotProduit.stockTheorique"                     ng-readonly="true"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_stockPhysique">Stock Physique</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_stockPhysique" ng-model="vm.entrepotProduit.stockPhysique"                     ng-readonly="false"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_ecart">Ecart</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_ecart" ng-model="vm.entrepotProduit.ecart"                     ng-readonly="true"  ng-required="false"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_seuilAlerte">Seuil Alerte <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_seuilAlerte" ng-model="vm.entrepotProduit.seuilAlerte"                     ng-readonly="false"  ng-required="true"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_seuilSurStockage">Seuil Sur Stockage <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_seuilSurStockage" ng-model="vm.entrepotProduit.seuilSurStockage"                     ng-readonly="false"  ng-required="true"                     />
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_EnSurchauffe">En Surchauffe</label>
+ <div class="form-control">
+            <label class="i-checks">
+                <input type="checkbox" checked  ng-model="vm.entrepotProduit.EnSurchauffe"   id="field_EnSurchauffe"  name="EnSurchauffe" /><i></i> 
+            </label>
+        </div>
+ </div>
+ <div class="form-group">
+ <label class="control-label"  for="field_EnManque">En Manque</label>
+ <div class="form-control">
+            <label class="i-checks">
+                <input type="checkbox" checked  ng-model="vm.entrepotProduit.EnManque"   id="field_EnManque"  name="EnManque" /><i></i> 
+            </label>
+        </div>
+ </div>
+
+        </div>
+       
+    </div>
+    <div class="modal-footer">
+        
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

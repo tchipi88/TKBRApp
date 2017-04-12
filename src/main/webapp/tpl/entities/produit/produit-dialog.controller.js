@@ -5,18 +5,19 @@
         .module('app')
         .controller('ProduitDialogController', ProduitDialogController);
 
-    ProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Produit','ProduitCategorie','Unite'];
+    ProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Produit','Unite','ProduitCategorie'];
 
-    function ProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Produit ,ProduitCategorie,Unite) {
+    function ProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Produit ,Unite,ProduitCategorie) {
         var vm = this;
 
         vm.produit = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.produitCategories = ProduitCategorie.query();
+        vm.categories = ProduitCategorie.query();
 vm.unites = Unite.query();
 
       

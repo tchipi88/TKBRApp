@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.CommandeLigne;
 
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
-import com.itsolution.tkbr.repository.search.CommandeLigneSearchRepository;
+import com.itsolution.tkbr.service.CommandeLigneService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -40,12 +36,13 @@ public class CommandeLigneResource {
     private static final String ENTITY_NAME = "commandeLigne";
         
     private final CommandeLigneRepository commandeLigneRepository;
+    
+    private final CommandeLigneService  commandeLigneService;
 
-    private final CommandeLigneSearchRepository commandeLigneSearchRepository;
 
-    public CommandeLigneResource(CommandeLigneRepository commandeLigneRepository, CommandeLigneSearchRepository commandeLigneSearchRepository) {
+    public CommandeLigneResource(CommandeLigneRepository commandeLigneRepository, CommandeLigneService commandeLigneService) {
         this.commandeLigneRepository = commandeLigneRepository;
-        this.commandeLigneSearchRepository = commandeLigneSearchRepository;
+        this.commandeLigneService = commandeLigneService;
     }
 
     /**
@@ -57,13 +54,13 @@ public class CommandeLigneResource {
      */
     @PostMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> createCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws URISyntaxException {
+    public ResponseEntity<CommandeLigne> createCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to save CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commandeLigne cannot already have an ID")).body(null);
         }
         CommandeLigne result = commandeLigneRepository.save(commandeLigne);
-        commandeLigneSearchRepository.save(result);
+        commandeLigneService.save(result);
         return ResponseEntity.created(new URI("/api/commande-lignes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,13 +77,12 @@ public class CommandeLigneResource {
      */
     @PutMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> updateCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws URISyntaxException {
+    public ResponseEntity<CommandeLigne> updateCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to update CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() == null) {
             return createCommandeLigne(commandeLigne);
         }
-        CommandeLigne result = commandeLigneRepository.save(commandeLigne);
-        commandeLigneSearchRepository.save(result);
+        CommandeLigne result = commandeLigneService.save(commandeLigne);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commandeLigne.getId().toString()))
             .body(result);
@@ -131,25 +127,9 @@ public class CommandeLigneResource {
     public ResponseEntity<Void> deleteCommandeLigne(@PathVariable Long id) {
         log.debug("REST request to delete CommandeLigne : {}", id);
         commandeLigneRepository.delete(id);
-        commandeLigneSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/commande-lignes?query=:query : search for the commandeLigne corresponding
-     * to the query.
-     *
-     * @param query the query of the commandeLigne search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/commande-lignes")
-    @Timed
-    public List<CommandeLigne> searchCommandeLignes(@RequestParam String query) {
-        log.debug("REST request to search CommandeLignes for query {}", query);
-        return StreamSupport
-            .stream(commandeLigneSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-
+   
 
 }

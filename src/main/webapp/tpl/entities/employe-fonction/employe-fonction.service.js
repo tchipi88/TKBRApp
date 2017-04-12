@@ -4,9 +4,9 @@
         .module('app')
         .factory('EmployeFonction', EmployeFonction);
 
-    EmployeFonction.$inject = ['$resource'];
+    EmployeFonction.$inject = ['$resource','DateUtils'];
 
-    function EmployeFonction ($resource) {
+    function EmployeFonction ($resource,DateUtils) {
         var resourceUrl =  'api/employe-fonctions/:id';
 
         return $resource(resourceUrl, {}, {

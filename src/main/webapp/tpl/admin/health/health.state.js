@@ -15,10 +15,11 @@
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'health.title'
             },
-
-            templateUrl: 'tpl/admin/health/health.html',
-            controller: 'JhiHealthCheckController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/admin/health/health.html',
+                    controller: 'JhiHealthCheckController',
+                    controllerAs: 'vm'}}
 
         });
     }

@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Access;
 
 import com.itsolution.tkbr.repository.AccessRepository;
-import com.itsolution.tkbr.repository.search.AccessSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class AccessResource {
         
     private final AccessRepository accessRepository;
 
-    private final AccessSearchRepository accessSearchRepository;
 
-    public AccessResource(AccessRepository accessRepository, AccessSearchRepository accessSearchRepository) {
+    public AccessResource(AccessRepository accessRepository) {
         this.accessRepository = accessRepository;
-        this.accessSearchRepository = accessSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class AccessResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new access cannot already have an ID")).body(null);
         }
         Access result = accessRepository.save(access);
-        accessSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/accesss/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class AccessResource {
             return createAccess(access);
         }
         Access result = accessRepository.save(access);
-        accessSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, access.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /accesss : get all the accesss.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of accesss in body
@@ -105,6 +100,8 @@ public class AccessResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/accesss");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /accesss/:id : get the "id" access.
@@ -131,25 +128,10 @@ public class AccessResource {
     public ResponseEntity<Void> deleteAccess(@PathVariable Long id) {
         log.debug("REST request to delete Access : {}", id);
         accessRepository.delete(id);
-        accessSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/accesss?query=:query : search for the access corresponding
-     * to the query.
-     *
-     * @param query the query of the access search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/accesss")
-    @Timed
-    public List<Access> searchAccesss(@RequestParam String query) {
-        log.debug("REST request to search Accesss for query {}", query);
-        return StreamSupport
-            .stream(accessSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

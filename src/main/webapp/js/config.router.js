@@ -18,25 +18,41 @@ angular.module('app')
                         var layout = "tpl/app.html";
 
                         $urlRouterProvider
-                                .otherwise('/access/404');
+                                .otherwise('error404');
 
                         $stateProvider
                                 .state('app', {
                                     abstract: true,
-                                    url: '/app',
                                     templateUrl: layout,
+                                    data: {
+                                        authorities: []
+                                    },
+                                    controller: 'NavbarController',
+                                    controllerAs: 'vm',
                                     resolve: {
                                         authorize: ['Auth',
                                             function (Auth) {
-                                               // return Auth.authorize();
+                                                return Auth.authorize();
                                             }
                                         ]
                                     }
                                 })
-                                .state('app.home', {
-                                    url: '/home',
-                                    templateUrl: 'tpl/blank.html',
-                                    authenticate: true
+                                .state('login', {
+                                    url: '/login',
+                                    templateUrl: 'tpl/page_signin.html',
+                                    controller: 'LoginController',
+                                    controllerAs: 'vm'
+                                })
+                                .state('home', {
+                                    parent: 'app',
+                                    url: '/',
+                                    views: {
+                                        'content@app': {
+                                            templateUrl: 'tpl/dashboard.html'}}
+                                })
+                                .state('error404', {
+                                    url: '/',
+                                    templateUrl: 'tpl/error/page_404.html'
                                 });
 
 

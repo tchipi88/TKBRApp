@@ -4,23 +4,42 @@
         .module('app')
         .factory('Encaissement', Encaissement);
 
-    Encaissement.$inject = ['$resource'];
+    Encaissement.$inject = ['$resource','DateUtils'];
 
-    function Encaissement ($resource) {
+    function Encaissement ($resource,DateUtils) {
         var resourceUrl =  'api/encaissements/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
-            'get': {
+             'get': {
                 method: 'GET',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
+                          data.dateMouvement =DateUtils.convertLocalDateFromServer(data.dateMouvement);
+
                     }
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': {
+                method: 'PUT',
+                transformRequest: function (data) {
+                    var copy = angular.copy(data);
+                     copy.dateMouvement =DateUtils.convertLocalDateToServer(copy.dateMouvement);
+
+                    return angular.toJson(copy);
+                }
+            },
+            'save': {
+                method: 'POST',
+                transformRequest: function (data) {
+                    var copy = angular.copy(data);
+                     copy.dateMouvement =DateUtils.convertLocalDateToServer(copy.dateMouvement);
+
+                    return angular.toJson(copy);
+                }
+            }
         });
     }
 })();

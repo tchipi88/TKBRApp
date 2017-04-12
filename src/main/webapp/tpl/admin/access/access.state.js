@@ -1,12 +1,9 @@
 (function () {
     'use strict';
-
     angular
             .module('app')
             .config(stateConfig);
-
     stateConfig.$inject = ['$stateProvider'];
-
     function stateConfig($stateProvider) {
         $stateProvider
                 .state('access', {
@@ -15,10 +12,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/access/accesss.html',
-                    controller: 'AccessController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/access/accesss.html',
+                            controller: 'AccessController',
+                            controllerAs: 'vm'}},
                     params: {
                         page: {
                             value: '1',
@@ -48,10 +46,11 @@
                     data: {
                         authorities: ['ROLE_USER']
                     },
-
-                    templateUrl: 'tpl/admin/access/access-detail.html',
-                    controller: 'AccessDetailController',
-                    controllerAs: 'vm',
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/access/access-detail.html',
+                            controller: 'AccessDetailController',
+                            controllerAs: 'vm'}},
 
                     resolve: {
                         entity: ['$stateParams', 'Access', function ($stateParams, Access) {
@@ -108,7 +107,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            
+
                                         };
                                     }
                                 }

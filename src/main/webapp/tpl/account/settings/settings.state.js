@@ -14,10 +14,11 @@
             data: {
                 authorities: ['ROLE_USER'],
             },
-
-            templateUrl: 'tpl/account/settings/settings.html',
-            controller: 'SettingsController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/account/settings/settings.html',
+                    controller: 'SettingsController',
+                    controllerAs: 'vm'}}
 
         });
     }

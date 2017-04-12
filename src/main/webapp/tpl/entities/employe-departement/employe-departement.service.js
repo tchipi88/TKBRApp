@@ -4,9 +4,9 @@
         .module('app')
         .factory('EmployeDepartement', EmployeDepartement);
 
-    EmployeDepartement.$inject = ['$resource'];
+    EmployeDepartement.$inject = ['$resource','DateUtils'];
 
-    function EmployeDepartement ($resource) {
+    function EmployeDepartement ($resource,DateUtils) {
         var resourceUrl =  'api/employe-departements/:id';
 
         return $resource(resourceUrl, {}, {

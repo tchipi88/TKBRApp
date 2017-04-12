@@ -4,9 +4,9 @@
         .module('app')
         .factory('MouvementStock', MouvementStock);
 
-    MouvementStock.$inject = ['$resource'];
+    MouvementStock.$inject = ['$resource','DateUtils'];
 
-    function MouvementStock ($resource) {
+    function MouvementStock ($resource,DateUtils) {
         var resourceUrl =  'api/mouvement-stocks/:id';
 
         return $resource(resourceUrl, {}, {

@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Reglement;
 
 import com.itsolution.tkbr.repository.ReglementRepository;
-import com.itsolution.tkbr.repository.search.ReglementSearchRepository;
+import com.itsolution.tkbr.service.ReglementService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +41,12 @@ public class ReglementResource {
         
     private final ReglementRepository reglementRepository;
 
-    private final ReglementSearchRepository reglementSearchRepository;
+    
+    private final ReglementService  reglementService;
 
-    public ReglementResource(ReglementRepository reglementRepository, ReglementSearchRepository reglementSearchRepository) {
+    public ReglementResource(ReglementRepository reglementRepository,ReglementService  reglementService) {
         this.reglementRepository = reglementRepository;
-        this.reglementSearchRepository = reglementSearchRepository;
+        this.reglementService=reglementService;
     }
 
     /**
@@ -57,13 +58,12 @@ public class ReglementResource {
      */
     @PostMapping("/reglements")
     @Timed
-    public ResponseEntity<Reglement> createReglement(@Valid @RequestBody Reglement reglement) throws URISyntaxException {
+    public ResponseEntity<Reglement> createReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to save Reglement : {}", reglement);
         if (reglement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reglement cannot already have an ID")).body(null);
         }
-        Reglement result = reglementRepository.save(reglement);
-        reglementSearchRepository.save(result);
+        Reglement result = reglementService.save(reglement);
         return ResponseEntity.created(new URI("/api/reglements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,13 +80,12 @@ public class ReglementResource {
      */
     @PutMapping("/reglements")
     @Timed
-    public ResponseEntity<Reglement> updateReglement(@Valid @RequestBody Reglement reglement) throws URISyntaxException {
+    public ResponseEntity<Reglement> updateReglement(@Valid @RequestBody Reglement reglement) throws Exception {
         log.debug("REST request to update Reglement : {}", reglement);
         if (reglement.getId() == null) {
             return createReglement(reglement);
         }
-        Reglement result = reglementRepository.save(reglement);
-        reglementSearchRepository.save(result);
+        Reglement result = reglementService.save(reglement);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reglement.getId().toString()))
             .body(result);
@@ -131,25 +130,9 @@ public class ReglementResource {
     public ResponseEntity<Void> deleteReglement(@PathVariable Long id) {
         log.debug("REST request to delete Reglement : {}", id);
         reglementRepository.delete(id);
-        reglementSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/reglements?query=:query : search for the reglement corresponding
-     * to the query.
-     *
-     * @param query the query of the reglement search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/reglements")
-    @Timed
-    public List<Reglement> searchReglements(@RequestParam String query) {
-        log.debug("REST request to search Reglements for query {}", query);
-        return StreamSupport
-            .stream(reglementSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-
+   
 
 }

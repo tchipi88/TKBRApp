@@ -11,8 +11,12 @@
         <jhi-alert-error></jhi-alert-error>
         <div>
               <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.caisse.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_gerant">Gerant</label>
-  <select class="form-control" name="gerant"  ng-model="vm.caisse.gerant"  id="field_gerant" ng-options="employe as employe.id for employe in vm.employes track by employe.id" >
+  <select class="form-control" name="gerant"  ng-model="vm.caisse.gerant"  id="field_gerant" ng-options="gerant as gerant.id for gerant in vm.gerants track by gerant.id" >
                 <option value=""></option>
             </select>
  </div>

@@ -15,10 +15,11 @@
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'logs.title'
             },
-
-            templateUrl: 'tpl/admin/logs/logs.html',
-            controller: 'LogsController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/admin/logs/logs.html',
+                    controller: 'LogsController',
+                    controllerAs: 'vm'}}
 
         });
     }

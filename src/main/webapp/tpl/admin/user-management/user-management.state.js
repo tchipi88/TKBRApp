@@ -16,10 +16,11 @@
                         authorities: ['ROLE_ADMIN'],
                         pageTitle: 'userManagement.home.title'
                     },
-
-                    templateUrl: 'tpl/admin/user-management/user-management.html',
-                    controller: 'UserManagementController',
-                    controllerAs: 'vm'
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/admin/user-management/user-management.html',
+                            controller: 'UserManagementController',
+                            controllerAs: 'vm'}}
                     , params: {
                         page: {
                             value: '1',
@@ -100,10 +101,12 @@
                         authorities: ['ROLE_ADMIN'],
                         pageTitle: 'user-management.detail.title'
                     },
+                    views: {
+                        'content@app': {
 
-                    templateUrl: 'tpl/admin/user-management/user-management-detail.html',
-                    controller: 'UserManagementDetailController',
-                    controllerAs: 'vm'
+                            templateUrl: 'tpl/admin/user-management/user-management-detail.html',
+                            controller: 'UserManagementDetailController',
+                            controllerAs: 'vm'}}
 
                 })
                 .state('user-management.delete', {

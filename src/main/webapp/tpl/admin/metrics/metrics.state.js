@@ -15,10 +15,11 @@
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'metrics.title'
             },
-
-            templateUrl: 'tpl/admin/metrics/metrics.html',
-            controller: 'JhiMetricsMonitoringController',
-            controllerAs: 'vm'
+            views: {
+                'content@app': {
+                    templateUrl: 'tpl/admin/metrics/metrics.html',
+                    controller: 'JhiMetricsMonitoringController',
+                    controllerAs: 'vm'}}
 
         });
     }

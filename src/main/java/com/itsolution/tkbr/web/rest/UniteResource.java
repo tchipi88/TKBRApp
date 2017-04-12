@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Unite;
 
 import com.itsolution.tkbr.repository.UniteRepository;
-import com.itsolution.tkbr.repository.search.UniteSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class UniteResource {
         
     private final UniteRepository uniteRepository;
 
-    private final UniteSearchRepository uniteSearchRepository;
 
-    public UniteResource(UniteRepository uniteRepository, UniteSearchRepository uniteSearchRepository) {
+    public UniteResource(UniteRepository uniteRepository) {
         this.uniteRepository = uniteRepository;
-        this.uniteSearchRepository = uniteSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class UniteResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new unite cannot already have an ID")).body(null);
         }
         Unite result = uniteRepository.save(unite);
-        uniteSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/unites/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class UniteResource {
             return createUnite(unite);
         }
         Unite result = uniteRepository.save(unite);
-        uniteSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, unite.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /unites : get all the unites.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of unites in body
@@ -105,6 +100,8 @@ public class UniteResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/unites");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /unites/:id : get the "id" unite.
@@ -131,25 +128,10 @@ public class UniteResource {
     public ResponseEntity<Void> deleteUnite(@PathVariable Long id) {
         log.debug("REST request to delete Unite : {}", id);
         uniteRepository.delete(id);
-        uniteSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/unites?query=:query : search for the unite corresponding
-     * to the query.
-     *
-     * @param query the query of the unite search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/unites")
-    @Timed
-    public List<Unite> searchUnites(@RequestParam String query) {
-        log.debug("REST request to search Unites for query {}", query);
-        return StreamSupport
-            .stream(uniteSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

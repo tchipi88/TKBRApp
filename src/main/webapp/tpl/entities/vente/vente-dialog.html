@@ -24,6 +24,10 @@
             </select>
  </div>
  <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.vente.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_dateEmission">Date Emission</label>
   <div class="input-group">
                     <input  id="field_dateEmission" type="text" class="form-control" name="dateEmission" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.vente.dateEmission"  is-open="vm.datePickerOpenStatus.dateEmission"

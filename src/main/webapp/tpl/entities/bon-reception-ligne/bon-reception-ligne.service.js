@@ -4,9 +4,9 @@
         .module('app')
         .factory('BonReceptionLigne', BonReceptionLigne);
 
-    BonReceptionLigne.$inject = ['$resource'];
+    BonReceptionLigne.$inject = ['$resource','DateUtils'];
 
-    function BonReceptionLigne ($resource) {
+    function BonReceptionLigne ($resource,DateUtils) {
         var resourceUrl =  'api/bon-reception-lignes/:id';
 
         return $resource(resourceUrl, {}, {

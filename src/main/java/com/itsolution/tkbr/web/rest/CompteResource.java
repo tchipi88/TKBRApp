@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Compte;
 
 import com.itsolution.tkbr.repository.CompteRepository;
-import com.itsolution.tkbr.repository.search.CompteSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -41,11 +36,9 @@ public class CompteResource {
         
     private final CompteRepository compteRepository;
 
-    private final CompteSearchRepository compteSearchRepository;
 
-    public CompteResource(CompteRepository compteRepository, CompteSearchRepository compteSearchRepository) {
+    public CompteResource(CompteRepository compteRepository) {
         this.compteRepository = compteRepository;
-        this.compteSearchRepository = compteSearchRepository;
     }
 
     /**
@@ -63,7 +56,6 @@ public class CompteResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new compte cannot already have an ID")).body(null);
         }
         Compte result = compteRepository.save(compte);
-        compteSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/comptes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,7 +78,6 @@ public class CompteResource {
             return createCompte(compte);
         }
         Compte result = compteRepository.save(compte);
-        compteSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, compte.getId().toString()))
             .body(result);
@@ -114,7 +105,7 @@ public class CompteResource {
      */
     @GetMapping("/comptes/{id}")
     @Timed
-    public ResponseEntity<Compte> getCompte(@PathVariable Long id) {
+    public ResponseEntity<Compte> getCompte(@PathVariable Integer id) {
         log.debug("REST request to get Compte : {}", id);
         Compte compte = compteRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(compte));
@@ -128,28 +119,13 @@ public class CompteResource {
      */
     @DeleteMapping("/comptes/{id}")
     @Timed
-    public ResponseEntity<Void> deleteCompte(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCompte(@PathVariable Integer id) {
         log.debug("REST request to delete Compte : {}", id);
         compteRepository.delete(id);
-        compteSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/comptes?query=:query : search for the compte corresponding
-     * to the query.
-     *
-     * @param query the query of the compte search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/comptes")
-    @Timed
-    public List<Compte> searchComptes(@RequestParam String query) {
-        log.debug("REST request to search Comptes for query {}", query);
-        return StreamSupport
-            .stream(compteSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

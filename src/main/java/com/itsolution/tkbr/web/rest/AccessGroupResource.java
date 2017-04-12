@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.AccessGroup;
 
 import com.itsolution.tkbr.repository.AccessGroupRepository;
-import com.itsolution.tkbr.repository.search.AccessGroupSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -41,11 +40,9 @@ public class AccessGroupResource {
         
     private final AccessGroupRepository accessGroupRepository;
 
-    private final AccessGroupSearchRepository accessGroupSearchRepository;
 
-    public AccessGroupResource(AccessGroupRepository accessGroupRepository, AccessGroupSearchRepository accessGroupSearchRepository) {
+    public AccessGroupResource(AccessGroupRepository accessGroupRepository) {
         this.accessGroupRepository = accessGroupRepository;
-        this.accessGroupSearchRepository = accessGroupSearchRepository;
     }
 
     /**
@@ -63,7 +60,6 @@ public class AccessGroupResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accessGroup cannot already have an ID")).body(null);
         }
         AccessGroup result = accessGroupRepository.save(accessGroup);
-        accessGroupSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/access-groups/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,13 +82,12 @@ public class AccessGroupResource {
             return createAccessGroup(accessGroup);
         }
         AccessGroup result = accessGroupRepository.save(accessGroup);
-        accessGroupSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accessGroup.getId().toString()))
             .body(result);
     }
 
-   /**
+    /**
      * GET  /access-groups : get all the accessGroups.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of accessGroups in body
@@ -105,6 +100,8 @@ public class AccessGroupResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/access-groups");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+ 
 
     /**
      * GET  /access-groups/:id : get the "id" accessGroup.
@@ -131,25 +128,10 @@ public class AccessGroupResource {
     public ResponseEntity<Void> deleteAccessGroup(@PathVariable Long id) {
         log.debug("REST request to delete AccessGroup : {}", id);
         accessGroupRepository.delete(id);
-        accessGroupSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/access-groups?query=:query : search for the accessGroup corresponding
-     * to the query.
-     *
-     * @param query the query of the accessGroup search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/access-groups")
-    @Timed
-    public List<AccessGroup> searchAccessGroups(@RequestParam String query) {
-        log.debug("REST request to search AccessGroups for query {}", query);
-        return StreamSupport
-            .stream(accessGroupSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+   
 
 
 }

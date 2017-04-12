@@ -4,9 +4,9 @@
         .module('app')
         .factory('[(${entity})]', [(${entity})]);
 
-    [(${entity})].$inject = ['$resource'];
+    [(${entity})].$inject = ['$resource','DateUtils'];
 
-    function [(${entity})] ($resource) {
+    function [(${entity})] ($resource,DateUtils) {
         var resourceUrl =  'api/[(${entity_url})]s/:id';
 
         return $resource(resourceUrl, {}, {

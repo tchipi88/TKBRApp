@@ -4,9 +4,9 @@
         .module('app')
         .factory('ProduitCategorie', ProduitCategorie);
 
-    ProduitCategorie.$inject = ['$resource'];
+    ProduitCategorie.$inject = ['$resource','DateUtils'];
 
-    function ProduitCategorie ($resource) {
+    function ProduitCategorie ($resource,DateUtils) {
         var resourceUrl =  'api/produit-categories/:id';
 
         return $resource(resourceUrl, {}, {

@@ -13,11 +13,12 @@
         vm.bonLivraisonLigne = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.bonLivraisons = BonLivraison.query();
-vm.commandeLignes = CommandeLigne.query();
+        vm.bonlivraisons = BonLivraison.query();
+vm.commandelignes = CommandeLigne.query();
 
       
 

@@ -8,6 +8,7 @@ angular.module('app', [
     'ngMessages',
     'ngResource',
     'ngSanitize',
+     'ngCacheBuster',
     'ngTouch',
     'ngStorage',
     'ui.router',
@@ -17,4 +18,10 @@ angular.module('app', [
     'ui.load',
     'ui.jq',
     'oc.lazyLoad',
-    'ngFileUpload']);
+    'ngFileUpload']).run(run);
+
+ run.$inject = ['stateHandler'];
+
+    function run(stateHandler) {
+        stateHandler.initialize();
+    }

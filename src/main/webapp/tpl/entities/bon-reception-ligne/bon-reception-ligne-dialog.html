@@ -11,14 +11,18 @@
         <jhi-alert-error></jhi-alert-error>
         <div>
               <div class="form-group">
+ <label class="control-label"  for="field_id">Id</label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.bonReceptionLigne.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+ </div>
+ <div class="form-group">
  <label class="control-label"  for="field_bonReception">Bon Reception <span style="color:red" >*</span></label>
-  <select class="form-control" name="bonReception"  ng-model="vm.bonReceptionLigne.bonReception"  id="field_bonReception" ng-options="bonReception as bonReception.id for bonReception in vm.bonReceptions track by bonReception.id" required>
+  <select class="form-control" name="bonReception"  ng-model="vm.bonReceptionLigne.bonReception"  id="field_bonReception" ng-options="bonreception as bonreception.id for bonreception in vm.bonreceptions track by bonreception.id" required>
                 <option value=""></option>
             </select>
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_commandeLigne">Commande Ligne</label>
-  <select class="form-control" name="commandeLigne"  ng-model="vm.bonReceptionLigne.commandeLigne"  id="field_commandeLigne" ng-options="commandeLigne as commandeLigne.id for commandeLigne in vm.commandeLignes track by commandeLigne.id" >
+  <select class="form-control" name="commandeLigne"  ng-model="vm.bonReceptionLigne.commandeLigne"  id="field_commandeLigne" ng-options="commandeligne as commandeligne.id for commandeligne in vm.commandelignes track by commandeligne.id" >
                 <option value=""></option>
             </select>
  </div>

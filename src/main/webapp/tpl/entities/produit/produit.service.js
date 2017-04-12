@@ -4,9 +4,9 @@
         .module('app')
         .factory('Produit', Produit);
 
-    Produit.$inject = ['$resource'];
+    Produit.$inject = ['$resource','DateUtils'];
 
-    function Produit ($resource) {
+    function Produit ($resource,DateUtils) {
         var resourceUrl =  'api/produits/:id';
 
         return $resource(resourceUrl, {}, {

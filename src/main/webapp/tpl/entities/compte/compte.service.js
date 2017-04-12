@@ -4,9 +4,9 @@
         .module('app')
         .factory('Compte', Compte);
 
-    Compte.$inject = ['$resource'];
+    Compte.$inject = ['$resource','DateUtils'];
 
-    function Compte ($resource) {
+    function Compte ($resource,DateUtils) {
         var resourceUrl =  'api/comptes/:id';
 
         return $resource(resourceUrl, {}, {

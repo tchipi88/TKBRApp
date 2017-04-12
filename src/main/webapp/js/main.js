@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope',  '$localStorage', '$window', 
-    function(              $scope,     $localStorage,   $window ) {
+  .controller('AppCtrl', ['$scope',  '$localStorage', '$window', 'Auth',
+    function(              $scope,     $localStorage,   $window ,Auth) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       if(isIE){ angular.element($window.document.body).addClass('ie');}
@@ -65,5 +65,5 @@ angular.module('app')
           // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
           return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
       }
-
+      
   }]);
