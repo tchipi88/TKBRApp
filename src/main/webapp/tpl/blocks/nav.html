@@ -1,12 +1,12 @@
 <!-- list -->
 <ul class="nav">
-<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-    <span >Navigation</span>
-  </li>
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span >Navigation</span>
+    </li>
     <li ui-sref-active="active">
         <a ui-sref="home">
-            <i class="glyphicon glyphicon-dashboard icon text-info-lter"></i>
-            <span class="font-bold" >Tableau de bord</span>
+            <i class="glyphicon glyphicon-home icon text-info-lter"></i>
+            <span class="font-bold" >Accueil</span>
         </a>
     </li>
     <li ng-class="{active: vm.$state.includes('admin')}" >
@@ -84,8 +84,8 @@
             </li>
         </ul>
     </li>
-    
-      <li>
+
+    <li>
         <a href class="auto">
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
@@ -101,13 +101,8 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="achat">
+                <a ui-sref="commande">
                     <span>Achat</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="bon-reception">
-                    <span>Bon Reception</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -117,8 +112,8 @@
             </li>
         </ul>
     </li>
-    
-      <li>
+
+    <li>
         <a href class="auto">
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
@@ -134,20 +129,11 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="vente">
+                <a ui-sref="commande">
                     <span>Vente</span>
                 </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="facture">
-                    <span>Facture</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="bon-livraison">
-                    <span>Bon Livraison</span>
-                </a>
-            </li>
+
             <li ui-sref-active="active">
                 <a ui-sref="encaissement">
                     <span>Encaissement</span>
@@ -155,41 +141,16 @@
             </li>
         </ul>
     </li>
-
-  <li>
-        <a class="auto">
-            <span class="pull-right text-muted">
-                <i class="fa fa-fw fa-angle-right text"></i>
-                <i class="fa fa-fw fa-angle-down text-active"></i>
-            </span>
-            <i class="fa fa-cube icon text-success"></i>
-            <span class="font-bold"> Produits</span>
-        </a>
-        <ul class="nav nav-sub dk">
-            <li class="nav-sub-header">
-                <a href>
-                    <span> Produits</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="produit">
-                    <span>Produit</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="produit-categorie">
-                    <span>Categorie</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="unite">
-                    <span>Unite</span>
-                </a>
-            </li>
-            
-        </ul>
-    </li>
     
+    <li ui-sref-active="active">
+        <a ui-sref="produit">
+            <i class="fa fa-cube icon text-info-lter"></i>
+            <span class="font-bold" >Produits</span>
+        </a>
+    </li>
+
+
+
     <li>
         <a href class="auto">
             <span class="pull-right text-muted">
@@ -222,8 +183,10 @@
             </li>
         </ul>
     </li>
-    
-     <li ui-sref-active="active">
+
+
+
+    <li ui-sref-active="active">
         <a ui-sref="compte">
             <i class="fa fa-cube icon text-info-lter"></i>
             <span class="font-bold" >Comptabilite</span>

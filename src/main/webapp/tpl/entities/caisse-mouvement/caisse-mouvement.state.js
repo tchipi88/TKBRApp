@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse-mouvement', null, {reload: 'app.caisse-mouvement'});
+                        $state.go('caisse-mouvement', null, {reload: 'caisse-mouvement'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse-mouvement', null, {reload: 'app.caisse-mouvement'});
+                        $state.go('caisse-mouvement', null, {reload: 'caisse-mouvement'});
                         }, function () {
                         $state.go('^');
                         });

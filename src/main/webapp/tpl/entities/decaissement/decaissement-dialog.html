@@ -9,8 +9,9 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div>
-              <div class="form-group">
+        <div class="row">
+              <div class="col-sm-6">
+ <div class="form-group">
  <label class="control-label"  for="field_motif">Motif <span style="color:red" >*</span></label>
  <select class="form-control" name="motif"  ng-model="vm.decaissement.motif"  id="field_motif" required>
 <option value="IMPOTS">IMPOTS</option>
@@ -22,33 +23,58 @@
 <option value="AUTRES">AUTRES</option>
             </select>
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_id">Id</label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.decaissement.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_caisse">Caisse <span style="color:red" >*</span></label>
-  <select class="form-control" name="caisse"  ng-model="vm.decaissement.caisse"  id="field_caisse" ng-options="caisse as caisse.id for caisse in vm.caisses track by caisse.id" required>
-                <option value=""></option>
-            </select>
+ <div class="input-group">
+                        <ui-select ng-model="vm.decaissement.caisse"    ng-required="true">
+                            <ui-select-match placeholder="Select Caisse">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-choices repeat="caisse in vm.caisses | filter: $select.search">
+                                <div ng-bind-html="caisse.id | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Caisse','caisse','caisse', vm.decaissement.caisse)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.decaissement.caisse">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Caisse', 'caisse','caisse', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.decaissement.caisse">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
  </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_dateMouvement">Date Mouvement</label>
   <div class="input-group">
-                    <input  id="field_dateMouvement" type="text" class="form-control" name="dateMouvement" uib-datepicker-popup="{{dateformat}}"  ng-model="vm.decaissement.dateMouvement"  is-open="vm.datePickerOpenStatus.dateMouvement"
+                    <input  id="field_dateMouvement" type="text" class="form-control" name="dateMouvement"    ng-required="false"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.decaissement.dateMouvement"  is-open="vm.datePickerOpenStatus.dateMouvement"
                     />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateMouvement')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_commentaires">Commentaires</label>
    <textarea class="form-control" rows="3"  cols="30"   id="field_commentaires" ng-model="vm.decaissement.commentaires"                     ng-readonly="false"  ng-required="false"                     > </textarea>
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_montant">Montant <span style="color:red" >*</span></label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_montant" ng-model="vm.decaissement.montant"                     ng-readonly="false"  ng-required="true"                     />
+ </div>
  </div>
 
         </div>

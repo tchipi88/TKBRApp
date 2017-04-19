@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Commande;
 
 import com.itsolution.tkbr.repository.CommandeRepository;
-import com.itsolution.tkbr.repository.search.CommandeSearchRepository;
+import com.itsolution.tkbr.service.CommandeService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -40,12 +36,14 @@ public class CommandeResource {
     private static final String ENTITY_NAME = "commande";
         
     private final CommandeRepository commandeRepository;
+    
+    private final CommandeService  commandeService;
+    
 
-    private final CommandeSearchRepository commandeSearchRepository;
 
-    public CommandeResource(CommandeRepository commandeRepository, CommandeSearchRepository commandeSearchRepository) {
+    public CommandeResource(CommandeRepository commandeRepository,CommandeService  commandeService) {
         this.commandeRepository = commandeRepository;
-        this.commandeSearchRepository = commandeSearchRepository;
+        this.commandeService=commandeService;
     }
 
     /**
@@ -57,13 +55,12 @@ public class CommandeResource {
      */
     @PostMapping("/commandes")
     @Timed
-    public ResponseEntity<Commande> createCommande(@Valid @RequestBody Commande commande) throws URISyntaxException {
+    public ResponseEntity<Commande> createCommande( @RequestBody Commande commande) throws Exception {
         log.debug("REST request to save Commande : {}", commande);
         if (commande.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commande cannot already have an ID")).body(null);
         }
-        Commande result = commandeRepository.save(commande);
-        commandeSearchRepository.save(result);
+        Commande result = commandeService.create(commande);
         return ResponseEntity.created(new URI("/api/commandes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,13 +77,12 @@ public class CommandeResource {
      */
     @PutMapping("/commandes")
     @Timed
-    public ResponseEntity<Commande> updateCommande(@Valid @RequestBody Commande commande) throws URISyntaxException {
+    public ResponseEntity<Commande> updateCommande(@RequestBody Commande commande) throws Exception {
         log.debug("REST request to update Commande : {}", commande);
         if (commande.getId() == null) {
             return createCommande(commande);
         }
-        Commande result = commandeRepository.save(commande);
-        commandeSearchRepository.save(result);
+        Commande result = commandeService.update(commande);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commande.getId().toString()))
             .body(result);
@@ -131,25 +127,8 @@ public class CommandeResource {
     public ResponseEntity<Void> deleteCommande(@PathVariable Long id) {
         log.debug("REST request to delete Commande : {}", id);
         commandeRepository.delete(id);
-        commandeSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/commandes?query=:query : search for the commande corresponding
-     * to the query.
-     *
-     * @param query the query of the commande search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/commandes")
-    @Timed
-    public List<Commande> searchCommandes(@RequestParam String query) {
-        log.debug("REST request to search Commandes for query {}", query);
-        return StreamSupport
-            .stream(commandeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-
-
+  
 }

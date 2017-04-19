@@ -6,7 +6,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import org.hibernate.annotations.Formula;
@@ -16,7 +15,7 @@ import org.hibernate.annotations.Formula;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class MouvementStock extends AbstractAuditingEntity{
+public class MouvementStock extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,10 +45,8 @@ public class MouvementStock extends AbstractAuditingEntity{
     @ManyToOne(optional = false)
     @NotNull
     private Produit produit;
-    
-    
-    
-     @Column
+
+    @Column
     @ReadOnly
     private Float stockEntrepotDepart;
     @Formula("stock-entrepot-depart-quantite")
@@ -144,11 +141,7 @@ public class MouvementStock extends AbstractAuditingEntity{
     public Produit getProduit() {
         return produit;
     }
-    
-    
 
-
-   
     public MouvementStock produit(Produit produit) {
         this.produit = produit;
         return this;
@@ -180,11 +173,11 @@ public class MouvementStock extends AbstractAuditingEntity{
 
     @Override
     public String toString() {
-        return "MouvementStock{" +
-            "id=" + id +
-            ", quantite='" + quantite + "'" +
-            ", dateTransaction='" + dateTransaction + "'" +
-            ", motifTransaction='" + motifTransaction + "'" +
-            '}';
+        return "MouvementStock{"
+                + "id=" + id
+                + ", quantite='" + quantite + "'"
+                + ", dateTransaction='" + dateTransaction + "'"
+                + ", motifTransaction='" + motifTransaction + "'"
+                + '}';
     }
 }

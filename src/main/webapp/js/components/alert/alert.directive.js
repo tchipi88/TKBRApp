@@ -2,9 +2,11 @@
     'use strict';
 
     var jhiAlert = {
-        template: '<div  class="m-b-md">' +
-                ' <alert ng-repeat="alert in $ctrl.alerts" type="{{alert.type}}" close="alert.close($ctrl.alerts)">{{alert.msg}}</alert></div>'
-        ,
+        template: '<div class="row"><div class="alerts" ng-cloak="" role="alert">' +
+                '<div ng-repeat="alert in $ctrl.alerts" ng-class="[alert.position, {\'toast\': alert.toast}]">' +
+                '<uib-alert ng-cloak="" type="{{alert.type}}" close="alert.close($ctrl.alerts)">{{alert.msg}}</uib-alert>' +
+                '</div>' +
+                '</div></div>',
         controller: jhiAlertController
     };
 

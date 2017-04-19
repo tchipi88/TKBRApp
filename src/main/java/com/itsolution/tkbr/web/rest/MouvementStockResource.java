@@ -60,7 +60,7 @@ public class MouvementStockResource {
         if (mouvementStock.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new mouvementStock cannot already have an ID")).body(null);
         }
-        MouvementStock result = mouvementStockService.save(mouvementStock);
+        MouvementStock result = mouvementStockService.save(mouvementStock,true);
         return ResponseEntity.created(new URI("/api/mouvement-stocks/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -83,7 +83,7 @@ public class MouvementStockResource {
         if (mouvementStock.getId() == null) {
             return createMouvementStock(mouvementStock);
         }
-        MouvementStock result = mouvementStockRepository.save(mouvementStock);
+        MouvementStock result = mouvementStockService.save(mouvementStock,true);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mouvementStock.getId().toString()))
                 .body(result);

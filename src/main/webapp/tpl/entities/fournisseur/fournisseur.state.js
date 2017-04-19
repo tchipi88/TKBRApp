@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.fournisseur', null, {reload: 'app.fournisseur'});
+                        $state.go('fournisseur', null, {reload: 'fournisseur'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.fournisseur', null, {reload: 'app.fournisseur'});
+                        $state.go('fournisseur', null, {reload: 'fournisseur'});
                         }, function () {
                         $state.go('^');
                         });

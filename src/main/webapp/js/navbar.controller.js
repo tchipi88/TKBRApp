@@ -23,7 +23,7 @@
       
         function logout() {
             Auth.logout();
-            $state.go('login');
+            $state.go('page.login');
         }
 
       

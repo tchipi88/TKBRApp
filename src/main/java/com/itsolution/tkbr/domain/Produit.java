@@ -1,4 +1,4 @@
-package com.itsolution.tkbr.domain;
+    package com.itsolution.tkbr.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.itsolution.tkbr.domain.enumeration.ProduitType;
+import com.itsolution.tkbr.service.template.Libelle;
 
 /**
  * A Produit.
@@ -27,6 +28,7 @@ public class Produit extends AbstractAuditingEntity{
     private Long id;
 
     @NotNull
+    @Libelle
     private String denomination;
 
     
@@ -39,6 +41,7 @@ public class Produit extends AbstractAuditingEntity{
     @NotNull
     private ProduitCategorie categorie;
     
+    @NotNull
     private BigDecimal prix;
 
     public BigDecimal getPrix() {

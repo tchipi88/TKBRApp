@@ -8,9 +8,8 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading">
+         <div class="panel-heading">
             <div class="row">
-               
                 <div class="col-xs-12 no-padding-right">
                     <form name="searchForm" class="form-inline">
                         <div class="input-group pull-right" >
@@ -35,16 +34,7 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="logoContentType"><span >Logo Content Type</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="responsable"><span >Responsable</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="responsable"><span >Responsable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="fournisseur.new"   tooltip="Créer Fournisseur">
                                 <i class="fa fa-plus">
@@ -63,9 +53,9 @@
  <td>{{fournisseur.siteWeb}}</td>
  <td>{{fournisseur.boitePostale}}</td>
  <td>{{fournisseur.adresse}}</td>
- <td>{{fournisseur.logoContentType}}</td>
- <td>{{fournisseur.responsable}}</td>
+ <td>{{fournisseur.responsable.nom}}</td>
  <td>{{fournisseur.numeroCommerce}}</td>
+
                         <td >
 
                             <button type="submit"    ui-sref="fournisseur-detail({id:fournisseur.id})"    class="btn btn-info btn-sm"   tooltip="Details">

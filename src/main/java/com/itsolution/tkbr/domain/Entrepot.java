@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.itsolution.tkbr.domain.enumeration.EntrepotType;
+import com.itsolution.tkbr.service.template.Libelle;
 
 /**
  * A Entrepot.
@@ -17,7 +18,6 @@ import com.itsolution.tkbr.domain.enumeration.EntrepotType;
 @Entity
 @Table(name = "entrepot")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "entrepot")
 public class Entrepot implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,13 +26,6 @@ public class Entrepot implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "libelle", nullable = false)
-    private String libelle;
-
-    @NotNull
-    @Column(name = "localisation", nullable = false)
-    private String localisation;
 
     @Column(name = "capactite")
     private Integer capactite;
@@ -40,6 +33,7 @@ public class Entrepot implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
+    @Libelle
     private EntrepotType type;
 
     @ManyToOne
@@ -53,31 +47,7 @@ public class Entrepot implements Serializable {
         this.id = id;
     }
 
-    public String getLibelle() {
-        return libelle;
-    }
-
-    public Entrepot libelle(String libelle) {
-        this.libelle = libelle;
-        return this;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
-
-    public String getLocalisation() {
-        return localisation;
-    }
-
-    public Entrepot localisation(String localisation) {
-        this.localisation = localisation;
-        return this;
-    }
-
-    public void setLocalisation(String localisation) {
-        this.localisation = localisation;
-    }
+  
 
     public Integer getCapactite() {
         return capactite;
@@ -142,8 +112,6 @@ public class Entrepot implements Serializable {
     public String toString() {
         return "Entrepot{" +
             "id=" + id +
-            ", libelle='" + libelle + "'" +
-            ", localisation='" + localisation + "'" +
             ", capactite='" + capactite + "'" +
             ", type='" + type + "'" +
             '}';

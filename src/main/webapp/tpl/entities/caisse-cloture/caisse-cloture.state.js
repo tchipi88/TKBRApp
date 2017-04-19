@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse-cloture', null, {reload: 'app.caisse-cloture'});
+                        $state.go('caisse-cloture', null, {reload: 'caisse-cloture'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse-cloture', null, {reload: 'app.caisse-cloture'});
+                        $state.go('caisse-cloture', null, {reload: 'caisse-cloture'});
                         }, function () {
                         $state.go('^');
                         });

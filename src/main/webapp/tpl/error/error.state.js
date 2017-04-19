@@ -14,7 +14,6 @@
                     url: '/error',
                     data: {
                         authorities: [],
-                        pageTitle: 'error.title'
                     },
                     templateUrl: 'tpl/error/error.html'
                 })
@@ -24,7 +23,9 @@
                     data: {
                         authorities: []
                     },
-                    templateUrl: 'tpl/error/accessdenied.html'
+                    views: {
+                        'content@app': {
+                            templateUrl: 'tpl/error/accessdenied.html'}}
                 });
     }
 })();

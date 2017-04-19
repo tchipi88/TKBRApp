@@ -32,9 +32,10 @@ public class Caisse extends AbstractAuditingEntity {
     private Employe gerant;
 
     @Enumerated(EnumType.STRING)
-    private EtatCaisse etatCaisse;
+    private EtatCaisse etat;
+
+    private BigDecimal soldeReel;
     
-    private BigDecimal  soldeReel;
 
     public Employe getGerant() {
         return gerant;
@@ -44,14 +45,15 @@ public class Caisse extends AbstractAuditingEntity {
         this.gerant = gerant;
     }
 
-    public EtatCaisse getEtatCaisse() {
-        return etatCaisse;
+    public EtatCaisse getEtat() {
+        return etat;
     }
 
-    public void setEtatCaisse(EtatCaisse etatCaisse) {
-        this.etatCaisse = etatCaisse;
+    public void setEtat(EtatCaisse etat) {
+        this.etat = etat;
     }
 
+   
     public BigDecimal getSoldeReel() {
         return soldeReel;
     }
@@ -59,9 +61,6 @@ public class Caisse extends AbstractAuditingEntity {
     public void setSoldeReel(BigDecimal soldeReel) {
         this.soldeReel = soldeReel;
     }
-    
-    
-    
 
     public Long getId() {
         return id;

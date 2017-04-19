@@ -9,39 +9,52 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div>
-              <div class="form-group">
+        <div class="row">
+              <div class="col-sm-6">
+ <div class="form-group">
  <label class="control-label"  for="field_id">Id</label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.entrepot.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
  </div>
- <div class="form-group">
- <label class="control-label"  for="field_libelle">Libelle <span style="color:red" >*</span></label>
-  <input  class="form-control"   type="text"  autocomplete="off"   id="field_libelle" ng-model="vm.entrepot.libelle"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
  </div>
- <div class="form-group">
- <label class="control-label"  for="field_localisation">Localisation <span style="color:red" >*</span></label>
-  <input  class="form-control"   type="text"  autocomplete="off"   id="field_localisation" ng-model="vm.entrepot.localisation"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
- </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_capactite">Capactite</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_capactite" ng-model="vm.entrepot.capactite"                     ng-readonly="false"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_type">Type <span style="color:red" >*</span></label>
  <select class="form-control" name="type"  ng-model="vm.entrepot.type"  id="field_type" required>
 <option value="ACHAT">ACHAT</option>
 <option value="VENTE">VENTE</option>
-<option value="PRODUCTION">PRODUCTION</option>
 <option value="STOCKAGE">STOCKAGE</option>
 <option value="FOURNISSEURS">FOURNISSEURS</option>
 <option value="CONSUMMABLE">CONSUMMABLE</option>
             </select>
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_responsable">Responsable</label>
-  <select class="form-control" name="responsable"  ng-model="vm.entrepot.responsable"  id="field_responsable" ng-options="responsable as responsable.id for responsable in vm.responsables track by responsable.id" >
-                <option value=""></option>
-            </select>
+ <div class="input-group">
+                        <ui-select ng-model="vm.entrepot.responsable"    ng-required="false">
+                            <ui-select-match placeholder="Select Employe">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="responsable in vm.responsables | filter: $select.search">
+                                <div ng-bind-html="responsable.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Employe','employe','responsable', vm.entrepot.responsable)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.entrepot.responsable">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Employe', 'employe','responsable', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.entrepot.responsable">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
  </div>
 
         </div>

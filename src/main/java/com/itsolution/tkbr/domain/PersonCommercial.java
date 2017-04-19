@@ -5,7 +5,7 @@
  */
 package com.itsolution.tkbr.domain;
 
-import com.itsolution.tkbr.service.util.Image;
+import com.itsolution.tkbr.service.template.Image;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

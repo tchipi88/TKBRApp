@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.client', null, {reload: 'app.client'});
+                        $state.go('client', null, {reload: 'client'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.client', null, {reload: 'app.client'});
+                        $state.go('client', null, {reload: 'client'});
                         }, function () {
                         $state.go('^');
                         });

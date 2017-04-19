@@ -24,16 +24,44 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_fournisseur">Fournisseur <span style="color:red" >*</span></label>
-  <select class="form-control" name="fournisseur"  ng-model="vm.produitFournisseur.fournisseur"  id="field_fournisseur" ng-options="fournisseur as fournisseur.id for fournisseur in vm.fournisseurs track by fournisseur.id" required>
-                <option value=""></option>
-            </select>
- </div>
+ <div class="input-group">
+                        <ui-select ng-model="vm.produitFournisseur.fournisseur"    ng-required="true">
+                            <ui-select-match placeholder="Select Fournisseur">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="fournisseur in vm.fournisseurs | filter: $select.search">
+                                <div ng-bind-html="fournisseur.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Fournisseur','fournisseur','fournisseur', vm.produitFournisseur.fournisseur)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.produitFournisseur.fournisseur">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Fournisseur', 'fournisseur','fournisseur', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.produitFournisseur.fournisseur">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
  <div class="form-group">
  <label class="control-label"  for="field_produit">Produit <span style="color:red" >*</span></label>
-  <select class="form-control" name="produit"  ng-model="vm.produitFournisseur.produit"  id="field_produit" ng-options="produit as produit.id for produit in vm.produits track by produit.id" required>
-                <option value=""></option>
-            </select>
- </div>
+ <div class="input-group">
+                        <ui-select ng-model="vm.produitFournisseur.produit"    ng-required="true">
+                            <ui-select-match placeholder="Select Produit">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-choices repeat="produit in vm.produits | filter: $select.search">
+                                <div ng-bind-html="produit.id | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Produit','produit','produit', vm.produitFournisseur.produit)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.produitFournisseur.produit">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Produit', 'produit','produit', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.produitFournisseur.produit">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
 
         </div>
        

@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
 
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
-import com.itsolution.tkbr.repository.search.ProduitFournisseurSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -41,11 +36,9 @@ public class ProduitFournisseurResource {
         
     private final ProduitFournisseurRepository produitFournisseurRepository;
 
-    private final ProduitFournisseurSearchRepository produitFournisseurSearchRepository;
 
-    public ProduitFournisseurResource(ProduitFournisseurRepository produitFournisseurRepository, ProduitFournisseurSearchRepository produitFournisseurSearchRepository) {
+    public ProduitFournisseurResource(ProduitFournisseurRepository produitFournisseurRepository) {
         this.produitFournisseurRepository = produitFournisseurRepository;
-        this.produitFournisseurSearchRepository = produitFournisseurSearchRepository;
     }
 
     /**
@@ -63,7 +56,6 @@ public class ProduitFournisseurResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new produitFournisseur cannot already have an ID")).body(null);
         }
         ProduitFournisseur result = produitFournisseurRepository.save(produitFournisseur);
-        produitFournisseurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/produit-fournisseurs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,7 +78,6 @@ public class ProduitFournisseurResource {
             return createProduitFournisseur(produitFournisseur);
         }
         ProduitFournisseur result = produitFournisseurRepository.save(produitFournisseur);
-        produitFournisseurSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, produitFournisseur.getId().toString()))
             .body(result);
@@ -131,25 +122,9 @@ public class ProduitFournisseurResource {
     public ResponseEntity<Void> deleteProduitFournisseur(@PathVariable Long id) {
         log.debug("REST request to delete ProduitFournisseur : {}", id);
         produitFournisseurRepository.delete(id);
-        produitFournisseurSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/produit-fournisseurs?query=:query : search for the produitFournisseur corresponding
-     * to the query.
-     *
-     * @param query the query of the produitFournisseur search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/produit-fournisseurs")
-    @Timed
-    public List<ProduitFournisseur> searchProduitFournisseurs(@RequestParam String query) {
-        log.debug("REST request to search ProduitFournisseurs for query {}", query);
-        return StreamSupport
-            .stream(produitFournisseurSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-
+  
 
 }

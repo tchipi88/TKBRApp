@@ -105,12 +105,12 @@ jhipster:
 
 application:
       tkbr :
-          nom:
-          telephonePortable :
+          nom:  TKBR
+          telephonePortable :  679994949
           telephoneFixe:
           email:
           siteWeb:
           boitePostale:
-          adresse:
+          adresse:  Mboppi
        
       

@@ -25,17 +25,10 @@ public class MouvementStockService {
     @Autowired
     EntrepotProduitRepository entrepotProduitRepository;
 
-    public MouvementStock save( MouvementStock ms) throws Exception {
-        createMvtStock(ms, true);
-        return ms;
-    }
-
-    public MouvementStock update( MouvementStock ms) throws Exception {
-        throw new Exception("Mise à jour des mouvements stocks interdites");
-    }
-
-    @Transactional
-    public void createMvtStock(MouvementStock ms, boolean verifstockfournisseur) throws Exception {
+  
+    @Transactional(readOnly = true)
+    public MouvementStock save(MouvementStock ms, boolean verifstockfournisseur) throws Exception {
+        if(ms.getId()!=null) throw new Exception("Mise à jour des mouvements stocks interdites");
         EntrepotProduit ep = entrepotProduitRepository.findByProduitAndEntrepot(ms.getProduit(), ms.getEntrepotDepart());
         if (ep == null) {
             ep = new EntrepotProduit();
@@ -45,7 +38,7 @@ public class MouvementStockService {
             ep.setSeuilAlerte(Float.valueOf("0"));
             entrepotProduitRepository.save(ep);
         } else if (verifstockfournisseur && ep.getStockTheorique() < ms.getQuantite()) {
-            throw new Exception("Quantité sortie excède la quantité disponible dans le stock!!!");
+            throw new Exception("Qte "+ms.getProduit().getDenomination()+" à sortir excède la quantité disponible dans le stock!!!");
         }
 
         ms.setStockEntrepotDepart(ep.getStockTheorique());
@@ -61,7 +54,7 @@ public class MouvementStockService {
         }
 
         ms.setStockEntrepotDestination(ep1.getStockTheorique());
-        mouvementStockRepository.save(ms);
+        return mouvementStockRepository.save(ms);
     }
 
 }

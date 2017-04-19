@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.reglement', null, {reload: 'app.reglement'});
+                        $state.go('reglement', null, {reload: 'reglement'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.reglement', null, {reload: 'app.reglement'});
+                        $state.go('reglement', null, {reload: 'reglement'});
                         }, function () {
                         $state.go('^');
                         });

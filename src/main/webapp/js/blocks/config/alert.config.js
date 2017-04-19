@@ -9,6 +9,6 @@
 
     function alertServiceConfig(AlertServiceProvider) {
         // set below to true to make alerts look like toast
-        AlertServiceProvider.showAsToast(true);
+        AlertServiceProvider.showAsToast(false);
     }
 })();

@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.employe-fonction', null, {reload: 'app.employe-fonction'});
+                        $state.go('employe-fonction', null, {reload: 'employe-fonction'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.employe-fonction', null, {reload: 'app.employe-fonction'});
+                        $state.go('employe-fonction', null, {reload: 'employe-fonction'});
                         }, function () {
                         $state.go('^');
                         });

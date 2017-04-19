@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
+                        $state.go('produit-categorie', null, {reload: 'produit-categorie'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.produit-categorie', null, {reload: 'app.produit-categorie'});
+                        $state.go('produit-categorie', null, {reload: 'produit-categorie'});
                         }, function () {
                         $state.go('^');
                         });

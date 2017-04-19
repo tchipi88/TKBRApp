@@ -5,9 +5,9 @@
         .module('app')
         .controller('CaisseClotureDialogController', CaisseClotureDialogController);
 
-    CaisseClotureDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'CaisseCloture','Caisse'];
+    CaisseClotureDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'CaisseCloture','Caisse'];
 
-    function CaisseClotureDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, CaisseCloture ,Caisse) {
+    function CaisseClotureDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, CaisseCloture ,Caisse) {
         var vm = this;
 
         vm.caisseCloture = entity;
@@ -56,6 +56,39 @@
          function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+        
+         vm.setMimage = function ($file, fieldName) {
+                if ($file && $file.$error === 'pattern') {
+                    return;
+                }
+                if ($file) {
+                    DataUtils.toBase64($file, function (base64Data) {
+                        $scope.$apply(function () {
+                            vm.caisseCloture[fieldName] = base64Data;
+                            vm.caisseCloture[fieldName + 'ContentType'] = $file.type;
+                        });
+                    });
+                }
+            };
+            
+            vm.zoomColumn = function (lookupCtrl,lookupTemplate, fieldname, entity) {
+                $uibModal.open({
+                    templateUrl: 'tpl/entities/'+lookupTemplate+'/'+lookupTemplate+'-dialog.html',
+                    controller: lookupCtrl+'DialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return entity;
+                        }
+                    }
+                }).result.then(function(item) {
+                        vm.caisseCloture[fieldname] = item;
+                }, function() {
+                    
+                });
+            };
 
     }
 })();

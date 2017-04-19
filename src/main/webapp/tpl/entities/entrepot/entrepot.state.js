@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.entrepot', null, {reload: 'app.entrepot'});
+                        $state.go('entrepot', null, {reload: 'entrepot'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.entrepot', null, {reload: 'app.entrepot'});
+                        $state.go('entrepot', null, {reload: 'entrepot'});
                         }, function () {
                         $state.go('^');
                         });

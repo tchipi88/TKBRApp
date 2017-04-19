@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.encaissement', null, {reload: 'app.encaissement'});
+                        $state.go('encaissement', null, {reload: 'encaissement'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.encaissement', null, {reload: 'app.encaissement'});
+                        $state.go('encaissement', null, {reload: 'encaissement'});
                         }, function () {
                         $state.go('^');
                         });

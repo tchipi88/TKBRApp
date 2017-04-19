@@ -5,9 +5,9 @@
         .module('app')
         .controller('CommandeDetailController', CommandeDetailController);
 
-    CommandeDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Commande' ];
+    CommandeDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Commande' ,'Fournisseur','Employe','Client'];
 
-    function CommandeDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Commande ) {
+    function CommandeDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Commande ,Fournisseur,Employe,Client) {
         var vm = this;
 
         vm.commande = entity;

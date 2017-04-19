@@ -1,5 +1,6 @@
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.service.util.ReadOnly;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.Formula;
 @Entity
 @Table(name = "commande_ligne")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class CommandeLigne extends AbstractAuditingEntity{
+public class CommandeLigne extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +30,14 @@ public class CommandeLigne extends AbstractAuditingEntity{
     @NotNull
     private Float quantite;
 
-    @Column(name = "prix_unitaire", precision=10, scale=2)
+    private Float quantiteLivree;
+
+
+    @Column(name = "prix_unitaire", precision = 10, scale = 2)
+    @ReadOnly
     private BigDecimal prixUnitaire;
-    
-    @Formula("prixUnitaire*quantite")
+
+    @Formula("prix_unitaire*quantite")
     private BigDecimal sousTotal;
 
     @ManyToOne(optional = false)
@@ -43,6 +48,17 @@ public class CommandeLigne extends AbstractAuditingEntity{
     @NotNull
     private Produit produit;
 
+    public Float getQuantiteLivree() {
+        return quantiteLivree;
+    }
+
+    public void setQuantiteLivree(Float quantiteLivree) {
+        this.quantiteLivree = quantiteLivree;
+    }
+
+   
+    
+    
     public Long getId() {
         return id;
     }
@@ -58,8 +74,6 @@ public class CommandeLigne extends AbstractAuditingEntity{
     public void setQuantite(Float quantite) {
         this.quantite = quantite;
     }
-
-  
 
     public BigDecimal getPrixUnitaire() {
         return prixUnitaire;
@@ -107,8 +121,6 @@ public class CommandeLigne extends AbstractAuditingEntity{
     public void setSousTotal(BigDecimal sousTotal) {
         this.sousTotal = sousTotal;
     }
-    
-    
 
     @Override
     public boolean equals(Object o) {
@@ -132,10 +144,10 @@ public class CommandeLigne extends AbstractAuditingEntity{
 
     @Override
     public String toString() {
-        return "CommandeLigne{" +
-            "id=" + id +
-            ", quantite='" + quantite + "'" +
-            ", prixUnitaire='" + prixUnitaire + "'" +
-            '}';
+        return "CommandeLigne{"
+                + "id=" + id
+                + ", quantite='" + quantite + "'"
+                + ", prixUnitaire='" + prixUnitaire + "'"
+                + '}';
     }
 }

@@ -5,9 +5,9 @@
         .module('app')
         .controller('EmployeFonctionController', EmployeFonctionController);
 
-    EmployeFonctionController.$inject = ['$state', 'DataUtils', 'EmployeFonction', 'EmployeFonctionSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    EmployeFonctionController.$inject = ['$state', 'DataUtils', 'EmployeFonction',  'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function EmployeFonctionController($state, DataUtils, EmployeFonction, EmployeFonctionSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function EmployeFonctionController($state, DataUtils, EmployeFonction,  ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -17,30 +17,18 @@
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.clear = clear;
-        vm.search = search;
         vm.loadAll = loadAll;
-        vm.searchQuery = pagingParams.search;
-        vm.currentSearch = pagingParams.search;
         vm.openFile = DataUtils.openFile;
         vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 
         function loadAll () {
-            if (pagingParams.search) {
-                EmployeFonctionSearch.query({
-                    query: pagingParams.search,
-                    page: pagingParams.page - 1,
-                    size: vm.itemsPerPage,
-                    sort: sort()
-                }, onSuccess, onError);
-            } else {
                 EmployeFonction.query({
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
                     sort: sort()
                 }, onSuccess, onError);
-            }
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
                 if (vm.predicate !== 'id') {
@@ -69,28 +57,16 @@
             $state.transitionTo($state.$current, {
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
-                search: vm.currentSearch
             });
         }
 
-        function search(searchQuery) {
-            if (!searchQuery){
-                return vm.clear();
-            }
-            vm.links = null;
-            vm.page = 1;
-            vm.predicate = '_score';
-            vm.reverse = false;
-            vm.currentSearch = searchQuery;
-            vm.transition();
-        }
+       
 
         function clear() {
             vm.links = null;
             vm.page = 1;
             vm.predicate = 'id';
             vm.reverse = true;
-            vm.currentSearch = null;
             vm.transition();
         }
     }

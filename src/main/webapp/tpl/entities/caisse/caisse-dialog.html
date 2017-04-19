@@ -16,13 +16,27 @@
  </div>
  <div class="form-group">
  <label class="control-label"  for="field_gerant">Gerant</label>
-  <select class="form-control" name="gerant"  ng-model="vm.caisse.gerant"  id="field_gerant" ng-options="gerant as gerant.id for gerant in vm.gerants track by gerant.id" >
-                <option value=""></option>
-            </select>
- </div>
+ <div class="input-group">
+                        <ui-select ng-model="vm.caisse.gerant"    ng-required="false">
+                            <ui-select-match placeholder="Select Employe">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="gerant in vm.gerants | filter: $select.search">
+                                <div ng-bind-html="gerant.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Employe','employe','gerant', vm.caisse.gerant)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.caisse.gerant">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Employe', 'employe','gerant', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.caisse.gerant">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
  <div class="form-group">
- <label class="control-label"  for="field_etatCaisse">Etat Caisse</label>
- <select class="form-control" name="etatCaisse"  ng-model="vm.caisse.etatCaisse"  id="field_etatCaisse" >
+ <label class="control-label"  for="field_etat">Etat</label>
+ <select class="form-control" name="etat"  ng-model="vm.caisse.etat"  id="field_etat" >
 <option value="FERME">FERME</option>
 <option value="OUVERT">OUVERT</option>
             </select>

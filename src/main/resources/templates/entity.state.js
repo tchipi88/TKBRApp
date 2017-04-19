@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.[(${entity_url})]', null, {reload: 'app.[(${entity_url})]'});
+                        $state.go('[(${entity_url})]', null, {reload: '[(${entity_url})]'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.[(${entity_url})]', null, {reload: 'app.[(${entity_url})]'});
+                        $state.go('[(${entity_url})]', null, {reload: '[(${entity_url})]'});
                         }, function () {
                         $state.go('^');
                         });

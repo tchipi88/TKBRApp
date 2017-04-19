@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.commande-ligne', null, {reload: 'app.commande-ligne'});
+                        $state.go('commande-ligne', null, {reload: 'commande-ligne'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.commande-ligne', null, {reload: 'app.commande-ligne'});
+                        $state.go('commande-ligne', null, {reload: 'commande-ligne'});
                         }, function () {
                         $state.go('^');
                         });

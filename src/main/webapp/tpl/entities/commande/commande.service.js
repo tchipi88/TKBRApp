@@ -17,6 +17,8 @@
                     if (data) {
                         data = angular.fromJson(data);
                           data.dateEmission =DateUtils.convertLocalDateFromServer(data.dateEmission);
+ data.dateLivraison =DateUtils.convertLocalDateFromServer(data.dateLivraison);
+ data.dateEcheance =DateUtils.convertLocalDateFromServer(data.dateEcheance);
 
                     }
                     return data;
@@ -27,6 +29,8 @@
                 transformRequest: function (data) {
                     var copy = angular.copy(data);
                      copy.dateEmission =DateUtils.convertLocalDateToServer(copy.dateEmission);
+ copy.dateLivraison =DateUtils.convertLocalDateToServer(copy.dateLivraison);
+ copy.dateEcheance =DateUtils.convertLocalDateToServer(copy.dateEcheance);
 
                     return angular.toJson(copy);
                 }
@@ -36,6 +40,8 @@
                 transformRequest: function (data) {
                     var copy = angular.copy(data);
                      copy.dateEmission =DateUtils.convertLocalDateToServer(copy.dateEmission);
+ copy.dateLivraison =DateUtils.convertLocalDateToServer(copy.dateLivraison);
+ copy.dateEcheance =DateUtils.convertLocalDateToServer(copy.dateEcheance);
 
                     return angular.toJson(copy);
                 }

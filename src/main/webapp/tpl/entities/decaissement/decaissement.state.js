@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.decaissement', null, {reload: 'app.decaissement'});
+                        $state.go('decaissement', null, {reload: 'decaissement'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.decaissement', null, {reload: 'app.decaissement'});
+                        $state.go('decaissement', null, {reload: 'decaissement'});
                         }, function () {
                         $state.go('^');
                         });

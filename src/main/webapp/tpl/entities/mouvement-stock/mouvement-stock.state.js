@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.mouvement-stock', null, {reload: 'app.mouvement-stock'});
+                        $state.go('mouvement-stock', null, {reload: 'mouvement-stock'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.mouvement-stock', null, {reload: 'app.mouvement-stock'});
+                        $state.go('mouvement-stock', null, {reload: 'mouvement-stock'});
                         }, function () {
                         $state.go('^');
                         });
