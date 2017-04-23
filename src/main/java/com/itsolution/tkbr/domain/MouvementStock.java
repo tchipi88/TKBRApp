@@ -1,6 +1,7 @@
 package com.itsolution.tkbr.domain;
 
 import com.itsolution.tkbr.service.util.ReadOnly;
+import java.time.LocalDate;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -28,7 +29,7 @@ public class MouvementStock extends AbstractAuditingEntity {
 
     @NotNull
     @Column(name = "date_transaction", nullable = false)
-    private ZonedDateTime dateTransaction;
+    private LocalDate dateTransaction;
 
     @Lob
     @Column(name = "motif_transaction")
@@ -49,13 +50,13 @@ public class MouvementStock extends AbstractAuditingEntity {
     @Column
     @ReadOnly
     private Float stockEntrepotDepart;
-    @Formula("stock-entrepot-depart-quantite")
+    @Formula("stock_entrepot_depart-quantite")
     private Float stockFinalEntrepotDepart;
 
     @Column
     @ReadOnly
     private Float stockEntrepotDestination;
-    @Formula("stock-entrepot-destination+quantite")
+    @Formula("stock_entrepot_destination+quantite")
     private Float stockFinalEntrepotDestination;
 
     public Float getStockEntrepotDepart() {
@@ -106,11 +107,11 @@ public class MouvementStock extends AbstractAuditingEntity {
         this.quantite = quantite;
     }
 
-    public ZonedDateTime getDateTransaction() {
+    public LocalDate getDateTransaction() {
         return dateTransaction;
     }
 
-    public void setDateTransaction(ZonedDateTime dateTransaction) {
+    public void setDateTransaction(LocalDate dateTransaction) {
         this.dateTransaction = dateTransaction;
     }
 

@@ -1,0 +1,123 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myLocationLabel" >Créer ou modifier  Location</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id</label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.location.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_type">Type <span style="color:red" >*</span></label>
+                    <select class="form-control" name="type"  ng-model="vm.location.type"  id="field_type" required>
+                        <option value="COMMERCIAL">COMMERCIAL</option>
+                        <option value="HABITATION">HABITATION</option>
+                        <option value="SAISONNIER">SAISONNIER</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_locataire">Locataire <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.location.locataire"    ng-required="true">
+                            <ui-select-match placeholder="Select Client">{{$select.selected.nom}}</ui-select-match>
+                            <ui-select-choices repeat="locataire in vm.locataires | filter: $select.search">
+                                <div ng-bind-html="locataire.nom | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Client', 'client', 'locataire', vm.location.locataire)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.location.locataire">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Client', 'client', 'locataire', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.location.locataire">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_local">Local <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <ui-select ng-model="vm.location.local"    ng-required="true">
+                            <ui-select-match placeholder="Select Local">{{$select.selected.denomination}}</ui-select-match>
+                            <ui-select-choices repeat="local in vm.locals | filter: $select.search">
+                                <div ng-bind-html="local.denomination | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Local', 'local', 'local', vm.location.local)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.location.local">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Local', 'local', 'local', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.location.local">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>
+                    </div> </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_dateDebut">Date Debut <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <input  id="field_dateDebut" type="text" class="form-control" name="dateDebut"    ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.location.dateDebut"  is-open="vm.datePickerOpenStatus.dateDebut"
+                                />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateDebut')"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_dateFin">Date Fin <span style="color:red" >*</span></label>
+                    <div class="input-group">
+                        <input  id="field_dateFin" type="text" class="form-control" name="dateFin" minDate="vm.location.dateDebut"   ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.location.dateFin"  is-open="vm.datePickerOpenStatus.dateFin"
+                                />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateFin')"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_montantLoyer">Montant Loyer <span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantLoyer" ng-model="vm.location.montantLoyer"                     ng-readonly="false"  ng-required="true"                     />
+                </div>
+            </div>
+           
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_montantDepotGarantie">Montant Depot Garantie</label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantDepotGarantie" ng-model="vm.location.montantDepotGarantie"                     ng-readonly="false"  ng-required="false"                     />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

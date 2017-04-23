@@ -36,6 +36,7 @@ public class MouvementStockService {
             ep.setEntrepot(ms.getEntrepotDepart());
             ep.setStockTheorique(Float.valueOf("0"));
             ep.setSeuilAlerte(Float.valueOf("0"));
+            ep.setSeuilSurStockage(Float.valueOf("0"));
             entrepotProduitRepository.save(ep);
         } else if (verifstockfournisseur && ep.getStockTheorique() < ms.getQuantite()) {
             throw new Exception("Qte "+ms.getProduit().getDenomination()+" à sortir excède la quantité disponible dans le stock!!!");
@@ -50,6 +51,7 @@ public class MouvementStockService {
             ep1.setEntrepot(ms.getEntrepotDestination());
             ep1.setStockTheorique(Float.valueOf("0"));
             ep1.setSeuilAlerte(Float.valueOf("0"));
+            ep1.setSeuilSurStockage(Float.valueOf("0"));
             entrepotProduitRepository.save(ep1);
         }
 

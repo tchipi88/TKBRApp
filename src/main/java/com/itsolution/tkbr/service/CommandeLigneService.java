@@ -59,6 +59,8 @@ public class CommandeLigneService {
         commandeLigneRepository.save(cl);
         BigDecimal prix = cl.getPrixUnitaire().multiply(BigDecimal.valueOf(cl.getQuantite()));
         c.setPrixHT(c.getPrixHT() != null ? c.getPrixHT().add(prix) : prix);
+        Long coefTva = (app.getTkbr().getTva() + 100) / 100;
+        c.setPrixTTC(c.getPrixHT().multiply(BigDecimal.valueOf(coefTva)));
         commandeRepository.save(c);
         return cl;
     }
@@ -78,6 +80,8 @@ public class CommandeLigneService {
         commandeLigneRepository.save(cl);
         prix = cl.getPrixUnitaire().multiply(BigDecimal.valueOf(cl.getQuantite()));
         c.setPrixHT(c.getPrixHT() != null ? c.getPrixHT().add(prix) : prix);
+        Long coefTva = (app.getTkbr().getTva() + 100) / 100;
+        c.setPrixTTC(c.getPrixHT().multiply(BigDecimal.valueOf(coefTva)));
         commandeRepository.save(c);
         return cl;
     }

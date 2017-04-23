@@ -6,11 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
 
 /**
  * A Fournisseur.
@@ -18,7 +15,11 @@ import java.util.Objects;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "fournisseur")
-public class Fournisseur extends PersonCommercial {
+public class Fournisseur extends Tiers {
+
+    @OneToOne(mappedBy = "fournisseur")
+    @JsonIgnore
+    private CompteAnalytiqueFournisseur compte;
 
     @OneToMany(mappedBy = "fournisseur")
     @JsonIgnore
@@ -33,5 +34,12 @@ public class Fournisseur extends PersonCommercial {
         this.produits = produits;
     }
 
-   
+    public CompteAnalytiqueFournisseur getCompte() {
+        return compte;
+    }
+
+    public void setCompte(CompteAnalytiqueFournisseur compte) {
+        this.compte = compte;
+    }
+
 }

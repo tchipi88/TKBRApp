@@ -14,7 +14,12 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="dateMouvement"><span >Date Mouvement</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateVersement"><span >Date Versement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="modePaiement"><span >Mode Paiement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th>
+
                         <th >
                             <button class="btn btn-primary" ui-sref="encaissement.new"   tooltip="Créer Encaissement">
                                 <i class="fa fa-plus">
@@ -26,10 +31,11 @@
                 <tbody>
                     <tr ng-repeat="encaissement in vm.encaissements track by encaissement.id">
                         <td><a ui-sref="encaissement-detail({id:encaissement.id})">{{encaissement.id}}</a></td>
-                         <td>{{encaissement.motif}}</td>
- <td>{{encaissement.caisse.id}}</td>
- <td>{{encaissement.dateMouvement | date:'mediumDate'}}</td>
+                         <td>{{encaissement.caisse.id}}</td>
+ <td>{{encaissement.dateVersement | date:'mediumDate'}}</td>
  <td>{{encaissement.montant | number }}</td>
+ <td>{{encaissement.modePaiement}}</td>
+ <td>{{encaissement.motif}}</td>
 
                         <td >
 

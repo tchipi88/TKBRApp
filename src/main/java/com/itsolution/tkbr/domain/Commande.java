@@ -19,7 +19,6 @@ import java.util.Objects;
  * A Commande.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Commande extends AbstractAuditingEntity {
 

@@ -49,7 +49,7 @@
         }
 
 
-         vm.datePickerOpenStatus.dateMouvement = false;
+         vm.datePickerOpenStatus.dateVersement = false;
 
         
          function openCalendar (date) {

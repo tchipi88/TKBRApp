@@ -9,18 +9,17 @@ import com.itsolution.tkbr.config.ApplicationProperties;
 import com.itsolution.tkbr.domain.Client;
 import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.CommandeLigne;
+import com.itsolution.tkbr.domain.Compte;
 import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
 import com.itsolution.tkbr.domain.enumeration.EntrepotType;
-import com.itsolution.tkbr.domain.enumeration.EtatCommande;
 import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
 import com.itsolution.tkbr.repository.CommandeRepository;
+import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,33 +53,19 @@ public class CommandeService {
 
     @Autowired
     FournisseurRepository fournisseurRepository;
-    
+
     @Autowired
     CommandeLigneRepository commandeLigneRepository;
+
+    @Autowired
+    CompteRepository compteRepository;
+    @Autowired
+    CompteService cs;
 
     public Commande create(Commande commande) throws Exception {
 
         switch (commande.getType()) {
             case ACHAT: {
-                if (EtatCommande.BON_LIVRAISON.equals(commande.getEtat())) {
-                    //mouvement stock
-                    for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
-                        MouvementStock ms = new MouvementStock();
-                        ms.setDateTransaction(commande.getDateEmission().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()));
-                        ms.setQuantite(cl.getQuantite());
-                        ms.setProduit(cl.getProduit());
-
-                        ms.setMotifTransaction(EntrepotType.ACHAT.name());
-                        //set price
-                        ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
-                        cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
-                        ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.FOURNISSEURS));
-                        ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.ACHAT));
-
-                        mouvementStockService.save(ms, false);
-                    }
-                }
-
                 //set client 
                 Client c = clientRepository.findByNom(applicationProperties.getTkbr().getNom());
                 if (c == null) {
@@ -97,23 +82,7 @@ public class CommandeService {
             }
             case VENTE: {
 
-                if (EtatCommande.BON_COMMANDE.equals(commande.getEtat())) {
-                    //mouvement stock
-                    for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
-                        MouvementStock ms = new MouvementStock();
-                        ms.setDateTransaction(commande.getDateEmission().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()));
-                        ms.setQuantite(cl.getQuantite());
-                        ms.setProduit(cl.getProduit());
-
-                        ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.ACHAT));
-                        ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.VENTE));
-                        ms.setMotifTransaction(EntrepotType.VENTE.name());
-
-                        mouvementStockService.save(ms, true);
-                    }
-                }
-
-                //set client 
+                //set fournisseur 
                 Fournisseur c = fournisseurRepository.findByNom(applicationProperties.getTkbr().getNom());
                 if (c == null) {
                     c = new Fournisseur();
@@ -133,51 +102,84 @@ public class CommandeService {
 
         return commandeRepository.save(commande);
     }
+
     public Commande update(Commande commande) throws Exception {
 
         switch (commande.getType()) {
             case ACHAT: {
-                if (EtatCommande.BON_LIVRAISON.equals(commande.getEtat())) {
-                    //mouvement stock
-                    for (CommandeLigne cl : commande.getCommandeLignes()) {
-                        MouvementStock ms = new MouvementStock();
-                        ms.setDateTransaction(commande.getDateEmission().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()));
-                        ms.setQuantite(cl.getQuantite());
-                        ms.setProduit(cl.getProduit());
+                switch (commande.getEtat()) {
+                    case BON_LIVRAISON: {
+                        //mouvement stock
+                        for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
+                            MouvementStock ms = new MouvementStock();
+                            ms.setDateTransaction(commande.getDateEmission());
+                            ms.setQuantite(cl.getQuantite());
+                            ms.setProduit(cl.getProduit());
 
-                        ms.setMotifTransaction(EntrepotType.ACHAT.name());
-                        //set price
-                        ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
-                        cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
-                        ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.FOURNISSEURS));
-                        ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.ACHAT));
+                            ms.setMotifTransaction(EntrepotType.ACHAT.name());
+                            //set price
+                            ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
+                            cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
+                            ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.FOURNISSEURS));
+                            ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.ACHAT));
 
-                        mouvementStockService.save(ms, false);
+                            mouvementStockService.save(ms, false);
+                        }
+                        break;
+                    }
+                    case FACTUREE: {
+                        Compte compteAchat = cs.getCompteAchat();
+                        Compte compteFournisseurs = cs.getCompteFournisseurs();
+                        Compte compteTVADeductible = cs.getCompteTVADeductible();
+
+                        compteAchat.setDebit(commande.getPrixHT().add(compteAchat.getDebit()));
+                        compteFournisseurs.setCredit(commande.getPrixTTC().add(compteFournisseurs.getCredit()));
+                        compteTVADeductible.setDebit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVADeductible.getDebit()));
+
+                        compteRepository.save(compteAchat);
+                        compteRepository.save(compteFournisseurs);
+                        compteRepository.save(compteTVADeductible);
+                        break;
                     }
                 }
 
-              
                 break;
             }
             case VENTE: {
 
-                if (EtatCommande.BON_COMMANDE.equals(commande.getEtat())) {
-                    //mouvement stock
-                    for (CommandeLigne cl : commande.getCommandeLignes()) {
-                        MouvementStock ms = new MouvementStock();
-                        ms.setDateTransaction(commande.getDateEmission().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()));
-                        ms.setQuantite(cl.getQuantite());
-                        ms.setProduit(cl.getProduit());
+                switch (commande.getEtat()) {
+                    case FACTUREE: {
+                        Compte compteClient = cs.getCompteClient();
+                        Compte compteVente = cs.getCompteVente();
+                        Compte compteTVACollecte = cs.getCompteTVACollecte();
 
-                        ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.ACHAT));
-                        ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.VENTE));
-                        ms.setMotifTransaction(EntrepotType.VENTE.name());
+                        compteClient.setDebit(commande.getPrixTTC().add(compteClient.getDebit()));
+                        compteVente.setCredit(commande.getPrixHT().add(compteVente.getCredit()));
+                        compteTVACollecte.setCredit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVACollecte.getCredit()));
 
-                        mouvementStockService.save(ms, true);
+                        compteRepository.save(compteClient);
+                        compteRepository.save(compteVente);
+                        compteRepository.save(compteTVACollecte);
+                        break;
+                    }
+                    case BON_COMMANDE: {
+                        //mouvement stock
+                        for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
+                            MouvementStock ms = new MouvementStock();
+                            ms.setDateTransaction(commande.getDateEmission());
+                            ms.setQuantite(cl.getQuantite());
+                            ms.setProduit(cl.getProduit());
+
+                            ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.ACHAT));
+                            ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.VENTE));
+                            ms.setMotifTransaction(EntrepotType.VENTE.name());
+
+                            mouvementStockService.save(ms, true);
+                        }
+                        break;
                     }
                 }
 
-               
                 break;
             }
             default: {

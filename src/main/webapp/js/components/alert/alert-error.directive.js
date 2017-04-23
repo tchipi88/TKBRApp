@@ -77,7 +77,7 @@
 
                 default:
                     if (httpResponse.data && httpResponse.data.message) {
-                        addErrorAlert(httpResponse.data.message);
+                        addErrorAlert(httpResponse.data.description);
                     } else {
                         addErrorAlert(angular.toJson(httpResponse));
                     }

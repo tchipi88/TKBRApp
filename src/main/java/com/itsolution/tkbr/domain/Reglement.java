@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import com.itsolution.tkbr.domain.enumeration.ReglementMode;
+import com.itsolution.tkbr.domain.enumeration.PaymentMode;
 
 import com.itsolution.tkbr.domain.enumeration.ReglementEtat;
 
@@ -38,8 +38,7 @@ public class Reglement extends AbstractAuditingEntity{
     private LocalDate dateVersement;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "mode")
-    private ReglementMode mode;
+    private PaymentMode mode;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "etat")
@@ -83,16 +82,16 @@ public class Reglement extends AbstractAuditingEntity{
         this.dateVersement = dateVersement;
     }
 
-    public ReglementMode getMode() {
+    public PaymentMode getMode() {
         return mode;
     }
 
-    public Reglement mode(ReglementMode mode) {
+    public Reglement mode(PaymentMode mode) {
         this.mode = mode;
         return this;
     }
 
-    public void setMode(ReglementMode mode) {
+    public void setMode(PaymentMode mode) {
         this.mode = mode;
     }
 

@@ -65,6 +65,9 @@ public class CacheConfiguration {
             cm.createCache(com.itsolution.tkbr.domain.Reglement.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Unite.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.EmployeDepartement.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.CompteAnalytiqueClient.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Local.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

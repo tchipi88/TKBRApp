@@ -14,7 +14,12 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="dateMouvement"><span >Date Mouvement</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="caisse"><span >Caisse</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="dateVersement"><span >Date Versement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="montant"><span >Montant</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="modePaiement"><span >Mode Paiement</span> <span class="fa fa-sort"></span></th>
+ <th jh-sort-by="motif"><span >Motif</span> <span class="fa fa-sort"></span></th>
+
                         <th >
                             <button class="btn btn-primary" ui-sref="decaissement.new"   tooltip="Créer Decaissement">
                                 <i class="fa fa-plus">
@@ -26,10 +31,11 @@
                 <tbody>
                     <tr ng-repeat="decaissement in vm.decaissements track by decaissement.id">
                         <td><a ui-sref="decaissement-detail({id:decaissement.id})">{{decaissement.id}}</a></td>
-                         <td>{{decaissement.motif}}</td>
- <td>{{decaissement.caisse.id}}</td>
- <td>{{decaissement.dateMouvement | date:'mediumDate'}}</td>
+                         <td>{{decaissement.caisse.id}}</td>
+ <td>{{decaissement.dateVersement | date:'mediumDate'}}</td>
  <td>{{decaissement.montant | number }}</td>
+ <td>{{decaissement.modePaiement}}</td>
+ <td>{{decaissement.motif}}</td>
 
                         <td >
 

@@ -35,7 +35,7 @@ public class CompteService {
     }
 
     public Compte getCompteClient() throws Exception {
-        return getCompte(411, "Client");
+        return getCompte(41, "Client");
     }
 
     public Compte getCompteVente() throws Exception {
@@ -43,7 +43,7 @@ public class CompteService {
     }
 
     public Compte getCompteTVACollecte() throws Exception {
-        return getCompte(44571, "TVA collectée");
+        return getCompte(443, "TVA collectée");
     }
 
     public Compte getCompteAchat() throws Exception {
@@ -51,11 +51,19 @@ public class CompteService {
     }
 
     public Compte getCompteTVADeductible() throws Exception {
-        return getCompte(44566, "TVA déductible");
+        return getCompte(445 , "TVA déductible");
     }
 
     public Compte getCompteFournisseurs() throws Exception {
-        return getCompte(401, "Fournisseurs");
+        return getCompte(40, "Fournisseurs");
+    }
+
+    public Compte getCompteCaisse() throws Exception {
+        return getCompte(57, "Caisse");
+    }
+
+    public Compte getCompteBanque() throws Exception {
+        return getCompte(52, "Banque");
     }
 
 }

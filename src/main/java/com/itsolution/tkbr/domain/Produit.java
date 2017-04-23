@@ -19,6 +19,7 @@ import com.itsolution.tkbr.service.template.Libelle;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "produit")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Produit extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;

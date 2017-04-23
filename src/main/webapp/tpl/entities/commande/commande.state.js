@@ -108,7 +108,7 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-
+                                           etat :'DEVIS'
                                         };
                                     },
                                    commandeLignes: function () {

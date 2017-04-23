@@ -3,11 +3,9 @@ package com.itsolution.tkbr.domain;
 import com.itsolution.tkbr.service.util.ReadOnly;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.hibernate.annotations.Formula;

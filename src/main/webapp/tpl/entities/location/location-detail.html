@@ -1,0 +1,52 @@
+
+<div>
+    <h2><span >Location</span> {{vm.location.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Type</span></dt>
+        <dd>
+            <span>{{vm.location.type}}</span>
+        </dd> 
+<dt><span >Locataire</span></dt>
+        <dd>
+            <span>{{vm.location.locataire}}</span>
+        </dd> 
+<dt><span >Local</span></dt>
+        <dd>
+            <span>{{vm.location.local}}</span>
+        </dd> 
+<dt><span >Date Debut</span></dt>
+        <dd>
+            <span>{{vm.location.dateDebut}}</span>
+        </dd> 
+<dt><span >Date Fin</span></dt>
+        <dd>
+            <span>{{vm.location.dateFin}}</span>
+        </dd> 
+<dt><span >Montant Loyer</span></dt>
+        <dd>
+            <span>{{vm.location.montantLoyer}}</span>
+        </dd> 
+<dt><span >Date Echeance Loyer</span></dt>
+        <dd>
+            <span>{{vm.location.dateEcheanceLoyer}}</span>
+        </dd> 
+<dt><span >Montant Depot Garantie</span></dt>
+        <dd>
+            <span>{{vm.location.montantDepotGarantie}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="location-detail.edit({id:vm.location.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

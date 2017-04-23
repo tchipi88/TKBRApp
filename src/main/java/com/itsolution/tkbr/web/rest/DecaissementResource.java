@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Decaissement;
 
 import com.itsolution.tkbr.repository.DecaissementRepository;
+import com.itsolution.tkbr.service.DecaissementService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,10 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -39,10 +36,13 @@ public class DecaissementResource {
     private static final String ENTITY_NAME = "decaissement";
         
     private final DecaissementRepository decaissementRepository;
+    
+    private final DecaissementService  decaissementService;
 
 
-    public DecaissementResource(DecaissementRepository decaissementRepository) {
+    public DecaissementResource(DecaissementRepository decaissementRepository,DecaissementService decaissementService) {
         this.decaissementRepository = decaissementRepository;
+        this.decaissementService=decaissementService;
     }
 
     /**
@@ -54,12 +54,12 @@ public class DecaissementResource {
      */
     @PostMapping("/decaissements")
     @Timed
-    public ResponseEntity<Decaissement> createDecaissement(@Valid @RequestBody Decaissement decaissement) throws URISyntaxException {
+    public ResponseEntity<Decaissement> createDecaissement(@Valid @RequestBody Decaissement decaissement) throws Exception {
         log.debug("REST request to save Decaissement : {}", decaissement);
         if (decaissement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new decaissement cannot already have an ID")).body(null);
         }
-        Decaissement result = decaissementRepository.save(decaissement);
+        Decaissement result = decaissementService.save(decaissement);
         return ResponseEntity.created(new URI("/api/decaissements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,12 +76,12 @@ public class DecaissementResource {
      */
     @PutMapping("/decaissements")
     @Timed
-    public ResponseEntity<Decaissement> updateDecaissement(@Valid @RequestBody Decaissement decaissement) throws URISyntaxException {
+    public ResponseEntity<Decaissement> updateDecaissement(@Valid @RequestBody Decaissement decaissement) throws Exception {
         log.debug("REST request to update Decaissement : {}", decaissement);
         if (decaissement.getId() == null) {
             return createDecaissement(decaissement);
         }
-        Decaissement result = decaissementRepository.save(decaissement);
+        Decaissement result = decaissementService.save(decaissement);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, decaissement.getId().toString()))
             .body(result);

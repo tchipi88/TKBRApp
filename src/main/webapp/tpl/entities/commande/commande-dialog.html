@@ -73,7 +73,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_etat">Etat <span style="color:red" >*</span></label>
-                    <select class="form-control" name="etat"  ng-model="vm.commande.etat"  id="field_etat" required>
+                    <select class="form-control" name="etat"  ng-model="vm.commande.etat"  id="field_etat" ng-required="vm.commande.id"  ng-disabled="!vm.commande.id">
                         <option value="ANNULE">ANNULE</option>
                         <option value="DEVIS">DEVIS</option>
                         <option value="BON_COMMANDE">BON_COMMANDE</option>
@@ -87,7 +87,7 @@
                 <div class="form-group">
                     <label class="control-label"  for="field_dateEmission">Date Emission <span style="color:red" >*</span></label>
                     <div class="input-group">
-                        <input  id="field_dateEmission" type="text" class="form-control" name="dateEmission"    ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.commande.dateEmission"  is-open="vm.datePickerOpenStatus.dateEmission"
+                        <input  id="field_dateEmission" type="text" class="form-control" name="dateEmission"    ng-required="!vm.commande.id"  ng-disabled="vm.commande.id"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.commande.dateEmission"  is-open="vm.datePickerOpenStatus.dateEmission"
                                 />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateEmission')"><i class="glyphicon glyphicon-calendar"></i></button>

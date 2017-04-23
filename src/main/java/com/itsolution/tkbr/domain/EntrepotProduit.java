@@ -41,7 +41,7 @@ public class EntrepotProduit extends AbstractAuditingEntity {
     @Column
     private Float stockPhysique;
     @Column
-    @Formula("stockPhysique-stockTheorique")
+    @Formula("stock_physique-stock_theorique")
     private Float ecart;
 
     @Column
@@ -51,9 +51,9 @@ public class EntrepotProduit extends AbstractAuditingEntity {
     @NotNull
     private Float seuilSurStockage;
 
-    @Formula("stockPhysique>seuilSurStockage")
+    @Formula("stock_physique>seuil_sur_stockage")
     private boolean EnSurchauffe;
-    @Formula("stockPhysique<seuilAlerte")
+    @Formula("stock_physique<seuil_alerte")
     private boolean EnManque;
 
     public Long getId() {
