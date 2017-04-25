@@ -9,18 +9,21 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div>
-              <div class="form-group">
+        <div class="row">
+              <div class="col-sm-6">
+ <div class="form-group">
  <label class="control-label"  for="field_id">Id</label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.entrepotProduit.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_produit">Produit <span style="color:red" >*</span></label>
  <div class="input-group">
                         <ui-select ng-model="vm.entrepotProduit.produit"    ng-required="true">
-                            <ui-select-match placeholder="Select Produit">{{$select.selected.id}}</ui-select-match>
+                            <ui-select-match placeholder="Select Produit">{{$select.selected.denomination}}</ui-select-match>
                             <ui-select-choices repeat="produit in vm.produits | filter: $select.search">
-                                <div ng-bind-html="produit.id | highlight: $select.search"></div>
+                                <div ng-bind-html="produit.denomination | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>  
                         <span class="input-group-btn" >
@@ -34,13 +37,15 @@
                             </button>
                         </span>
                     </div> </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_entrepot">Entrepot <span style="color:red" >*</span></label>
  <div class="input-group">
                         <ui-select ng-model="vm.entrepotProduit.entrepot"    ng-required="true">
-                            <ui-select-match placeholder="Select Entrepot">{{$select.selected.type}}</ui-select-match>
+                            <ui-select-match placeholder="Select Entrepot">{{$select.selected.libelle}}</ui-select-match>
                             <ui-select-choices repeat="entrepot in vm.entrepots | filter: $select.search">
-                                <div ng-bind-html="entrepot.type | highlight: $select.search"></div>
+                                <div ng-bind-html="entrepot.libelle | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>  
                         <span class="input-group-btn" >
@@ -54,26 +59,38 @@
                             </button>
                         </span>
                     </div> </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_stockTheorique">Stock Theorique</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_stockTheorique" ng-model="vm.entrepotProduit.stockTheorique"                     ng-readonly="true"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_stockPhysique">Stock Physique</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_stockPhysique" ng-model="vm.entrepotProduit.stockPhysique"                     ng-readonly="false"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_ecart">Ecart</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_ecart" ng-model="vm.entrepotProduit.ecart"                     ng-readonly="true"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_seuilAlerte">Seuil Alerte <span style="color:red" >*</span></label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_seuilAlerte" ng-model="vm.entrepotProduit.seuilAlerte"                     ng-readonly="false"  ng-required="true"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_seuilSurStockage">Seuil Sur Stockage <span style="color:red" >*</span></label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_seuilSurStockage" ng-model="vm.entrepotProduit.seuilSurStockage"                     ng-readonly="false"  ng-required="true"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_EnSurchauffe">En Surchauffe</label>
  <div class="form-control">
@@ -82,6 +99,8 @@
             </label>
         </div>
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_EnManque">En Manque</label>
  <div class="form-control">
@@ -89,6 +108,7 @@
                 <input type="checkbox" checked  ng-model="vm.entrepotProduit.EnManque"   id="field_EnManque"  name="EnManque" /><i></i> 
             </label>
         </div>
+ </div>
  </div>
 
         </div>

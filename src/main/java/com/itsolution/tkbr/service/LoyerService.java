@@ -11,6 +11,7 @@ import com.itsolution.tkbr.domain.Loyer;
 import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
 import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
 import com.itsolution.tkbr.repository.LoyerRepository;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,16 @@ public class LoyerService {
     @Autowired
     EncaissementService encaissementService;
     @Autowired
-    CompteAnalytiqueClientRepository compteAnalytiqueClientRepository;
-
+    CompteAnalytiqueClientService compteAnalytiqueClientService;
+  
     public Loyer save(Loyer loyer) throws Exception {
         if (loyer.getId() != null) {
             throw new Exception("Mise à jour des loyers interdit");
         }
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(loyer.getLocation().getLocataire().getNom());
-        if (compteClient == null) {
-            compteClient = new CompteAnalytiqueClient();
-            compteClient.setIntitule(loyer.getLocation().getLocataire().getNom());
-            compteClient.setClient(loyer.getLocation().getLocataire());
-        }
-        compteClient.setCredit(loyer.getMontant());
+        CompteAnalytiqueClient compteClient = compteAnalytiqueClientService.getCompteClient(loyer.getLocation().getLocataire());
+        compteClient.setCredit(compteClient.getCredit().add(loyer.getMontant()));
 
-        compteAnalytiqueClientRepository.save(compteClient);
+        compteAnalytiqueClientService.save(compteClient);
 
         Encaissement encaissement = new Encaissement();
         encaissement.setMontant(loyer.getMontant());

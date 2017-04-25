@@ -18,20 +18,14 @@
  </div>
  <div class="col-sm-6">
  <div class="form-group">
- <label class="control-label"  for="field_capactite">Capactite</label>
-  <input  class="form-control"   type="number"  autocomplete="off"  id="field_capactite" ng-model="vm.entrepot.capactite"                     ng-readonly="false"  ng-required="false"                     />
+ <label class="control-label"  for="field_libelle">Libelle <span style="color:red" >*</span></label>
+  <input  class="form-control"   type="text"  autocomplete="off"   id="field_libelle" ng-model="vm.entrepot.libelle"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
  </div>
  </div>
  <div class="col-sm-6">
  <div class="form-group">
- <label class="control-label"  for="field_type">Type <span style="color:red" >*</span></label>
- <select class="form-control" name="type"  ng-model="vm.entrepot.type"  id="field_type" required>
-<option value="ACHAT">ACHAT</option>
-<option value="VENTE">VENTE</option>
-<option value="STOCKAGE">STOCKAGE</option>
-<option value="FOURNISSEURS">FOURNISSEURS</option>
-<option value="CONSUMMABLE">CONSUMMABLE</option>
-            </select>
+ <label class="control-label"  for="field_capactite">Capactite</label>
+  <input  class="form-control"   type="number"  autocomplete="off"  id="field_capactite" ng-model="vm.entrepot.capactite"                     ng-readonly="false"  ng-required="false"                     />
  </div>
  </div>
  <div class="col-sm-6">

@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CompteAnalytiqueFournisseurRepository extends JpaRepository<CompteAnalytiqueFournisseur, Long> {
 
+    public CompteAnalytiqueFournisseur findByIntitule(String nom);
+
     
 
 }

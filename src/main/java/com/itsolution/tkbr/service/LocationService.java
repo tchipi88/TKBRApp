@@ -30,7 +30,7 @@ public class LocationService {
     CompteAnalytiqueClientRepository compteAnalytiqueClientRepository;
 
     public Location create(Location location) throws Exception {
-        Period periodeBail = Period.between(location.getDateDebut(), location.getDateFin());
+        location.setDateFin(location.getDateDebut().plusMonths(location.getDuree()));
 
         CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(location.getLocataire().getNom());
         if (compteClient == null) {
@@ -41,7 +41,7 @@ public class LocationService {
             compteClient.setCredit(BigDecimal.ZERO);
             compteClient.setDebit(BigDecimal.ZERO);
         }
-        compteClient.setDebit(location.getMontantLoyer().multiply(new BigDecimal(periodeBail.getMonths())));
+        compteClient.setDebit(compteClient.getDebit().add(location.getMontantLoyer().multiply(new BigDecimal(location.getDuree()))));
 
         compteAnalytiqueClientRepository.save(compteClient);
 
@@ -49,8 +49,15 @@ public class LocationService {
     }
 
     public Location update(Location location) throws Exception {
+        //changer la durée
+        Location locationOld = locationRepository.findOne(location.getId());
 
-        return locationRepository.save(location);
+        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(locationOld.getLocataire().getNom());
+        compteClient.setCredit(compteClient.getCredit().add(locationOld.getMontantLoyer().multiply(new BigDecimal(locationOld.getDuree()))));
+
+        compteAnalytiqueClientRepository.save(compteClient);
+
+        return create(location);
     }
 
 }

@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import org.hibernate.annotations.Formula;
 
 /**
  * A Commande.
@@ -53,6 +54,28 @@ public class Commande extends AbstractAuditingEntity {
     @ReadOnly
     private BigDecimal prixTTC;
 
+    @Column(name = "montant_paye", precision = 10, scale = 2)
+    @ReadOnly
+    private BigDecimal montantPaye;
+    @Formula("prix_ttc-montant_paye")
+    private BigDecimal montantRestant;
+
+    public BigDecimal getMontantRestant() {
+        return montantRestant;
+    }
+
+    public void setMontantRestant(BigDecimal montantRestant) {
+        this.montantRestant = montantRestant;
+    }
+
+    public BigDecimal getMontantPaye() {
+        return montantPaye;
+    }
+
+    public void setMontantPaye(BigDecimal montantPaye) {
+        this.montantPaye = montantPaye;
+    }
+
     @Column
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -71,13 +94,13 @@ public class Commande extends AbstractAuditingEntity {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Reglement> reglements = new HashSet<>();
-    
+
     @ManyToOne(optional = false)
     @NotNull
     private Client client;
 
-
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TypeCommande type;
 
     public TypeCommande getType() {
@@ -87,9 +110,6 @@ public class Commande extends AbstractAuditingEntity {
     public void setType(TypeCommande type) {
         this.type = type;
     }
-    
-    
-
 
     public Client getClient() {
         return client;
@@ -239,5 +259,4 @@ public class Commande extends AbstractAuditingEntity {
                 + '}';
     }
 
-   
 }

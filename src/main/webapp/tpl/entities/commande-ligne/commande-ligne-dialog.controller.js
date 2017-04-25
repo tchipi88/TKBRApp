@@ -5,9 +5,9 @@
             .module('app')
             .controller('CommandeLigneDialogController', CommandeLigneDialogController);
 
-    CommandeLigneDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DataUtils', 'entity', 'CommandeLigne', 'Produit'];
+    CommandeLigneDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DataUtils', 'entity', 'CommandeLigne', 'Produit','Entrepot'];
 
-    function CommandeLigneDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DataUtils, entity, CommandeLigne, Produit) {
+    function CommandeLigneDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DataUtils, entity, CommandeLigne, Produit,Entrepot) {
         var vm = this;
 
         vm.commandeLigne = entity;
@@ -18,6 +18,7 @@
         vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.produits = Produit.query();
+        vm.entrepots=Entrepot.query();
 
 
 

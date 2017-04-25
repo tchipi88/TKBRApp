@@ -21,6 +21,10 @@ public class CompteService {
     @Autowired
     CompteRepository compteRepository;
 
+    public Compte save(Compte compte) throws Exception {
+        return compteRepository.save(compte);
+    }
+
     public Compte getCompte(Integer numcompte, String intitule) throws Exception {
         Compte c = compteRepository.findOne(numcompte);
         if (c == null) {
@@ -51,7 +55,7 @@ public class CompteService {
     }
 
     public Compte getCompteTVADeductible() throws Exception {
-        return getCompte(445 , "TVA déductible");
+        return getCompte(445, "TVA déductible");
     }
 
     public Compte getCompteFournisseurs() throws Exception {
@@ -64,6 +68,9 @@ public class CompteService {
 
     public Compte getCompteBanque() throws Exception {
         return getCompte(52, "Banque");
+    }
+    public Compte getCompteCheque() throws Exception {
+        return getCompte(51, " Valeurs à encaisser");
     }
 
 }

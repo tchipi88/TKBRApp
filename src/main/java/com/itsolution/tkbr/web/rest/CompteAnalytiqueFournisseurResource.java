@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 
 import com.itsolution.tkbr.repository.CompteAnalytiqueFournisseurRepository;
+import com.itsolution.tkbr.repository.search.CompteAnalytiqueFournisseurSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,9 +41,11 @@ public class CompteAnalytiqueFournisseurResource {
         
     private final CompteAnalytiqueFournisseurRepository compteAnalytiqueFournisseurRepository;
 
+    private final CompteAnalytiqueFournisseurSearchRepository compteAnalytiqueFournisseurSearchRepository;
 
-    public CompteAnalytiqueFournisseurResource(CompteAnalytiqueFournisseurRepository compteAnalytiqueFournisseurRepository) {
+    public CompteAnalytiqueFournisseurResource(CompteAnalytiqueFournisseurRepository compteAnalytiqueFournisseurRepository, CompteAnalytiqueFournisseurSearchRepository compteAnalytiqueFournisseurSearchRepository) {
         this.compteAnalytiqueFournisseurRepository = compteAnalytiqueFournisseurRepository;
+        this.compteAnalytiqueFournisseurSearchRepository = compteAnalytiqueFournisseurSearchRepository;
     }
 
     /**
@@ -60,6 +63,7 @@ public class CompteAnalytiqueFournisseurResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new compteAnalytiqueFournisseur cannot already have an ID")).body(null);
         }
         CompteAnalytiqueFournisseur result = compteAnalytiqueFournisseurRepository.save(compteAnalytiqueFournisseur);
+        compteAnalytiqueFournisseurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/compte-analytique-fournisseurs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -82,12 +86,13 @@ public class CompteAnalytiqueFournisseurResource {
             return createCompteAnalytiqueFournisseur(compteAnalytiqueFournisseur);
         }
         CompteAnalytiqueFournisseur result = compteAnalytiqueFournisseurRepository.save(compteAnalytiqueFournisseur);
+        compteAnalytiqueFournisseurSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, compteAnalytiqueFournisseur.getId().toString()))
             .body(result);
     }
 
-    /**
+   /**
      * GET  /compte-analytique-fournisseurs : get all the compteAnalytiqueFournisseurs.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of compteAnalytiqueFournisseurs in body
@@ -100,8 +105,6 @@ public class CompteAnalytiqueFournisseurResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/compte-analytique-fournisseurs");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
- 
 
     /**
      * GET  /compte-analytique-fournisseurs/:id : get the "id" compteAnalytiqueFournisseur.
@@ -128,10 +131,25 @@ public class CompteAnalytiqueFournisseurResource {
     public ResponseEntity<Void> deleteCompteAnalytiqueFournisseur(@PathVariable Long id) {
         log.debug("REST request to delete CompteAnalytiqueFournisseur : {}", id);
         compteAnalytiqueFournisseurRepository.delete(id);
+        compteAnalytiqueFournisseurSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-   
+    /**
+     * SEARCH  /_search/compte-analytique-fournisseurs?query=:query : search for the compteAnalytiqueFournisseur corresponding
+     * to the query.
+     *
+     * @param query the query of the compteAnalytiqueFournisseur search 
+     * @return the result of the search
+     */
+    @GetMapping("/_search/compte-analytique-fournisseurs")
+    @Timed
+    public List<CompteAnalytiqueFournisseur> searchCompteAnalytiqueFournisseurs(@RequestParam String query) {
+        log.debug("REST request to search CompteAnalytiqueFournisseurs for query {}", query);
+        return StreamSupport
+            .stream(compteAnalytiqueFournisseurSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
+    }
 
 
 }

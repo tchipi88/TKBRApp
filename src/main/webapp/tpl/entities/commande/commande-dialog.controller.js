@@ -5,9 +5,9 @@
             .module('app')
             .controller('CommandeDialogController', CommandeDialogController);
 
-    CommandeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal', 'DataUtils', 'entity', 'Commande', 'Fournisseur', 'Employe', 'Client', 'commandeLignes','reglements'];
+    CommandeDialogController.$inject = ['$timeout', '$scope', '$state', '$stateParams', '$uibModalInstance', '$uibModal', 'DataUtils', 'entity', 'Commande', 'Fournisseur', 'Employe', 'Client', 'commandeLignes', 'reglements'];
 
-    function CommandeDialogController($timeout, $scope, $stateParams, $uibModalInstance, $uibModal, DataUtils, entity, Commande, Fournisseur, Employe, Client, commandeLignes,reglements) {
+    function CommandeDialogController($timeout, $scope, $state, $stateParams, $uibModalInstance, $uibModal, DataUtils, entity, Commande, Fournisseur, Employe, Client, commandeLignes, reglements) {
         var vm = this;
 
         vm.commande = entity;
@@ -109,6 +109,7 @@
                 }
             }).result.then(function (item) {
                 vm.commandeLignes[index] = item;
+                vm.commande = Commande.get({id: $stateParams.id});
             }, function () {
 
             });
@@ -127,6 +128,7 @@
                 }
             }).result.then(function () {
                 vm.commandeLignes.splice(index, 1);
+                vm.commande = Commande.get({id: $stateParams.id});
             }, function () {
 
             });
@@ -147,31 +149,11 @@
                 }
             }).result.then(function (item) {
                 vm.commandeLignes.push(item);
+                vm.commande = Commande.get({id: $stateParams.id});
             }, function () {
 
             });
         };
-
-
-        vm.editReglement = function (entity, index) {
-            $uibModal.open({
-                templateUrl: 'tpl/entities/reglement/reglement-dialog.html',
-                controller: 'ReglementDialogController',
-                controllerAs: 'vm',
-                backdrop: 'static',
-                size: 'lg',
-                resolve: {
-                    entity: function () {
-                        return entity;
-                    }
-                }
-            }).result.then(function (item) {
-               
-            }, function () {
-
-            });
-        };
-
 
         vm.addReglement = function () {
             $uibModal.open({
@@ -189,6 +171,7 @@
                 }
             }).result.then(function (item) {
                 vm.reglements.push(item);
+                vm.commande = Commande.get({id: $stateParams.id});
             }, function () {
 
             });

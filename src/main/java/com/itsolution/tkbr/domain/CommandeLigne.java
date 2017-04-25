@@ -45,6 +45,20 @@ public class CommandeLigne extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private Produit produit;
+    
+    @NotNull
+    @ManyToOne
+    private Entrepot entrepot;
+
+    public Entrepot getEntrepot() {
+        return entrepot;
+    }
+
+    public void setEntrepot(Entrepot entrepot) {
+        this.entrepot = entrepot;
+    }
+    
+    
 
     public Float getQuantiteLivree() {
         return quantiteLivree;

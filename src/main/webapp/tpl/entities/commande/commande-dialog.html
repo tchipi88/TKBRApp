@@ -18,8 +18,8 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="control-label"  for="field_type">Type</label>
-                    <select class="form-control" name="type"  ng-model="vm.commande.type"  id="field_type"  ng-disabled="vm.commande.id">
+                    <label class="control-label"  for="field_type">Type<span style="color:red" >*</span></label>
+                    <select class="form-control" name="type"  ng-model="vm.commande.type"  id="field_type"  ng-disabled="vm.commande.id"   ng-required="!vm.commande.id">
                         <option value="ACHAT">ACHAT</option>
                         <option value="VENTE">VENTE</option>
                     </select>
@@ -150,13 +150,25 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_prixHT">Prix HT</label>
-                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixHT" ng-model="vm.commande.prixHT"                     ng-readonly="true"  ng-required="false"                     />
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixHT"    placeholder="{{vm.commande.prixHT |number}}"                  ng-readonly="true"  ng-required="false"                     />
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label"  for="field_prixTTC">Prix TTC</label>
-                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixTTC" ng-model="vm.commande.prixTTC"                     ng-readonly="true"  ng-required="false"                     />
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixTTC"     placeholder="{{vm.commande.prixTTC |number}}"                      ng-readonly="true"  ng-required="false"                     />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_prixHT">Montant Payé</label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantPaye"     placeholder="{{vm.commande.montantPaye |number}}"                ng-readonly="true"  ng-required="false"                     />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_prixTTC">Montant Restant</label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantRestant"     placeholder="{{vm.commande.montantRestant |number}}"                  ng-readonly="true"  ng-required="false"                     />
                 </div>
             </div>
 

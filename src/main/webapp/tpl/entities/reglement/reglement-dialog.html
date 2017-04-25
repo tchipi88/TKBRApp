@@ -36,8 +36,8 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="control-label"  for="field_mode">Mode</label>
-                    <select class="form-control" name="mode"  ng-model="vm.reglement.mode"  id="field_mode" >
+                    <label class="control-label"  for="field_mode">Mode <span style="color:red" >*</span></label>
+                    <select class="form-control" name="mode"  ng-model="vm.reglement.mode"  id="field_mode"  required>
                         <option value="ESPECES">ESPECES</option>
                         <option value="CARTE_BANCAIRE">CARTE_BANCAIRE</option>
                         <option value="VIREMENT">VIREMENT</option>
@@ -45,16 +45,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="control-label"  for="field_etat">Etat</label>
-                    <select class="form-control" name="etat"  ng-model="vm.reglement.etat"  id="field_etat" >
-                        <option value="VALIDE">VALIDE</option>
-                        <option value="DRAFT">DRAFT</option>
-                        <option value="ANNULE">ANNULE</option>
-                    </select>
-                </div>
-            </div>
+           
          
 
         </div>

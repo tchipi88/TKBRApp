@@ -2,15 +2,12 @@ package com.itsolution.tkbr.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.itsolution.tkbr.domain.enumeration.EntrepotType;
-import com.itsolution.tkbr.service.template.Libelle;
 
 /**
  * A Entrepot.
@@ -18,7 +15,16 @@ import com.itsolution.tkbr.service.template.Libelle;
 @Entity
 @Table(name = "entrepot")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
 public class Entrepot implements Serializable {
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -26,16 +32,13 @@ public class Entrepot implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    private String libelle;
 
     @Column(name = "capactite")
     private Integer capactite;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    @Libelle
-    private EntrepotType type;
-
+   
     @ManyToOne
     private Employe responsable;
 
@@ -62,19 +65,7 @@ public class Entrepot implements Serializable {
         this.capactite = capactite;
     }
 
-    public EntrepotType getType() {
-        return type;
-    }
-
-    public Entrepot type(EntrepotType type) {
-        this.type = type;
-        return this;
-    }
-
-    public void setType(EntrepotType type) {
-        this.type = type;
-    }
-
+   
     public Employe getResponsable() {
         return responsable;
     }
@@ -113,7 +104,6 @@ public class Entrepot implements Serializable {
         return "Entrepot{" +
             "id=" + id +
             ", capactite='" + capactite + "'" +
-            ", type='" + type + "'" +
             '}';
     }
 }

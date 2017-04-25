@@ -5,7 +5,11 @@
  */
 package com.itsolution.tkbr.repository;
 
+import com.itsolution.tkbr.domain.Entrepot;
 import com.itsolution.tkbr.domain.MouvementStock;
+import com.itsolution.tkbr.domain.Produit;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -17,10 +21,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface MouvementStockRepository extends JpaRepository<MouvementStock, Long> {
 
-    
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBefore(LocalDate dateDebut, LocalDate dateFin);
+
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndProduit(LocalDate dateDebut, LocalDate dateFin, Produit produit);
+
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndEntrepotDepart(LocalDate dateDebut, LocalDate dateFin, Entrepot entrepotDepart);
+
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndEntrepotDepartAndProduit(LocalDate dateDebut, LocalDate dateFin, Entrepot entrepotDepart, Produit produit);
+
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndEntrepotDestination(LocalDate dateDebut, LocalDate dateFin, Entrepot entrepotDestination);
+
+    List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndEntrepotDestinationAndProduit(LocalDate dateDebut, LocalDate dateFin, Entrepot entrepotDestination, Produit produit);
 
 }
-
-
-
-

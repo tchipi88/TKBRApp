@@ -10,10 +10,11 @@ import com.itsolution.tkbr.domain.Client;
 import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.CommandeLigne;
 import com.itsolution.tkbr.domain.Compte;
+import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
+import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
-import com.itsolution.tkbr.domain.enumeration.EntrepotType;
 import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
 import com.itsolution.tkbr.repository.CommandeRepository;
@@ -61,6 +62,10 @@ public class CommandeService {
     CompteRepository compteRepository;
     @Autowired
     CompteService cs;
+    @Autowired
+    CompteAnalytiqueClientService compteAnalytiqueClientService;
+    @Autowired
+    CompteAnalytiqueFournisseurService compteAnalytiqueFournisseurService;
 
     public Commande create(Commande commande) throws Exception {
 
@@ -116,18 +121,22 @@ public class CommandeService {
                             ms.setQuantite(cl.getQuantite());
                             ms.setProduit(cl.getProduit());
 
-                            ms.setMotifTransaction(EntrepotType.ACHAT.name());
+                            ms.setMotifTransaction("ACHAT");
                             //set price
                             ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
                             cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
-                            ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.FOURNISSEURS));
-                            ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.ACHAT));
+                            ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
+                            ms.setEntrepotDestination(entrepotService.findByLibelle(commande.getClient().getNom()));
 
                             mouvementStockService.save(ms, false);
                         }
                         break;
                     }
                     case FACTUREE: {
+                        CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(commande.getFournisseur());
+                        compteAnalytiqueFournisseur.setDebit(compteAnalytiqueFournisseur.getDebit().add(commande.getPrixTTC()));
+                        compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
+
                         Compte compteAchat = cs.getCompteAchat();
                         Compte compteFournisseurs = cs.getCompteFournisseurs();
                         Compte compteTVADeductible = cs.getCompteTVADeductible();
@@ -149,6 +158,10 @@ public class CommandeService {
 
                 switch (commande.getEtat()) {
                     case FACTUREE: {
+                        CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(commande.getClient());
+                        compteAnalytiqueClient.setDebit(compteAnalytiqueClient.getDebit().add(commande.getPrixTTC()));
+                        compteAnalytiqueClientService.save(compteAnalytiqueClient);
+
                         Compte compteClient = cs.getCompteClient();
                         Compte compteVente = cs.getCompteVente();
                         Compte compteTVACollecte = cs.getCompteTVACollecte();
@@ -170,9 +183,9 @@ public class CommandeService {
                             ms.setQuantite(cl.getQuantite());
                             ms.setProduit(cl.getProduit());
 
-                            ms.setEntrepotDepart(entrepotService.findByType(EntrepotType.ACHAT));
-                            ms.setEntrepotDestination(entrepotService.findByType(EntrepotType.VENTE));
-                            ms.setMotifTransaction(EntrepotType.VENTE.name());
+                            ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
+                            ms.setEntrepotDestination(cl.getEntrepot());
+                            ms.setMotifTransaction("VENTE");
 
                             mouvementStockService.save(ms, true);
                         }

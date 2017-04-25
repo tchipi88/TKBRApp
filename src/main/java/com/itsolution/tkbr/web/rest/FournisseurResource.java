@@ -5,6 +5,7 @@ import com.itsolution.tkbr.domain.Fournisseur;
 
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.search.FournisseurSearchRepository;
+import com.itsolution.tkbr.service.FournisseurService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,12 +41,15 @@ public class FournisseurResource {
     private static final String ENTITY_NAME = "fournisseur";
         
     private final FournisseurRepository fournisseurRepository;
+    
+    private final FournisseurService  fournisseurService;
 
     private final FournisseurSearchRepository fournisseurSearchRepository;
 
-    public FournisseurResource(FournisseurRepository fournisseurRepository, FournisseurSearchRepository fournisseurSearchRepository) {
+    public FournisseurResource(FournisseurRepository fournisseurRepository, FournisseurSearchRepository fournisseurSearchRepository,FournisseurService fournisseurService) {
         this.fournisseurRepository = fournisseurRepository;
         this.fournisseurSearchRepository = fournisseurSearchRepository;
+        this.fournisseurService=fournisseurService;
     }
 
     /**
@@ -57,12 +61,12 @@ public class FournisseurResource {
      */
     @PostMapping("/fournisseurs")
     @Timed
-    public ResponseEntity<Fournisseur> createFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws URISyntaxException {
+    public ResponseEntity<Fournisseur> createFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws Exception {
         log.debug("REST request to save Fournisseur : {}", fournisseur);
         if (fournisseur.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new fournisseur cannot already have an ID")).body(null);
         }
-        Fournisseur result = fournisseurRepository.save(fournisseur);
+        Fournisseur result = fournisseurService.create(fournisseur);
         fournisseurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/fournisseurs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -80,12 +84,12 @@ public class FournisseurResource {
      */
     @PutMapping("/fournisseurs")
     @Timed
-    public ResponseEntity<Fournisseur> updateFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws URISyntaxException {
+    public ResponseEntity<Fournisseur> updateFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws Exception {
         log.debug("REST request to update Fournisseur : {}", fournisseur);
         if (fournisseur.getId() == null) {
             return createFournisseur(fournisseur);
         }
-        Fournisseur result = fournisseurRepository.save(fournisseur);
+        Fournisseur result = fournisseurService.update(fournisseur);
         fournisseurSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, fournisseur.getId().toString()))

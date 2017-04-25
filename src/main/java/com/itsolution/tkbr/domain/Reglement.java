@@ -2,18 +2,15 @@ package com.itsolution.tkbr.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
 import com.itsolution.tkbr.domain.enumeration.PaymentMode;
 
-import com.itsolution.tkbr.domain.enumeration.ReglementEtat;
 
 /**
  * A Reglement.
@@ -38,11 +35,10 @@ public class Reglement extends AbstractAuditingEntity{
     private LocalDate dateVersement;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private PaymentMode mode;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "etat")
-    private ReglementEtat etat;
+   
 
     @ManyToOne(optional = false)
     @NotNull
@@ -95,18 +91,7 @@ public class Reglement extends AbstractAuditingEntity{
         this.mode = mode;
     }
 
-    public ReglementEtat getEtat() {
-        return etat;
-    }
-
-    public Reglement etat(ReglementEtat etat) {
-        this.etat = etat;
-        return this;
-    }
-
-    public void setEtat(ReglementEtat etat) {
-        this.etat = etat;
-    }
+   
 
     public Commande getCommande() {
         return commande;
@@ -148,7 +133,6 @@ public class Reglement extends AbstractAuditingEntity{
             ", montant='" + montant + "'" +
             ", dateVersement='" + dateVersement + "'" +
             ", mode='" + mode + "'" +
-            ", etat='" + etat + "'" +
             '}';
     }
 }

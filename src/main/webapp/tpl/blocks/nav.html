@@ -92,12 +92,12 @@
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-shopping-cart icon text-success"></i>
-            <span class="font-bold">Achats</span>
+            <span class="font-bold">Commandes</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Achats</span>
+                    <span>Commandes</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -106,10 +106,12 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="decaissement">
-                    <span>Decaissement</span>
+                <a ui-sref="commande">
+                    <span>Vente</span>
                 </a>
             </li>
+
+
             <li ui-sref-active="active">
                 <a ui-sref="compte-analytique-fournisseur">
                     <span>Compte Fournisseur</span>
@@ -118,35 +120,8 @@
         </ul>
     </li>
 
-    <li>
-        <a href class="auto">
-            <span class="pull-right text-muted">
-                <i class="fa fa-fw fa-angle-right text"></i>
-                <i class="fa fa-fw fa-angle-down text-active"></i>
-            </span>
-            <i class="fa fa-money icon text-success"></i>
-            <span class="font-bold">Ventes</span>
-        </a>
-        <ul class="nav nav-sub dk">
-            <li class="nav-sub-header">
-                <a href>
-                    <span>Ventes</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="commande">
-                    <span>Vente</span>
-                </a>
-            </li>
+   
 
-            <li ui-sref-active="active">
-                <a ui-sref="encaissement">
-                    <span>Encaissement</span>
-                </a>
-            </li>
-        </ul>
-    </li>
-    
     <li ui-sref-active="active">
         <a ui-sref="produit">
             <i class="fa fa-cube icon text-info-lter"></i>
@@ -177,15 +152,22 @@
                 </a>
             </li>
             <li ui-sref-active="active">
+                <a ui-sref="decaissement">
+                    <span>Decaissement</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="encaissement">
+                    <span>Encaissement</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
                 <a ui-sref="caisse-ouverture">
                     <span>Caisse Ouverture</span>
                 </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="reglement">
-                    <span>Reglement</span>
-                </a>
-            </li>
+
         </ul>
     </li>
 
@@ -193,7 +175,7 @@
 
     <li ui-sref-active="active">
         <a ui-sref="compte">
-            <i class="fa fa-cube icon text-info-lter"></i>
+            <i class="fa fa-money icon text-info-lter"></i>
             <span class="font-bold" >Comptabilite</span>
         </a>
     </li>
@@ -216,6 +198,11 @@
             <li ui-sref-active="active">
                 <a ui-sref="entrepot">
                     <span>Magasin</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="entrepot-produit">
+                    <span>Inventaire</span>
                 </a>
             </li>
             <li ui-sref-active="active">
@@ -260,7 +247,7 @@
                     <span>Loyer</span>
                 </a>
             </li>
-             <li ui-sref-active="active">
+            <li ui-sref-active="active">
                 <a ui-sref="compte-analytique-client">
                     <span>Compte Loyer</span>
                 </a>

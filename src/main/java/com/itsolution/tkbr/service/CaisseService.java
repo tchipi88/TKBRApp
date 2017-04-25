@@ -7,6 +7,7 @@ package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Caisse;
 import com.itsolution.tkbr.repository.CaisseRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class CaisseService {
         List<Caisse> caisses = caisseRepository.findAll();
         if (caisses.isEmpty()) {
             Caisse c = new Caisse();
+            c.setEntree(BigDecimal.ZERO);
+            c.setSortie(BigDecimal.ZERO);
             return caisseRepository.save(c);
         } else {
             return caisses.get(0);

@@ -6,9 +6,7 @@
 package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Entrepot;
-import com.itsolution.tkbr.domain.enumeration.EntrepotType;
 import com.itsolution.tkbr.repository.EntrepotRepository;
-import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +20,17 @@ public class EntrepotService {
     @Autowired
     EntrepotRepository entrepotRepository;
 
-    public Entrepot findByType(EntrepotType type) throws Exception {
-        Entrepot e = entrepotRepository.findByType(type);
-        if (e == null) {
+
+    public Entrepot findByLibelle(String libelle) throws Exception{
+         Entrepot e = entrepotRepository.findByLibelle(libelle);
+          if (e == null) {
             e = new Entrepot();
-            e.setType(type);
+            e.setLibelle(libelle);
             e.setCapactite(0);
             return entrepotRepository.save(e);
         }
         return e;
+       
     }
 
     

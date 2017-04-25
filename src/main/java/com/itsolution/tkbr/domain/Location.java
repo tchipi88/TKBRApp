@@ -6,6 +6,7 @@
 package com.itsolution.tkbr.domain;
 
 import com.itsolution.tkbr.domain.enumeration.LocationType;
+import com.itsolution.tkbr.service.template.Label;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Entity;
@@ -43,8 +44,14 @@ public class Location extends AbstractAuditingEntity {
 
     @NotNull
     private LocalDate dateDebut;
-
+    
     @NotNull
+    @Label("Durée (Mois)")
+    private Integer duree;
+    
+    
+
+  
     private LocalDate dateFin;
 
     @NotNull
@@ -53,6 +60,14 @@ public class Location extends AbstractAuditingEntity {
   
 
     private BigDecimal montantDepotGarantie;
+
+    public Integer getDuree() {
+        return duree;
+    }
+
+    public void setDuree(Integer duree) {
+        this.duree = duree;
+    }
     
 
   

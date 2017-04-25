@@ -47,7 +47,7 @@ public class CommandeLigneService {
         if (!EtatCommande.DEVIS.equals(cl.getCommande().getEtat())) {
             throw new Exception("Imposssible d'ajouter des produits à une commande dont le statut n'est plus DEVIS");
         }
-        Commande c = cl.getCommande();
+        Commande c = commandeRepository.findOne(cl.getCommande().getId());
         // set price
         if (c.getFournisseur().getNom().equalsIgnoreCase(app.getTkbr().getNom())) {
             cl.setPrixUnitaire(cl.getProduit().getPrix());
@@ -71,7 +71,7 @@ public class CommandeLigneService {
         if (!EtatCommande.DEVIS.equals(cl.getCommande().getEtat())) {
             throw new Exception("Imposssible d'ajouter des produits à une commande dont le statut n'est plus DEVIS");
         }
-        Commande c = cl.getCommande();
+        Commande c = commandeRepository.findOne(cl.getCommande().getId());
 // permet de modifier le prix HT d'une commande
         CommandeLigne clAvant = commandeLigneRepository.findOne(cl.getId());
         BigDecimal prix = clAvant.getPrixUnitaire().multiply(BigDecimal.valueOf(clAvant.getQuantite()));
@@ -91,7 +91,7 @@ public class CommandeLigneService {
         if (!EtatCommande.DEVIS.equals(cl.getCommande().getEtat())) {
             throw new Exception("Imposssible de supprimer des produits à une commande dont le statut n'est plus DEVIS");
         }
-        Commande c = cl.getCommande();
+        Commande c = commandeRepository.findOne(cl.getCommande().getId());
         BigDecimal prix = cl.getPrixUnitaire().multiply(BigDecimal.valueOf(cl.getQuantite()));
         c.setPrixHT(c.getPrixHT() != null ? c.getPrixHT().subtract(prix) : null);
         commandeRepository.save(c);

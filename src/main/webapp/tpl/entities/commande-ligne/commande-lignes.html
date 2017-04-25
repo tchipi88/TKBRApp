@@ -28,7 +28,7 @@
                         <td>{{commandeLigne.quantite}}</td>
                         <td>{{commandeLigne.quantiteLivree}}</td>
                         <td>{{commandeLigne.prixUnitaire| number }}</td>
-                        <td>{{commandeLigne.sousTotal| number }}</td>
+                        <td>{{commandeLigne.quantite* commandeLigne.prixUnitaire| number }}</td>
                         <td >
                             <button type="button"  ng-click="vm.editCommandeLigne(commandeLigne,$index)"  class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
