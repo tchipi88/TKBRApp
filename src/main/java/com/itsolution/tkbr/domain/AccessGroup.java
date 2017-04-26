@@ -6,6 +6,7 @@
 package com.itsolution.tkbr.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,13 +34,13 @@ public class AccessGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @NotNull
     private String libelle;
     
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "access_mapping",
@@ -68,8 +69,31 @@ public class AccessGroup implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    
+    
 
-    @Override
+    public Set<Access> getAccess() {
+		return access;
+	}
+
+	public void setAccess(Set<Access> access) {
+		this.access = access;
+	}
+	
+	public AccessGroup addAccess(Access access) {
+        this.access.add(access);
+        access.getGroupes().add(this);
+        return this;
+    }
+
+    public AccessGroup removeAccess(Access access) {
+        this.access.remove(access);
+        access.getGroupes().remove(this);
+        return this;
+    }
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
