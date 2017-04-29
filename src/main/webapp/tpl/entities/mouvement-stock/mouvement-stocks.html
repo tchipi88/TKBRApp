@@ -17,11 +17,12 @@
                          <th jh-sort-by="produit"><span >Produit</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="quantite"><span >Quantite</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="dateTransaction"><span >Date Transaction</span> <span class="fa fa-sort"></span></th>
+                        
                         <th jh-sort-by="entrepotDepart"><span >Entrepot Depart</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="entrepotDestination"><span >Entrepot Destination</span> <span class="fa fa-sort"></span></th>
-                       
                         <th jh-sort-by="stockEntrepotDepart"><span >Stock Entrepot Depart</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="stockFinalEntrepotDepart"><span >Stock Final Entrepot Depart</span> <span class="fa fa-sort"></span></th>
+                        
+                          <th jh-sort-by="entrepotDestination"><span >Entrepot Destination</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="stockEntrepotDestination"><span >Stock Entrepot Destination</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="stockFinalEntrepotDestination"><span >Stock Final Entrepot Destination</span> <span class="fa fa-sort"></span></th>
 
@@ -40,10 +41,10 @@
                         <td>{{mouvementStock.quantite}}</td>
                         <td>{{mouvementStock.dateTransaction  | date:'mediumDate'}}</td>
                         <td>{{mouvementStock.entrepotDepart.libelle}}</td>
-                        <td>{{mouvementStock.entrepotDestination.libelle}}</td>
-                       
                         <td>{{mouvementStock.stockEntrepotDepart}}</td>
                         <td>{{mouvementStock.stockFinalEntrepotDepart}}</td>
+
+                        <td>{{mouvementStock.entrepotDestination.libelle}}</td>
                         <td>{{mouvementStock.stockEntrepotDestination}}</td>
                         <td>{{mouvementStock.stockFinalEntrepotDestination}}</td>
 

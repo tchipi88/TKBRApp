@@ -60,6 +60,53 @@ public class Commande extends AbstractAuditingEntity {
     @Formula("prix_ttc-montant_paye")
     private BigDecimal montantRestant;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean livree = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean commandee = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean facturee = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean reglee = false;
+
+    public boolean isLivree() {
+        return livree;
+    }
+
+    public void setLivree(boolean livree) {
+        this.livree = livree;
+    }
+
+    public boolean isCommandee() {
+        return commandee;
+    }
+
+    public void setCommandee(boolean commandee) {
+        this.commandee = commandee;
+    }
+
+    public boolean isFacturee() {
+        return facturee;
+    }
+
+    public void setFacturee(boolean facturee) {
+        this.facturee = facturee;
+    }
+
+    public boolean isReglee() {
+        return reglee;
+    }
+
+    public void setReglee(boolean reglee) {
+        this.reglee = reglee;
+    }
+    
+    
+
     public BigDecimal getMontantRestant() {
         return montantRestant;
     }

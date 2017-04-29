@@ -9,7 +9,7 @@
             <span class="font-bold" >Accueil</span>
         </a>
     </li>
-    <li ng-class="{active: vm.$state.includes('admin')}" >
+    <li ng-class="{active: vm.$state.includes('admin')}"  has-authority="ROLE_ADMIN" >
         <a href class="auto">      
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
@@ -101,13 +101,18 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="commande">
+                <a ui-sref="commande({type:'ACHAT'})">
                     <span>Achat</span>
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="commande">
+                <a ui-sref="commande({type:'VENTE'})">
                     <span>Vente</span>
+                </a>
+            </li>
+              <li ui-sref-active="active">
+                <a ui-sref="compte-analytique-client">
+                    <span>Compte Client</span>
                 </a>
             </li>
 
@@ -238,7 +243,7 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="client">
+                <a ui-sref="client({locataire:true})">
                     <span>Locataires</span>
                 </a>
             </li>
@@ -248,8 +253,41 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="compte-analytique-client">
+                <a ui-sref="compte-analytique-client({type:'LOCATION'})">
                     <span>Compte Loyer</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    
+     <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-home icon"></i>
+            <span class="font-bold"> Terrain</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Terrain</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain">
+                    <span>Terrain</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain-commande">
+                    <span>Achat</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain-commande({type:'VENTE'})">
+                    <span>Vente</span>
                 </a>
             </li>
         </ul>

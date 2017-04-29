@@ -6,6 +6,8 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Client;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -19,6 +21,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
 
     public Client findByNom(String nom);
+
+    public Page<Client> findByLocataire(Pageable pageable, boolean locataire);
 
     
 

@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('app')
-        .controller('CompteAnalytiqueClientController', CompteAnalytiqueClientController);
+            .module('app')
+            .controller('CompteAnalytiqueClientController', CompteAnalytiqueClientController);
 
-    CompteAnalytiqueClientController.$inject = ['$state', 'DataUtils', 'CompteAnalytiqueClient', 'CompteAnalytiqueClientSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    CompteAnalytiqueClientController.$inject = ['$state', '$stateParams', 'DataUtils', 'CompteAnalytiqueClient', 'CompteAnalytiqueClientSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function CompteAnalytiqueClientController($state, DataUtils, CompteAnalytiqueClient, CompteAnalytiqueClientSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function CompteAnalytiqueClientController($state, $stateParams, DataUtils, CompteAnalytiqueClient, CompteAnalytiqueClientSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -26,19 +26,21 @@
 
         loadAll();
 
-        function loadAll () {
+        function loadAll() {
             if (pagingParams.search) {
                 CompteAnalytiqueClientSearch.query({
                     query: pagingParams.search,
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
-                    sort: sort()
+                    sort: sort(),
+                    type: $stateParams.type
                 }, onSuccess, onError);
             } else {
                 CompteAnalytiqueClient.query({
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
-                    sort: sort()
+                    sort: sort(),
+                    type: $stateParams.type
                 }, onSuccess, onError);
             }
             function sort() {
@@ -74,7 +76,7 @@
         }
 
         function search(searchQuery) {
-            if (!searchQuery){
+            if (!searchQuery) {
                 return vm.clear();
             }
             vm.links = null;

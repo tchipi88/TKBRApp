@@ -108,7 +108,8 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            type: 'COMMERCIAL'
+                                            type: 'COMMERCIAL',
+                                            dateDebut: new Date()
                                         };
                                     }
                                 }

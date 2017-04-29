@@ -1,5 +1,6 @@
 <div class="bg-light lter b-b wrapper-md" >
-    <h1 class="m-n font-thin h3">Commandes</h1>
+    <h1 class="m-n font-thin h3"   ng-if="$stateParams.type=='ACHAT'">Achats</h1>
+    <h1 class="m-n font-thin h3" ng-if="$stateParams.type=='VENTE'">Ventes</h1>
     <small class="text-muted"></small>
 </div>
 <div>
@@ -14,15 +15,9 @@
         <div class="panel-body">
             <div class="row">
                 <form name="searchForm" class="form-inline">
-                    <div class="form-group">
-                        <label class="control-label"  for="field_type">Type</label>
-                        <select class="form-control" name="type"  ng-model="vm.commande.type"  id="field_type" >
-                            <option value="ACHAT">ACHAT</option>
-                            <option value="VENTE">VENTE</option>
-                        </select>
-                    </div>
+                   
 
-                    <div class="form-group">
+                    <div class="form-group"  ng-if="$stateParams.type=='VENTE'">
                         <label class="control-label"  for="field_client">Client </label>
                         <div class="form-group">
                             <ui-select ng-model="vm.commande.client"   >
@@ -34,7 +29,7 @@
 
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"   ng-if="$stateParams.type=='ACHAT'">
                         <label class="control-label"  for="field_client">Fournisseur</label>
                         <div class="form-group">
                             <ui-select ng-model="vm.commande.client"  >
@@ -78,9 +73,8 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="type"><span >Type</span> <span class="fa fa-sort"></span></th> 
-                        <th jh-sort-by="client"><span >Client</span> <span class="fa fa-sort"></span></th> 
-                        <th jh-sort-by="fournisseur"><span >Fournisseur</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="client"   ng-show="$stateParams.type=='VENTE'"><span >Client</span> <span class="fa fa-sort"></span></th> 
+                        <th jh-sort-by="fournisseur"   ng-show="$stateParams.type=='ACHAT'"><span >Fournisseur</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="etat"><span >Etat</span> <span class="fa fa-sort"></span></th> 
                         <th jh-sort-by="dateEmission"><span >Date Emission</span> <span class="fa fa-sort"></span></th> 
                         <th jh-sort-by="dateLivraison"><span >Date Livraison</span> <span class="fa fa-sort"></span></th>
@@ -88,7 +82,8 @@
 
                         <th jh-sort-by="prixHT"><span >Prix HT</span> <span class="fa fa-sort"></span></th> 
                         <th jh-sort-by="prixTTC"><span >Prix TTC</span> <span class="fa fa-sort"></span></th> 
-                        <th jh-sort-by="superviseur"><span >Superviseur</span> <span class="fa fa-sort"></span></th> 
+                        <th jh-sort-by="montantPaye"><span >Somme versée</span> <span class="fa fa-sort"></span></th> 
+                        <th jh-sort-by="montantRestant"><span >Restant à payer</span> <span class="fa fa-sort"></span></th> 
 
 
                         <th >
@@ -102,16 +97,16 @@
                 <tbody>
                     <tr ng-repeat="commande in vm.commandes track by commande.id">
                         <td><a ui-sref="commande-detail({id:commande.id})">{{commande.id}}</a></td>
-                        <td>{{commande.type}}</td>
-                        <td>{{commande.client.nom}}</td>
-                        <td>{{commande.fournisseur.nom}}</td>
+                        <td  ng-show="$stateParams.type=='VENTE'">{{commande.client.nom}}</td>
+                        <td  ng-show="$stateParams.type=='ACHAT'">{{commande.fournisseur.nom}}</td>
                         <td>{{commande.etat}}</td>
                         <td>{{commande.dateEmission| date:'mediumDate'}}</td>
                         <td>{{commande.dateLivraison| date:'mediumDate'}}</td>
                         <td>{{commande.dateEcheance| date:'mediumDate'}}</td>
                         <td>{{commande.prixHT| number }}</td>
                         <td>{{commande.prixTTC| number }}</td>
-                        <td>{{commande.superviseur.nom}}</td>
+                        <td>{{commande.montantPaye| number }}</td>
+                        <td>{{commande.montantRestant| number }}</td>
                         <td >
 
                           

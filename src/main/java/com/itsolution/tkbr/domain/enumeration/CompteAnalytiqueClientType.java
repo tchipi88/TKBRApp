@@ -10,5 +10,5 @@ package com.itsolution.tkbr.domain.enumeration;
  * @author tchipi
  */
 public enum CompteAnalytiqueClientType {
-    LOCATION, ACHAT;
+    LOCATION, ACHAT,TERRAIN;
 }

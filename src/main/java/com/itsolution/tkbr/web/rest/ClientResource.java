@@ -99,9 +99,9 @@ public class ClientResource {
      */
     @GetMapping("/clients")
     @Timed
-    public ResponseEntity<List<Client>> getAllClients(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Client>> getAllClients(@ApiParam Pageable pageable,@ApiParam boolean locataire) {
         log.debug("REST request to get all Clients");
-        Page<Client> page = clientRepository.findAll(pageable);
+        Page<Client> page = clientRepository.findByLocataire(pageable,locataire);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/clients");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -135,20 +135,21 @@ public class ClientResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
+     /**
      * SEARCH  /_search/clients?query=:query : search for the client corresponding
      * to the query.
      *
      * @param query the query of the client search 
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/clients")
     @Timed
-    public List<Client> searchClients(@RequestParam String query) {
-        log.debug("REST request to search Clients for query {}", query);
-        return StreamSupport
-            .stream(clientSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<Client>> searchClients(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Clients for query {}", query);
+        Page<Client> page = clientSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/clients");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 

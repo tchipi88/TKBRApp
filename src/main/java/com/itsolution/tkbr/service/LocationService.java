@@ -5,13 +5,15 @@
  */
 package com.itsolution.tkbr.service;
 
+import com.itsolution.tkbr.domain.Client;
+import com.itsolution.tkbr.domain.Compte;
 import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
 import com.itsolution.tkbr.domain.Location;
 import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
 import com.itsolution.tkbr.repository.LocationRepository;
 import java.math.BigDecimal;
-import java.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +30,16 @@ public class LocationService {
     LocationRepository locationRepository;
     @Autowired
     CompteAnalytiqueClientRepository compteAnalytiqueClientRepository;
+    @Autowired
+    CompteService cs;
+    @Autowired
+    ClientRepository  clientRepository;
 
     public Location create(Location location) throws Exception {
         location.setDateFin(location.getDateDebut().plusMonths(location.getDuree()));
+        BigDecimal montant = location.getMontantLoyer().multiply(new BigDecimal(location.getDuree()));
 
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(location.getLocataire().getNom());
+        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntituleAndType(location.getLocataire().getNom(),CompteAnalytiqueClientType.LOCATION);
         if (compteClient == null) {
             compteClient = new CompteAnalytiqueClient();
             compteClient.setIntitule(location.getLocataire().getNom());
@@ -41,9 +48,23 @@ public class LocationService {
             compteClient.setCredit(BigDecimal.ZERO);
             compteClient.setDebit(BigDecimal.ZERO);
         }
-        compteClient.setDebit(compteClient.getDebit().add(location.getMontantLoyer().multiply(new BigDecimal(location.getDuree()))));
+        compteClient.setDebit(compteClient.getDebit().add(montant));
 
         compteAnalytiqueClientRepository.save(compteClient);
+
+        Compte compteLoyer = cs.getCompteLoyer();
+        Compte compteVente = cs.getCompteVente();
+        Compte compteTVACollecte = cs.getCompteTVACollecte();
+
+        compteLoyer.setDebit(montant.add(compteClient.getDebit()));
+        compteVente.setCredit(montant.add(compteVente.getCredit()));
+        compteTVACollecte.setCredit(montant.add(compteTVACollecte.getCredit()));
+        
+        if(!location.getLocataire().isLocataire()) {
+            Client locataire=location.getLocataire();
+            locataire.setLocataire(true);
+            clientRepository.save(locataire);
+        }
 
         return locationRepository.save(location);
     }

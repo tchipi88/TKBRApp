@@ -54,7 +54,7 @@ public class CommandeLigneResource {
      */
     @PostMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> createCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
+    public ResponseEntity<CommandeLigne> createCommandeLigne( @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to save CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commandeLigne cannot already have an ID")).body(null);
@@ -76,7 +76,7 @@ public class CommandeLigneResource {
      */
     @PutMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> updateCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
+    public ResponseEntity<CommandeLigne> updateCommandeLigne( @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to update CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() == null) {
             return createCommandeLigne(commandeLigne);

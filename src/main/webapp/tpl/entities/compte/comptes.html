@@ -15,12 +15,7 @@
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="intitule"><span >Intitule</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="debit"><span >Debit</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="credit"><span >Credit</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="solde"><span >Solde</span> <span class="fa fa-sort"></span></th>
-                        <th >
-                            <!--  <button class="btn btn-primary" ui-sref="compte.new"   tooltip="Créer Compte">
-                                   <i class="fa fa-plus">
-                                   </i>
-                               </button>-->
-                        </th> 
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -31,25 +26,7 @@
                         <td>{{compte.credit| number }}</td>
                         <td>{{compte.solde| number }}</td>
 
-                        <td >
-
                        
-                            <button type="submit"   ui-sref="compte.edit({id:compte.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
-                                <i class="fa fa-edit">
-                                </i>
-                            </button>
-
-
-                            <!--
-                            
-                             <button type="submit"  ui-sref="compte.delete({id:compte.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
-                                                            <i class="fa fa-trash">
-                                                            </i>
-                            
-                            -->
-                            </button> 
-
-                        </td>
                     </tr>
                 </tbody>
             </table>

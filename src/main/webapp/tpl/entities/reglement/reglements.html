@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="reglement in vm.reglements track by reglement.id">
-                        <td><a ui-sref="reglement-detail({id:reglement.id})">{{reglement.id}}</a></td>
+                        <td>{{reglement.id}}</td>
                         <td>{{reglement.montant| number }}</td>
                         <td>{{reglement.dateVersement| date:'mediumDate'}}</td>
                         <td>{{reglement.mode}}</td>

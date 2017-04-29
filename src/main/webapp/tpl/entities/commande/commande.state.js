@@ -8,7 +8,7 @@
         $stateProvider
                 .state('commande', {
                     parent: 'entity',
-                    url: '/commande?page&sort&search',
+                    url: '/commande?page&sort&search&type',
                     data: {
                         authorities: ['ROLE_USER']
                     },
@@ -27,7 +27,11 @@
                             value: 'id,asc',
                             squash: true
                         },
-                        search: null
+                        search: null,
+                        type : {
+                            value: 'ACHAT',
+                            squash :true
+                        }
                     },
                     resolve: {
                         pagingParams: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
@@ -41,57 +45,7 @@
                             }]
                     }
                 })
-                .state('commande-detail', {
-                    parent: 'commande',
-                    url: '/commande/{id}',
-                    data: {
-                        authorities: ['ROLE_USER']
-                    },
-                    views: {
-                        'content@app': {
-                            templateUrl: 'tpl/entities/commande/commande-detail.html',
-                            controller: 'CommandeDetailController',
-                            controllerAs: 'vm'}
-                    },
-                    resolve: {
-                        entity: ['$stateParams', 'Commande', function ($stateParams, Commande) {
-                                return Commande.get({id: $stateParams.id}).$promise;
-                            }],
-                        previousState: ["$state", function ($state) {
-                                var currentStateData = {
-                                    name: $state.current.name || 'commande',
-                                    params: $state.params,
-                                    url: $state.href($state.current.name, $state.params)
-                                };
-                                return currentStateData;
-                            }]
-                    }
-                })
-                .state('commande-detail.edit', {
-                    parent: 'commande-detail',
-                    url: '/detail/edit',
-                    data: {
-                        authorities: ['ROLE_USER']
-                    },
-                    onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                            $uibModal.open({
-                                templateUrl: 'tpl/entities/commande/commande-dialog.html',
-                                controller: 'CommandeDialogController',
-                                controllerAs: 'vm',
-                                backdrop: 'static',
-                                size: 'lg',
-                                resolve: {
-                                    entity: ['Commande', function (Commande) {
-                                            return Commande.get({id: $stateParams.id}).$promise;
-                                        }]
-                                }
-                            }).result.then(function () {
-                                $state.go('^', {}, {reload: false});
-                            }, function () {
-                                $state.go('^');
-                            });
-                        }]
-                })
+                
                 .state('commande.new', {
                     parent: 'commande',
                     url: '/new',
@@ -108,7 +62,9 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                           etat :'DEVIS'
+                                           etat :'DEVIS',
+                                           type : $stateParams.type,
+                                           dateEmission :new Date()
                                         };
                                     },
                                    commandeLignes: function () {

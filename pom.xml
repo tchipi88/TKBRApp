@@ -248,6 +248,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- jhipster-needle-maven-add-dependency -->
+        <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.0.1</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -370,7 +377,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- jhipster-needle-maven-add-dependency -->
+
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>

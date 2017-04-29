@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('app')
-        .controller('ClientController', ClientController);
+            .module('app')
+            .controller('ClientController', ClientController);
 
-    ClientController.$inject = ['$state', 'DataUtils', 'Client', 'ClientSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    ClientController.$inject = ['$state', '$stateParams', 'DataUtils', 'Client', 'ClientSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function ClientController($state, DataUtils, Client, ClientSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function ClientController($state, $stateParams, DataUtils, Client, ClientSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -26,19 +26,21 @@
 
         loadAll();
 
-        function loadAll () {
+        function loadAll() {
             if (pagingParams.search) {
                 ClientSearch.query({
                     query: pagingParams.search,
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
-                    sort: sort()
+                    sort: sort(),
+                    locataire: $stateParams.locataire
                 }, onSuccess, onError);
             } else {
                 Client.query({
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
-                    sort: sort()
+                    sort: sort(),
+                    locataire: $stateParams.locataire
                 }, onSuccess, onError);
             }
             function sort() {
@@ -74,7 +76,7 @@
         }
 
         function search(searchQuery) {
-            if (!searchQuery){
+            if (!searchQuery) {
                 return vm.clear();
             }
             vm.links = null;

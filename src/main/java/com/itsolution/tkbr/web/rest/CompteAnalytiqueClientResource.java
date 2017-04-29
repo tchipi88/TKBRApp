@@ -2,6 +2,7 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
 
 import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
 import com.itsolution.tkbr.repository.search.CompteAnalytiqueClientSearchRepository;
@@ -99,9 +100,9 @@ public class CompteAnalytiqueClientResource {
      */
     @GetMapping("/compte-analytique-clients")
     @Timed
-    public ResponseEntity<List<CompteAnalytiqueClient>> getAllCompteAnalytiqueClients(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<CompteAnalytiqueClient>> getAllCompteAnalytiqueClients(@ApiParam Pageable pageable,@ApiParam CompteAnalytiqueClientType  type) {
         log.debug("REST request to get all CompteAnalytiqueClients");
-        Page<CompteAnalytiqueClient> page = compteAnalytiqueClientRepository.findAll(pageable);
+        Page<CompteAnalytiqueClient> page = compteAnalytiqueClientRepository.findByType(pageable,type);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/compte-analytique-clients");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -135,7 +136,7 @@ public class CompteAnalytiqueClientResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
+     /**
      * SEARCH  /_search/compte-analytique-clients?query=:query : search for the compteAnalytiqueClient corresponding
      * to the query.
      *
@@ -144,11 +145,12 @@ public class CompteAnalytiqueClientResource {
      */
     @GetMapping("/_search/compte-analytique-clients")
     @Timed
-    public List<CompteAnalytiqueClient> searchCompteAnalytiqueClients(@RequestParam String query) {
+    public ResponseEntity<List<CompteAnalytiqueClient>> searchCompteAnalytiqueClients(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search CompteAnalytiqueClients for query {}", query);
-        return StreamSupport
-            .stream(compteAnalytiqueClientSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+      Page<CompteAnalytiqueClient> page = compteAnalytiqueClientSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/compte-analytique-clients");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        
     }
 
 

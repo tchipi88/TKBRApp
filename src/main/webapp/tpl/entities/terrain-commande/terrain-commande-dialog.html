@@ -1,0 +1,190 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myCommandeLabel"  ng-show="$stateParams.type == 'ACHAT'">Créer ou modifier  Achat Terrain</h3>
+        <h3 class="modal-title" id="myCommandeLabel" ng-show="$stateParams.type == 'VENTE'">Créer ou modifier  Vente Terrain</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id</label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.terrainCommande.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_terrain">Terrain <span style="color:red" >*</span></label>
+                   <!-- <div class="input-group">-->
+                        <ui-select ng-model="vm.terrainCommande.terrain"    ng-required="true">
+                            <ui-select-match placeholder="Select Terrain">{{$select.selected.denomination}}</ui-select-match>
+                            <ui-select-choices repeat="terrain in vm.terrains | filter: $select.search">
+                                <div ng-bind-html="terrain.denomination | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>  
+                     <!--   <span class="input-group-btn" >
+                            <button   ng-click="vm.zoomColumn('Terrain', 'terrain', 'terrain', vm.terrainCommande.terrain)" 
+                                      class="btn btn-default" type="button"  ng-hide="!vm.terrainCommande.terrain">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button ng-click="vm.zoomColumn('Terrain', 'terrain', 'terrain', {})"      
+                                    class="btn btn-default" type="button"  ng-hide="vm.terrainCommande.terrain">
+                                <span class="fa fa-plus fw"></span>
+                            </button>
+                        </span>-->
+                  <!--  </div> -->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <uib-tabset class="uib-tab-container" justified="true"   vertical="false"  type="pills">
+                    <uib-tab>
+                        <uib-tab-heading  >
+                             <span  ng-show="$stateParams.type == 'VENTE'">Vente</span>
+                            <span  ng-show="$stateParams.type == 'ACHAT'">Achat</span>
+                        </uib-tab-heading>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_dateEmission">Date Emission <span style="color:red" >*</span></label>
+                                        <div class="input-group">
+                                            <input  id="field_dateEmission" type="text" class="form-control" name="dateEmission"    ng-required="true"  uib-datepicker-popup="{{dateformat}}"  ng-model="vm.terrainCommande.dateEmission"  is-open="vm.datePickerOpenStatus.dateEmission"
+                                                    />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateEmission')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6"   ng-show="$stateParams.type == 'ACHAT'">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_fournisseur">Fournisseur <span style="color:red" >*</span></label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="vm.terrainCommande.fournisseur"    ng-required="$stateParams.type == 'ACHAT'">
+                                                <ui-select-match placeholder="Select Fournisseur">{{$select.selected.nom}}</ui-select-match>
+                                                <ui-select-choices repeat="fournisseur in vm.fournisseurs | filter: $select.search">
+                                                    <div ng-bind-html="fournisseur.nom | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>  
+                                            <span class="input-group-btn" >
+                                                <button   ng-click="vm.zoomColumn('Fournisseur', 'fournisseur', 'fournisseur', vm.terrainCommande.fournisseur)" 
+                                                          class="btn btn-default" type="button"  ng-hide="!vm.terrainCommande.fournisseur">
+                                                    <span class="fa fa-eye"></span>
+                                                </button>
+                                                <button ng-click="vm.zoomColumn('Fournisseur', 'fournisseur', 'fournisseur', {})"      
+                                                        class="btn btn-default" type="button"  ng-hide="vm.terrainCommande.fournisseur">
+                                                    <span class="fa fa-plus fw"></span>
+                                                </button>
+                                            </span>
+                                        </div> </div>
+                                </div>
+                                <div class="col-sm-6"  ng-show="$stateParams.type == 'VENTE'">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_client">Client <span style="color:red" >*</span></label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="vm.terrainCommande.client"    ng-required="$stateParams.type == 'VENTE'">
+                                                <ui-select-match placeholder="Select Client">{{$select.selected.nom}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search">
+                                                    <div ng-bind-html="client.nom | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>  
+                                            <span class="input-group-btn" >
+                                                <button   ng-click="vm.zoomColumn('Client', 'client', 'client', vm.terrainCommande.client)" 
+                                                          class="btn btn-default" type="button"  ng-hide="!vm.terrainCommande.client">
+                                                    <span class="fa fa-eye"></span>
+                                                </button>
+                                                <button ng-click="vm.zoomColumn('Client', 'client', 'client', {})"      
+                                                        class="btn btn-default" type="button"  ng-hide="vm.terrainCommande.client">
+                                                    <span class="fa fa-plus fw"></span>
+                                                </button>
+                                            </span>
+                                        </div> </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_prixHT">Prix HT</label>
+                                        <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixHT" ng-model="vm.terrainCommande.prixHT"                     ng-readonly="true"  ng-required="false"                     />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_prixTTC">Prix TTC</label>
+                                        <input  class="form-control"   type="number"  autocomplete="off"  id="field_prixTTC" ng-model="vm.terrainCommande.prixTTC"                     ng-readonly="true"  ng-required="false"                     />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_montantPaye">Montant Paye</label>
+                                        <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantPaye" ng-model="vm.terrainCommande.montantPaye"                     ng-readonly="true"  ng-required="false"                     />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_montantRestant">Montant Restant</label>
+                                        <input  class="form-control"   type="number"  autocomplete="off"  id="field_montantRestant" ng-model="vm.terrainCommande.montantRestant"                     ng-readonly="true"  ng-required="false"                     />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_commentaires">Commentaires</label>
+                                        <textarea class="form-control" rows="3"  cols="30"   id="field_commentaires" ng-model="vm.terrainCommande.commentaires"                     ng-readonly="false"  ng-required="false"                     > </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"  for="field_suiviDossier">Suivi Dossier</label>
+                                        <div class="input-group">
+                                            <ui-select ng-model="vm.terrainCommande.suiviDossier"    ng-required="false">
+                                                <ui-select-match placeholder="Select TerrainSuivi">{{$select.selected.libelle}}</ui-select-match>
+                                                <ui-select-choices repeat="suividossier in vm.suividossiers | filter: $select.search">
+                                                    <div ng-bind-html="suividossier.libelle | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>  
+                                            <span class="input-group-btn" >
+                                                <button   ng-click="vm.zoomColumn('TerrainSuivi', 'terrain-suivi', 'suiviDossier', vm.terrainCommande.suiviDossier)" 
+                                                          class="btn btn-default" type="button"  ng-hide="!vm.terrainCommande.suiviDossier">
+                                                    <span class="fa fa-eye"></span>
+                                                </button>
+                                                <button ng-click="vm.zoomColumn('TerrainSuivi', 'terrain-suivi', 'suiviDossier', {})"      
+                                                        class="btn btn-default" type="button"  ng-hide="vm.terrainCommande.suiviDossier">
+                                                    <span class="fa fa-plus fw"></span>
+                                                </button>
+                                            </span>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab  ng-if="vm.terrainCommande.id">
+                        <uib-tab-heading  >Reglements</uib-tab-heading>
+                        <br>
+                         <ng-include  src="'tpl/entities/terrain-reglement/terrain-reglements.html'"></ng-include> 
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

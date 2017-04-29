@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * A Client.
@@ -14,6 +15,10 @@ import javax.persistence.*;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "client")
 public class Client extends Tiers {
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean locataire = false;
 
     @OneToOne(mappedBy = "client")
     @JsonIgnore
@@ -27,6 +32,13 @@ public class Client extends Tiers {
         this.compte = compte;
     }
 
+    public boolean isLocataire() {
+        return locataire;
+    }
+
+    public void setLocataire(boolean locataire) {
+        this.locataire = locataire;
+    }
+
     
-  
 }

@@ -2,6 +2,7 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Commande;
+import com.itsolution.tkbr.domain.enumeration.TypeCommande;
 
 import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.service.CommandeService;
@@ -95,9 +96,9 @@ public class CommandeResource {
      */
     @GetMapping("/commandes")
     @Timed
-    public ResponseEntity<List<Commande>> getAllCommandes(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Commande>> getAllCommandes(@ApiParam Pageable pageable,@ApiParam TypeCommande type) {
         log.debug("REST request to get all Commandes");
-        Page<Commande> page = commandeRepository.findAll(pageable);
+        Page<Commande> page = commandeRepository.findByType(pageable,type);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/commandes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

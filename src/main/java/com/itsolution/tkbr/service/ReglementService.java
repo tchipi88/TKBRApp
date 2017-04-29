@@ -13,6 +13,7 @@ import com.itsolution.tkbr.domain.Decaissement;
 import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.Reglement;
 import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
 import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.ReglementRepository;
@@ -105,7 +106,7 @@ public class ReglementService {
             }
             case VENTE: {
 
-                CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(r.getCommande().getClient());
+                CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(r.getCommande().getClient(),CompteAnalytiqueClientType.ACHAT);
                 compteAnalytiqueClient.setCredit(compteAnalytiqueClient.getCredit().add(r.getMontant()));
                 compteAnalytiqueClientService.save(compteAnalytiqueClient);
 

@@ -1,0 +1,68 @@
+
+<div>
+    <h2><span >TerrainCommande</span> {{vm.terrainCommande.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Date Emission</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.dateEmission}}</span>
+        </dd> 
+<dt><span >Fournisseur</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.fournisseur}}</span>
+        </dd> 
+<dt><span >Client</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.client}}</span>
+        </dd> 
+<dt><span >Type</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.type}}</span>
+        </dd> 
+<dt><span >Terrain</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.terrain}}</span>
+        </dd> 
+<dt><span >Prix HT</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.prixHT}}</span>
+        </dd> 
+<dt><span >Prix TTC</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.prixTTC}}</span>
+        </dd> 
+<dt><span >Montant Paye</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.montantPaye}}</span>
+        </dd> 
+<dt><span >Montant Restant</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.montantRestant}}</span>
+        </dd> 
+<dt><span >Commentaires</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.commentaires}}</span>
+        </dd> 
+<dt><span >Suivi Dossier</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.suiviDossier}}</span>
+        </dd> 
+<dt><span >Reglements</span></dt>
+        <dd>
+            <span>{{vm.terrainCommande.reglements}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="terrainCommande-detail.edit({id:vm.terrainCommande.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

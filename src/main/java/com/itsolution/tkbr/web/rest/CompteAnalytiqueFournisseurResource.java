@@ -38,7 +38,7 @@ public class CompteAnalytiqueFournisseurResource {
     private final Logger log = LoggerFactory.getLogger(CompteAnalytiqueFournisseurResource.class);
 
     private static final String ENTITY_NAME = "compteAnalytiqueFournisseur";
-        
+
     private final CompteAnalytiqueFournisseurRepository compteAnalytiqueFournisseurRepository;
 
     private final CompteAnalytiqueFournisseurSearchRepository compteAnalytiqueFournisseurSearchRepository;
@@ -49,10 +49,14 @@ public class CompteAnalytiqueFournisseurResource {
     }
 
     /**
-     * POST  /compte-analytique-fournisseurs : Create a new compteAnalytiqueFournisseur.
+     * POST /compte-analytique-fournisseurs : Create a new
+     * compteAnalytiqueFournisseur.
      *
-     * @param compteAnalytiqueFournisseur the compteAnalytiqueFournisseur to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new compteAnalytiqueFournisseur, or with status 400 (Bad Request) if the compteAnalytiqueFournisseur has already an ID
+     * @param compteAnalytiqueFournisseur the compteAnalytiqueFournisseur to
+     * create
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new compteAnalytiqueFournisseur, or with status 400 (Bad Request) if the
+     * compteAnalytiqueFournisseur has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/compte-analytique-fournisseurs")
@@ -65,17 +69,20 @@ public class CompteAnalytiqueFournisseurResource {
         CompteAnalytiqueFournisseur result = compteAnalytiqueFournisseurRepository.save(compteAnalytiqueFournisseur);
         compteAnalytiqueFournisseurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/compte-analytique-fournisseurs/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /compte-analytique-fournisseurs : Updates an existing compteAnalytiqueFournisseur.
+     * PUT /compte-analytique-fournisseurs : Updates an existing
+     * compteAnalytiqueFournisseur.
      *
-     * @param compteAnalytiqueFournisseur the compteAnalytiqueFournisseur to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated compteAnalytiqueFournisseur,
-     * or with status 400 (Bad Request) if the compteAnalytiqueFournisseur is not valid,
-     * or with status 500 (Internal Server Error) if the compteAnalytiqueFournisseur couldnt be updated
+     * @param compteAnalytiqueFournisseur the compteAnalytiqueFournisseur to
+     * update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * compteAnalytiqueFournisseur, or with status 400 (Bad Request) if the
+     * compteAnalytiqueFournisseur is not valid, or with status 500 (Internal
+     * Server Error) if the compteAnalytiqueFournisseur couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/compte-analytique-fournisseurs")
@@ -88,14 +95,16 @@ public class CompteAnalytiqueFournisseurResource {
         CompteAnalytiqueFournisseur result = compteAnalytiqueFournisseurRepository.save(compteAnalytiqueFournisseur);
         compteAnalytiqueFournisseurSearchRepository.save(result);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, compteAnalytiqueFournisseur.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, compteAnalytiqueFournisseur.getId().toString()))
+                .body(result);
     }
 
-   /**
-     * GET  /compte-analytique-fournisseurs : get all the compteAnalytiqueFournisseurs.
+    /**
+     * GET /compte-analytique-fournisseurs : get all the
+     * compteAnalytiqueFournisseurs.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of compteAnalytiqueFournisseurs in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * compteAnalytiqueFournisseurs in body
      */
     @GetMapping("/compte-analytique-fournisseurs")
     @Timed
@@ -107,10 +116,12 @@ public class CompteAnalytiqueFournisseurResource {
     }
 
     /**
-     * GET  /compte-analytique-fournisseurs/:id : get the "id" compteAnalytiqueFournisseur.
+     * GET /compte-analytique-fournisseurs/:id : get the "id"
+     * compteAnalytiqueFournisseur.
      *
      * @param id the id of the compteAnalytiqueFournisseur to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the compteAnalytiqueFournisseur, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * compteAnalytiqueFournisseur, or with status 404 (Not Found)
      */
     @GetMapping("/compte-analytique-fournisseurs/{id}")
     @Timed
@@ -121,7 +132,8 @@ public class CompteAnalytiqueFournisseurResource {
     }
 
     /**
-     * DELETE  /compte-analytique-fournisseurs/:id : delete the "id" compteAnalytiqueFournisseur.
+     * DELETE /compte-analytique-fournisseurs/:id : delete the "id"
+     * compteAnalytiqueFournisseur.
      *
      * @param id the id of the compteAnalytiqueFournisseur to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -136,20 +148,20 @@ public class CompteAnalytiqueFournisseurResource {
     }
 
     /**
-     * SEARCH  /_search/compte-analytique-fournisseurs?query=:query : search for the compteAnalytiqueFournisseur corresponding
-     * to the query.
+     * SEARCH /_search/compte-analytique-fournisseurs?query=:query : search for
+     * the compteAnalytiqueFournisseur corresponding to the query.
      *
-     * @param query the query of the compteAnalytiqueFournisseur search 
+     * @param query the query of the compteAnalytiqueFournisseur search
      * @return the result of the search
      */
     @GetMapping("/_search/compte-analytique-fournisseurs")
     @Timed
-    public List<CompteAnalytiqueFournisseur> searchCompteAnalytiqueFournisseurs(@RequestParam String query) {
+    public ResponseEntity<List<CompteAnalytiqueFournisseur>> searchCompteAnalytiqueFournisseurs(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search CompteAnalytiqueFournisseurs for query {}", query);
-        return StreamSupport
-            .stream(compteAnalytiqueFournisseurSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
+        Page<CompteAnalytiqueFournisseur> page = compteAnalytiqueFournisseurSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/compte-analytique-fournisseurs");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 
+    }
 
 }

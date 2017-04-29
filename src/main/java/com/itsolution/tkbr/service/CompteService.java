@@ -72,5 +72,14 @@ public class CompteService {
     public Compte getCompteCheque() throws Exception {
         return getCompte(51, " Valeurs à encaisser");
     }
+    
+    public Compte getCompteLoyer() throws Exception {
+        return getCompte(622, " LOCATIONS ET CHARGES LOCATIVES");
+    }
+    public Compte getCompteTerrain() throws Exception {
+        return getCompte(622, " LOCATIONS ET CHARGES LOCATIVES");
+    }
+    
+   
 
 }

@@ -6,6 +6,9 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -18,6 +21,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CompteAnalytiqueClientRepository extends JpaRepository<CompteAnalytiqueClient, Long> {
 
     public CompteAnalytiqueClient findByIntitule(String nom);
+
+    public CompteAnalytiqueClient findByIntituleAndType(String nom, CompteAnalytiqueClientType compteAnalytiqueClientType);
+
+    public Page<CompteAnalytiqueClient> findByType(Pageable pageable, CompteAnalytiqueClientType type);
 
     
 

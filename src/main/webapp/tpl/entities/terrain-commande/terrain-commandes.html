@@ -1,0 +1,79 @@
+<div class="bg-light lter b-b wrapper-md" >
+   <h1 class="m-n font-thin h3"   ng-if="$stateParams.type=='ACHAT'">Achats  Terrain</h1>
+    <h1 class="m-n font-thin h3" ng-if="$stateParams.type=='VENTE'">Ventes Terrain</h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="dateEmission"><span >Date Emission</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="fournisseur"   ng-show="$stateParams.type=='ACHAT'"><span >Fournisseur</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="client"  ng-show="$stateParams.type=='VENTE'"><span >Client</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="terrain"><span >Terrain</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="prixHT"><span >Prix HT</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="prixTTC"><span >Prix TTC</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="montantPaye"><span >Montant Paye</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="montantRestant"><span >Montant Restant</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="suiviDossier"><span >Suivi Dossier</span> <span class="fa fa-sort"></span></th>
+
+                        <th >
+                            <button class="btn btn-primary" ui-sref="terrain-commande.new"   tooltip="Créer TerrainCommande">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="terrainCommande in vm.terrainCommandes track by terrainCommande.id">
+                        <td><a ui-sref="terrainCommande-detail({id:terrain-commande.id})">{{terrainCommande.id}}</a></td>
+                        <td>{{terrainCommande.dateEmission| date:'mediumDate'}}</td>
+                        <td  ng-show="$stateParams.type=='ACHAT'">{{terrainCommande.fournisseur.nom}}</td>
+                        <td  ng-show="$stateParams.type=='VENTE'">{{terrainCommande.client.nom}}</td>
+                        <td>{{terrainCommande.terrain.denomination}}</td>
+                        <td>{{terrainCommande.prixHT| number }}</td>
+                        <td>{{terrainCommande.prixTTC| number }}</td>
+                        <td>{{terrainCommande.montantPaye| number }}</td>
+                        <td>{{terrainCommande.montantRestant| number }}</td>
+                        <td>{{terrainCommande.suiviDossier.libelle}}</td>
+
+                        <td >
+
+                          
+                            <button type="submit"   ui-sref="terrain-commande.edit({id:terrainCommande.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+                            <button type="submit"  ui-sref="terrain-commande.delete({id:terrainCommande.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                <i class="fa fa-trash">
+                                </i>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

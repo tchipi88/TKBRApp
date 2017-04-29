@@ -165,7 +165,9 @@
                 resolve: {
                     entity: function () {
                         return {
-                            commande: vm.commande
+                            commande: vm.commande,
+                            mode: 'ESPECES',
+                            dateVersement: new Date()
                         };
                     }
                 }

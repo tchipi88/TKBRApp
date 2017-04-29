@@ -7,6 +7,7 @@ package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Client;
 import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
 import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
 import com.itsolution.tkbr.repository.search.CompteAnalytiqueClientSearchRepository;
 import java.math.BigDecimal;
@@ -25,11 +26,12 @@ public class CompteAnalytiqueClientService {
     @Autowired
     CompteAnalytiqueClientSearchRepository compteAnalytiqueClientSearchRepository;
 
-    public CompteAnalytiqueClient getCompteClient(Client client) throws Exception {
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(client.getNom());
+    public CompteAnalytiqueClient getCompteClient(Client client,CompteAnalytiqueClientType type) throws Exception {
+        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntituleAndType(client.getNom(),type);
         if (compteClient == null) {
             compteClient = new CompteAnalytiqueClient();
             compteClient.setIntitule(client.getNom());
+            compteClient.setType(type);
             compteClient.setClient(client);
             compteClient.setCredit(BigDecimal.ZERO);
             compteClient.setDebit(BigDecimal.ZERO);

@@ -139,21 +139,23 @@ public class FournisseurResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
+   /**
      * SEARCH  /_search/fournisseurs?query=:query : search for the fournisseur corresponding
      * to the query.
      *
      * @param query the query of the fournisseur search 
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/fournisseurs")
     @Timed
-    public List<Fournisseur> searchFournisseurs(@RequestParam String query) {
-        log.debug("REST request to search Fournisseurs for query {}", query);
-        return StreamSupport
-            .stream(fournisseurSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<Fournisseur>> searchFournisseurs(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Fournisseurs for query {}", query);
+        Page<Fournisseur> page = fournisseurSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/fournisseurs");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
 
 
 }

@@ -37,6 +37,9 @@ public class CommandeLigneService {
     @Autowired
     ApplicationProperties app;
 
+    @Autowired
+    EntrepotService entrepotService;
+
     public CommandeLigne create(CommandeLigne cl) throws Exception {
 
         //NE PAS AJOUTER PLUSIEURS FOIS LE MEME PRODUIT DANS DES LIGNES DANS UNE MEME COMMANDE
@@ -56,6 +59,12 @@ public class CommandeLigneService {
             ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(c.getFournisseur(), cl.getProduit());
             cl.setPrixUnitaire(pf != null ? pf.getPrixVente() : cl.getProduit().getPrix());
         }
+
+        //set entrepot
+        if (cl.getEntrepot() == null) {
+            cl.setEntrepot(entrepotService.findByLibelle(app.getTkbr().getNom()));
+        }
+
         commandeLigneRepository.save(cl);
         BigDecimal prix = cl.getPrixUnitaire().multiply(BigDecimal.valueOf(cl.getQuantite()));
         c.setPrixHT(c.getPrixHT() != null ? c.getPrixHT().add(prix) : prix);

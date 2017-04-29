@@ -62,7 +62,7 @@ public class MouvementStockService {
         }
         
         ms.setStockEntrepotDestination(ep1.getStockTheorique());
-        ep1.setStockTheorique(ep.getStockTheorique()+ms.getQuantite());
+        ep1.setStockTheorique(ep1.getStockTheorique()+ms.getQuantite());
         entrepotProduitRepository.save(ep1);
         
         return mouvementStockRepository.save(ms);

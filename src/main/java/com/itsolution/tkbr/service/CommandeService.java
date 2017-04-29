@@ -15,6 +15,7 @@ import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
 import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
 import com.itsolution.tkbr.repository.CommandeRepository;
@@ -114,40 +115,44 @@ public class CommandeService {
             case ACHAT: {
                 switch (commande.getEtat()) {
                     case BON_LIVRAISON: {
-                        //mouvement stock
-                        for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
-                            MouvementStock ms = new MouvementStock();
-                            ms.setDateTransaction(commande.getDateEmission());
-                            ms.setQuantite(cl.getQuantite());
-                            ms.setProduit(cl.getProduit());
+                        if (!commande.isLivree()) {
+                            //mouvement stock
+                            for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
+                                MouvementStock ms = new MouvementStock();
+                                ms.setDateTransaction(commande.getDateEmission());
+                                ms.setQuantite(cl.getQuantite());
+                                ms.setProduit(cl.getProduit());
 
-                            ms.setMotifTransaction("ACHAT");
-                            //set price
-                            ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
-                            cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
-                            ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
-                            ms.setEntrepotDestination(entrepotService.findByLibelle(commande.getClient().getNom()));
+                                ms.setMotifTransaction("ACHAT");
+                                //set price
+                                ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(commande.getFournisseur(), cl.getProduit());
+                                cl.setPrixUnitaire(pf == null ? cl.getProduit().getPrix() : pf.getPrixVente());
+                                ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
+                                ms.setEntrepotDestination(entrepotService.findByLibelle(commande.getClient().getNom()));
 
-                            mouvementStockService.save(ms, false);
+                                mouvementStockService.save(ms, false);
+                            }
                         }
                         break;
                     }
                     case FACTUREE: {
-                        CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(commande.getFournisseur());
-                        compteAnalytiqueFournisseur.setDebit(compteAnalytiqueFournisseur.getDebit().add(commande.getPrixTTC()));
-                        compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
+                        if (!commande.isFacturee()) {
+                            CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(commande.getFournisseur());
+                            compteAnalytiqueFournisseur.setDebit(compteAnalytiqueFournisseur.getDebit().add(commande.getPrixTTC()));
+                            compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
 
-                        Compte compteAchat = cs.getCompteAchat();
-                        Compte compteFournisseurs = cs.getCompteFournisseurs();
-                        Compte compteTVADeductible = cs.getCompteTVADeductible();
+                            Compte compteAchat = cs.getCompteAchat();
+                            Compte compteFournisseurs = cs.getCompteFournisseurs();
+                            Compte compteTVADeductible = cs.getCompteTVADeductible();
 
-                        compteAchat.setDebit(commande.getPrixHT().add(compteAchat.getDebit()));
-                        compteFournisseurs.setCredit(commande.getPrixTTC().add(compteFournisseurs.getCredit()));
-                        compteTVADeductible.setDebit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVADeductible.getDebit()));
+                            compteAchat.setDebit(commande.getPrixHT().add(compteAchat.getDebit()));
+                            compteFournisseurs.setCredit(commande.getPrixTTC().add(compteFournisseurs.getCredit()));
+                            compteTVADeductible.setDebit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVADeductible.getDebit()));
 
-                        compteRepository.save(compteAchat);
-                        compteRepository.save(compteFournisseurs);
-                        compteRepository.save(compteTVADeductible);
+                            compteRepository.save(compteAchat);
+                            compteRepository.save(compteFournisseurs);
+                            compteRepository.save(compteTVADeductible);
+                        }
                         break;
                     }
                 }
@@ -158,36 +163,40 @@ public class CommandeService {
 
                 switch (commande.getEtat()) {
                     case FACTUREE: {
-                        CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(commande.getClient());
-                        compteAnalytiqueClient.setDebit(compteAnalytiqueClient.getDebit().add(commande.getPrixTTC()));
-                        compteAnalytiqueClientService.save(compteAnalytiqueClient);
+                        if (!commande.isFacturee()) {
+                            CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(commande.getClient(), CompteAnalytiqueClientType.ACHAT);
+                            compteAnalytiqueClient.setDebit(compteAnalytiqueClient.getDebit().add(commande.getPrixTTC()));
+                            compteAnalytiqueClientService.save(compteAnalytiqueClient);
 
-                        Compte compteClient = cs.getCompteClient();
-                        Compte compteVente = cs.getCompteVente();
-                        Compte compteTVACollecte = cs.getCompteTVACollecte();
+                            Compte compteClient = cs.getCompteClient();
+                            Compte compteVente = cs.getCompteVente();
+                            Compte compteTVACollecte = cs.getCompteTVACollecte();
 
-                        compteClient.setDebit(commande.getPrixTTC().add(compteClient.getDebit()));
-                        compteVente.setCredit(commande.getPrixHT().add(compteVente.getCredit()));
-                        compteTVACollecte.setCredit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVACollecte.getCredit()));
+                            compteClient.setDebit(commande.getPrixTTC().add(compteClient.getDebit()));
+                            compteVente.setCredit(commande.getPrixHT().add(compteVente.getCredit()));
+                            compteTVACollecte.setCredit(commande.getPrixTTC().subtract(commande.getPrixHT()).add(compteTVACollecte.getCredit()));
 
-                        compteRepository.save(compteClient);
-                        compteRepository.save(compteVente);
-                        compteRepository.save(compteTVACollecte);
+                            compteRepository.save(compteClient);
+                            compteRepository.save(compteVente);
+                            compteRepository.save(compteTVACollecte);
+                        }
                         break;
                     }
                     case BON_COMMANDE: {
-                        //mouvement stock
-                        for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
-                            MouvementStock ms = new MouvementStock();
-                            ms.setDateTransaction(commande.getDateEmission());
-                            ms.setQuantite(cl.getQuantite());
-                            ms.setProduit(cl.getProduit());
+                        if (!commande.isCommandee()) {
+                            //mouvement stock
+                            for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
+                                MouvementStock ms = new MouvementStock();
+                                ms.setDateTransaction(commande.getDateEmission());
+                                ms.setQuantite(cl.getQuantite());
+                                ms.setProduit(cl.getProduit());
 
-                            ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
-                            ms.setEntrepotDestination(cl.getEntrepot());
-                            ms.setMotifTransaction("VENTE");
+                                ms.setEntrepotDepart(entrepotService.findByLibelle(commande.getFournisseur().getNom()));
+                                ms.setEntrepotDestination(cl.getEntrepot());
+                                ms.setMotifTransaction("VENTE");
 
-                            mouvementStockService.save(ms, true);
+                                mouvementStockService.save(ms, true);
+                            }
                         }
                         break;
                     }
@@ -200,6 +209,27 @@ public class CommandeService {
             }
         }
 
+        switch (commande.getEtat()) {
+            case BON_COMMANDE: {
+                commande.setCommandee(true);
+                break;
+            }
+            case BON_LIVRAISON: {
+                commande.setLivree(true);
+                break;
+            }
+            case FACTUREE: {
+                commande.setFacturee(true);
+                break;
+            }
+            case REGLE: {
+                commande.setReglee(true);
+                break;
+            }
+            default: {
+
+            }
+        }
         return commandeRepository.save(commande);
     }
 }

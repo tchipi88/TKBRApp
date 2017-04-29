@@ -40,9 +40,7 @@
                         <th jh-sort-by="credit"><span >Credit</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="solde"><span >Solde</span> <span class="fa fa-sort"></span></th>
 
-                        <th >
-                            
-                        </th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -54,17 +52,7 @@
                         <td>{{compteAnalytiqueFournisseur.credit| number }}</td>
                         <td>{{compteAnalytiqueFournisseur.solde| number }}</td>
 
-                        <td >
-
-                          
-                            <button type="submit"   ui-sref="compte-analytique-fournisseur.edit({id:compteAnalytiqueFournisseur.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
-                                <i class="fa fa-edit">
-                                </i>
-                            </button>
-
-                           
-
-                        </td>
+                       
                     </tr>
                 </tbody>
             </table>

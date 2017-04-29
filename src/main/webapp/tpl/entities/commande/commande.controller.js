@@ -5,9 +5,9 @@
         .module('app')
         .controller('CommandeController', CommandeController);
 
-    CommandeController.$inject = ['$state', 'DataUtils', 'Commande',  'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    CommandeController.$inject = ['$state','$stateParams', 'DataUtils', 'Commande',  'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function CommandeController($state, DataUtils, Commande,  ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function CommandeController($state,$stateParams, DataUtils, Commande,  ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -27,7 +27,8 @@
                 Commande.query({
                     page: pagingParams.page - 1,
                     size: vm.itemsPerPage,
-                    sort: sort()
+                    sort: sort(),
+                    type: $stateParams.type
                 }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
