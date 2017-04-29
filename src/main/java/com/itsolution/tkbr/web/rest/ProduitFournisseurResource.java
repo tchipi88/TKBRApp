@@ -125,6 +125,19 @@ public class ProduitFournisseurResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    
+    /**
+     * GET  /reglementss/:id : get the "id" commande.
+     *
+     * @param id the id of the commande
+     * @return la liste des reglements associés à la commande passé en arguments with status 200 (OK) and with body the commandeLigne, or with status 404 (Not Found)
+     */
+    @GetMapping("/produit-fournisseurss/{id}")
+    @Timed
+    public List<ProduitFournisseur> getCommandeLigneByCommande(@PathVariable Long id) {
+        log.debug("REST request to get Reglements to Commande : {}", id);
+        return  produitFournisseurRepository.findByFournisseurId(id);
+    }
   
 
 }

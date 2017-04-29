@@ -81,7 +81,7 @@ public class TerrainReglementService {
                         decaissement.setDateVersement(r.getDateVersement());
                         decaissement.setModePaiement(r.getMode());
                         decaissement.setMotif(CaisseMouvementMotif.ACHAT);
-                        decaissement.setCommentaires("Mvt Reglement " + r.getCommande().getId());
+                        decaissement.setCommentaires("Terrain Achat  " + r.getCommande().getId());
 
                         decaissementService.save(decaissement);
 
@@ -126,7 +126,7 @@ public class TerrainReglementService {
                         encaissement.setDateVersement(r.getDateVersement());
                         encaissement.setModePaiement(r.getMode());
                         encaissement.setMotif(CaisseMouvementMotif.VENTE);
-                        encaissement.setCommentaires("Mvt commande " + r.getCommande().getId());
+                        encaissement.setCommentaires("Terrain Vente " + r.getCommande().getId());
 
                         encaissementService.save(encaissement);
 
@@ -152,7 +152,7 @@ public class TerrainReglementService {
             }
         }
 
-        TerrainCommande commande = r.getCommande();
+        TerrainCommande commande = commandeRepository.findOne(r.getCommande().getId());
         commande.setMontantPaye(commande.getMontantPaye() == null ? r.getMontant() : commande.getMontantPaye().add(r.getMontant()));
 
         commandeRepository.save(commande);

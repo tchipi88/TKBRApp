@@ -8,7 +8,7 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-         <div class="panel-heading">
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-xs-12 no-padding-right">
                     <form name="searchForm" class="form-inline">
@@ -34,7 +34,7 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="responsable"><span >Responsable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="nom"><span >Nom</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="email"><span >Email</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephonePortable"><span >Telephone Portable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="telephoneFixe"><span >Telephone Fixe</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="siteWeb"><span >Site Web</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="boitePostale"><span >Boite Postale</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="responsable"><span >Responsable</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="numeroCommerce"><span >Numero Commerce</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="fournisseur.new"   tooltip="Créer Fournisseur">
                                 <i class="fa fa-plus">
@@ -46,22 +46,19 @@
                 <tbody>
                     <tr ng-repeat="fournisseur in vm.fournisseurs track by fournisseur.id">
                         <td><a ui-sref="fournisseur-detail({id:fournisseur.id})">{{fournisseur.id}}</a></td>
-                         <td>{{fournisseur.nom}}</td>
- <td>{{fournisseur.email}}</td>
- <td>{{fournisseur.telephonePortable}}</td>
- <td>{{fournisseur.telephoneFixe}}</td>
- <td>{{fournisseur.siteWeb}}</td>
- <td>{{fournisseur.boitePostale}}</td>
- <td>{{fournisseur.adresse}}</td>
- <td>{{fournisseur.responsable.nom}}</td>
- <td>{{fournisseur.numeroCommerce}}</td>
+                        <td>{{fournisseur.nom}}</td>
+                        <td>{{fournisseur.email}}</td>
+                        <td>{{fournisseur.telephonePortable}}</td>
+                        <td>{{fournisseur.telephoneFixe}}</td>
+                        <td>{{fournisseur.siteWeb}}</td>
+                        <td>{{fournisseur.boitePostale}}</td>
+                        <td>{{fournisseur.adresse}}</td>
+                        <td>{{fournisseur.responsable.nom}}</td>
+                        <td>{{fournisseur.numeroCommerce}}</td>
 
                         <td >
 
-                            <button type="submit"    ui-sref="fournisseur-detail({id:fournisseur.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                <i class="fa fa-eye">
-                                </i>
-                            </button>
+                        
                             <button type="submit"   ui-sref="fournisseur.edit({id:fournisseur.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>

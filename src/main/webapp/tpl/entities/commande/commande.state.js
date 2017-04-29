@@ -28,9 +28,9 @@
                             squash: true
                         },
                         search: null,
-                        type : {
+                        type: {
                             value: 'ACHAT',
-                            squash :true
+                            squash: true
                         }
                     },
                     resolve: {
@@ -45,7 +45,7 @@
                             }]
                     }
                 })
-                
+
                 .state('commande.new', {
                     parent: 'commande',
                     url: '/new',
@@ -62,15 +62,15 @@
                                 resolve: {
                                     entity: function () {
                                         return {
-                                           etat :'DEVIS',
-                                           type : $stateParams.type,
-                                           dateEmission :new Date()
+                                            etat: 'DEVIS',
+                                            type: $stateParams.type,
+                                            dateEmission: new Date()
                                         };
                                     },
-                                   commandeLignes: function () {
+                                    commandeLignes: function () {
                                         return [];
                                     },
-                                   reglements: function () {
+                                    reglements: function () {
                                         return [];
                                     }
                                 }

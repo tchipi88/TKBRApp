@@ -49,6 +49,18 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <label class="control-label"  for="field_surface">Surface Morcellée</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface" ng-model="vm.terrain.surfaceMorcellee"                     ng-readonly="true"                     />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_surface">Surface Restante</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface"                     ng-readonly="true"      placeholder="{{vm.terrain.surface-vm.terrain.surfaceMorcellee}}"                 />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label class="control-label"  for="field_longitude">Longitude</label>
                                     <div class="input-group">    <input  class="form-control"   type="number"  autocomplete="off"  id="field_longitude" ng-model="vm.terrain.longitude"                     ng-readonly="false"  ng-required="false"                     />
                                         <span class="input-group-addon" >  <span >
@@ -174,7 +186,7 @@
 
                         </div>
                     </uib-tab>
-                    <uib-tab>
+                    <uib-tab  ng-if="vm.terrain.id">
                         <uib-tab-heading  >Lotissement</uib-tab-heading>
                         <br>
                         <div class="row"  ng-if="vm.terrain.id">
@@ -192,7 +204,7 @@
                                                     <th ><span >Vendu</span> <span class="fa fa-sort"></span></th>
 
                                                     <th >
-                                                        <button class="btn btn-primary" ui-sref="terrain.new"   tooltip="Créer Terrain">
+                                                        <button class="btn btn-primary" type="button"  ng-click="vm.addLot()"    tooltip="Créer Terrain">
                                                             <i class="fa fa-plus">
                                                             </i>
                                                         </button>
@@ -201,7 +213,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="terrain in vm.terrains track by terrain.id">
-                                                    <td><a ui-sref="terrain-detail({id:terrain.id})">{{terrain.id}}</a></td>
+                                                    <td>{{terrain.id}}</td>
                                                     <td>{{terrain.denomination}}</td>
                                                     <td>{{terrain.surface}}</td>
                                                     <td>{{terrain.longitude}}</td>
@@ -210,16 +222,12 @@
 
                                                     <td >
 
-                                                        <button type="submit"    ui-sref="terrain-detail({id:terrain.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                                            <i class="fa fa-eye">
-                                                            </i>
-                                                        </button>
-                                                        <button type="submit"   ui-sref="terrain.edit({id:terrain.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                                        <button type="button"  ng-click="vm.editLot(terrain, $index)"  class="btn btn-sm btn-default"  tooltip="Modifier">
                                                             <i class="fa fa-edit">
                                                             </i>
                                                         </button>
 
-                                                        <button type="submit"  ui-sref="terrain.delete({id:terrain.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                                        <button type="button"  ng-click="vm.delLot(terrain, $index)" class="btn btn-sm btn-danger"  tooltip="Supprimer">
                                                             <i class="fa fa-trash">
                                                             </i>
                                                         </button>

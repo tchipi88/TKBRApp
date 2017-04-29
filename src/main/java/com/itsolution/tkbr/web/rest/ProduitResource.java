@@ -2,6 +2,7 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Produit;
+import com.itsolution.tkbr.domain.enumeration.ProduitType;
 
 import com.itsolution.tkbr.repository.ProduitRepository;
 import com.itsolution.tkbr.repository.search.ProduitSearchRepository;
@@ -104,7 +105,7 @@ public class ProduitResource {
     @Timed
     public ResponseEntity<List<Produit>> getAllProduits(@ApiParam Pageable pageable) {
         log.debug("REST request to get all Produits");
-        Page<Produit> page = produitRepository.findAll(pageable);
+        Page<Produit> page = produitRepository.findByType(pageable,ProduitType.BIEN);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/produits");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

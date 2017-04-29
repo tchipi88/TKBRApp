@@ -5,6 +5,7 @@ import com.itsolution.tkbr.domain.Terrain;
 
 import com.itsolution.tkbr.repository.TerrainRepository;
 import com.itsolution.tkbr.repository.search.TerrainSearchRepository;
+import com.itsolution.tkbr.service.TerrainService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,12 +41,14 @@ public class TerrainResource {
     private static final String ENTITY_NAME = "terrain";
         
     private final TerrainRepository terrainRepository;
+    private final TerrainService terrainService;
 
     private final TerrainSearchRepository terrainSearchRepository;
 
-    public TerrainResource(TerrainRepository terrainRepository, TerrainSearchRepository terrainSearchRepository) {
+    public TerrainResource(TerrainRepository terrainRepository, TerrainSearchRepository terrainSearchRepository,TerrainService terrainService) {
         this.terrainRepository = terrainRepository;
         this.terrainSearchRepository = terrainSearchRepository;
+        this.terrainService=terrainService;
     }
 
     /**
@@ -57,12 +60,12 @@ public class TerrainResource {
      */
     @PostMapping("/terrains")
     @Timed
-    public ResponseEntity<Terrain> createTerrain(@Valid @RequestBody Terrain terrain) throws URISyntaxException {
+    public ResponseEntity<Terrain> createTerrain(@Valid @RequestBody Terrain terrain) throws Exception {
         log.debug("REST request to save Terrain : {}", terrain);
         if (terrain.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new terrain cannot already have an ID")).body(null);
         }
-        Terrain result = terrainRepository.save(terrain);
+        Terrain result = terrainService.create(terrain);
         terrainSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/terrains/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -80,12 +83,12 @@ public class TerrainResource {
      */
     @PutMapping("/terrains")
     @Timed
-    public ResponseEntity<Terrain> updateTerrain(@Valid @RequestBody Terrain terrain) throws URISyntaxException {
+    public ResponseEntity<Terrain> updateTerrain(@Valid @RequestBody Terrain terrain) throws Exception {
         log.debug("REST request to update Terrain : {}", terrain);
         if (terrain.getId() == null) {
             return createTerrain(terrain);
         }
-        Terrain result = terrainRepository.save(terrain);
+        Terrain result = terrainService.update(terrain);
         terrainSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, terrain.getId().toString()))
@@ -128,9 +131,9 @@ public class TerrainResource {
      */
     @DeleteMapping("/terrains/{id}")
     @Timed
-    public ResponseEntity<Void> deleteTerrain(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTerrain(@PathVariable Long id) throws Exception{
         log.debug("REST request to delete Terrain : {}", id);
-        terrainRepository.delete(id);
+        terrainService.delete(id);
         terrainSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
@@ -152,6 +155,18 @@ public class TerrainResource {
     }
 
 
+     /**
+     * GET  /terrainss/:id : get the "id" terrain.
+     *
+     * @param id the id of the terrain
+     * @return la liste des lotissaments associés au terrain passé en arguments with status 200 (OK) and with body the commandeLigne, or with status 404 (Not Found)
+     */
+    @GetMapping("/terrainss/{id}")
+    @Timed
+    public List<Terrain> getLotissementByTerrain(@PathVariable Long id) {
+        log.debug("REST request to get Lotissements to terrain : {}", id);
+        return  terrainRepository.findByTerrainParentId(id);
+    }
 
 
 }

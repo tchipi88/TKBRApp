@@ -6,6 +6,7 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Terrain;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Spring Data JPA repository for the Terrain entity.
  */
 public interface TerrainRepository extends JpaRepository<Terrain, Long> {
+
+    public List<Terrain> findByTerrainParentId(Long id);
 
     
 

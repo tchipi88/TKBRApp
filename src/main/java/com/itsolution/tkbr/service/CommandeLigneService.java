@@ -10,6 +10,7 @@ import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.CommandeLigne;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
 import com.itsolution.tkbr.domain.enumeration.EtatCommande;
+import com.itsolution.tkbr.domain.enumeration.TypeCommande;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
 import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
@@ -51,13 +52,15 @@ public class CommandeLigneService {
             throw new Exception("Imposssible d'ajouter des produits à une commande dont le statut n'est plus DEVIS");
         }
         Commande c = commandeRepository.findOne(cl.getCommande().getId());
-        // set price
-        if (c.getFournisseur().getNom().equalsIgnoreCase(app.getTkbr().getNom())) {
-            cl.setPrixUnitaire(cl.getProduit().getPrix());
-        } else {
-            //prix du fournisseur
-            ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(c.getFournisseur(), cl.getProduit());
-            cl.setPrixUnitaire(pf != null ? pf.getPrixVente() : cl.getProduit().getPrix());
+        if (cl.getPrixUnitaire() == null || cl.getPrixUnitaire().equals(BigDecimal.ZERO)) {
+            // set price
+            if (TypeCommande.VENTE.equals(c.getEtat())) {
+                cl.setPrixUnitaire(cl.getProduit().getPrix());
+            } else {
+                //prix du fournisseur
+                ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(c.getFournisseur(), cl.getProduit());
+                cl.setPrixUnitaire(pf != null ? pf.getPrixVente() : cl.getProduit().getPrix());
+            }
         }
 
         //set entrepot

@@ -110,6 +110,9 @@
                                         return {
                                             type: 'IMMOBILIER'
                                         };
+                                    },
+                                    terrains: function () {
+                                        return [];
                                     }
                                 }
                             }).result.then(function () {
@@ -135,6 +138,9 @@
                                 resolve: {
                                     entity: ['Terrain', function (Terrain) {
                                             return Terrain.get({id: $stateParams.id}).$promise;
+                                        }],
+                                    terrains: ['$resource', function ($resource) {
+                                            return  $resource('api/terrainss/' + $stateParams.id).query();
                                         }]
                                 }
                             }).result.then(function () {

@@ -17,7 +17,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.commandes = TerrainCommande.query();
+       // vm.commandes = TerrainCommande.query();
 
       
 

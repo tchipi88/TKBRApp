@@ -29,6 +29,8 @@ public class Terrain extends Produit{
     
     @Label("Surface(m²)")
     private Float surface;
+    
+    private Float surfaceMorcellee=0.0f;
 
     private Float longitude;
     
@@ -43,6 +45,18 @@ public class Terrain extends Produit{
     @OneToMany(mappedBy = "terrainParent")
     @JsonIgnore
     private List<Terrain>  lots=new ArrayList();
+
+    public Float getSurfaceMorcellee() {
+        return surfaceMorcellee;
+    }
+
+    public void setSurfaceMorcellee(Float surfaceMorcellee) {
+        this.surfaceMorcellee = surfaceMorcellee;
+    }
+
+    
+    
+    
 
     public String getAdresse() {
         return adresse;
