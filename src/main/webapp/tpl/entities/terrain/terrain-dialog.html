@@ -1,0 +1,259 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myTerrainLabel" >Créer ou modifier  Terrain</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id   
+                        <span class="label bg-success"  ng-show="vm.terrain.id && vm.terrain.vendu">Vendu</span>
+                        <span class="label bg-info"  ng-show="vm.terrain.id && !vm.terrain.vendu">Libre</span>
+                    </label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.terrain.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_denomination">Denomination <span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_denomination" ng-model="vm.terrain.denomination"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-12">
+                <uib-tabset class="uib-tab-container" justified="true"   vertical="false"  type="pills">
+                    <uib-tab>
+                        <uib-tab-heading  >Informations Générales</uib-tab-heading>
+                        <br>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_adresse">Adresse</label>
+                                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_adresse" ng-model="vm.terrain.adresse"                     ng-readonly="false"  ng-required="false"    ng-maxlength="255"                      />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_surface">Surface<span style="color:red" >*</span></label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface" ng-model="vm.terrain.surface"                     ng-readonly="false"  ng-required="true"                     />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_surface">Surface Morcellée</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface" ng-model="vm.terrain.surfaceMorcellee"                     ng-readonly="true"                     />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_surface">Surface Restante</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface"                     ng-readonly="true"      placeholder="{{vm.terrain.surface-vm.terrain.surfaceMorcellee}}"                 />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_longitude">Longitude</label>
+                                    <div class="input-group">    <input  class="form-control"   type="number"  autocomplete="off"  id="field_longitude" ng-model="vm.terrain.longitude"                     ng-readonly="false"  ng-required="false"                     />
+                                        <span class="input-group-addon" >  <span >
+                                                <i class="fa fa-map-marker"></i>
+                                            </span> 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_latitude">Latitude</label>
+                                    <div class="input-group">     <input  class="form-control"   type="number"  autocomplete="off"  id="field_latitude" ng-model="vm.terrain.latitude"                     ng-readonly="false"  ng-required="false"                     />
+                                        <span class="input-group-addon" >  <span >
+                                                <i class="fa fa-map-marker"></i>
+                                            </span> 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  <div class="col-sm-6">
+                                  <div class="form-group">
+                                      <label class="control-label"  for="field_vendu">Vendu <span style="color:red" >*</span></label>
+                                      <div class="form-control">
+                                          <label class="i-checks">
+                                              <input type="checkbox" checked  ng-model="vm.terrain.vendu"   id="field_vendu"  name="vendu" /><i></i> 
+                                          </label>
+                                      </div>
+                                  </div>
+                              </div>-->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_terrainParent">Terrain Parent</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="vm.terrain.terrainParent"    ng-required="false">
+                                            <ui-select-match placeholder="Select Terrain">{{$select.selected.denomination}}</ui-select-match>
+                                            <ui-select-choices repeat="terrainparent in vm.terrainparents | filter: $select.search">
+                                                <div ng-bind-html="terrainparent.denomination | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>  
+                                        <span class="input-group-btn" >
+                                            <button   ng-click="vm.zoomColumn('Terrain', 'terrain', 'terrainParent', vm.terrain.terrainParent)" 
+                                                      class="btn btn-default" type="button"  ng-hide="!vm.terrain.terrainParent">
+                                                <span class="fa fa-eye"></span>
+                                            </button>
+                                            <button ng-click="vm.zoomColumn('Terrain', 'terrain', 'terrainParent', {})"      
+                                                    class="btn btn-default" type="button"  ng-hide="vm.terrain.terrainParent">
+                                                <span class="fa fa-plus fw"></span>
+                                            </button>
+                                        </span>
+                                    </div> </div>
+                            </div>
+
+
+                            <!--<div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_type">Type</label>
+                                    <select class="form-control" name="type"  ng-model="vm.terrain.type"  id="field_type" >
+                                        <option value="BIEN">BIEN</option>
+                                        <option value="SERVICE">SERVICE</option>
+                                        <option value="TRAVAIL">TRAVAIL</option>
+                                        <option value="IMMOBILIER">IMMOBILIER</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_categorie">Categorie <span style="color:red" >*</span></label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="vm.terrain.categorie"    ng-required="true">
+                                            <ui-select-match placeholder="Select ProduitCategorie">{{$select.selected.libelle}}</ui-select-match>
+                                            <ui-select-choices repeat="categorie in vm.categories | filter: $select.search">
+                                                <div ng-bind-html="categorie.libelle | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>  
+                                        <span class="input-group-btn" >
+                                            <button   ng-click="vm.zoomColumn('ProduitCategorie', 'produit-categorie', 'categorie', vm.terrain.categorie)" 
+                                                      class="btn btn-default" type="button"  ng-hide="!vm.terrain.categorie">
+                                                <span class="fa fa-eye"></span>
+                                            </button>
+                                            <button ng-click="vm.zoomColumn('ProduitCategorie', 'produit-categorie', 'categorie', {})"      
+                                                    class="btn btn-default" type="button"  ng-hide="vm.terrain.categorie">
+                                                <span class="fa fa-plus fw"></span>
+                                            </button>
+                                        </span>
+                                    </div> </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_prix">Prix (m²)<span style="color:red" >*</span></label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prix" ng-model="vm.terrain.prix"                     ng-readonly="false"  ng-required="true"                     />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_unite">Unite</label>
+                                    <div class="input-group">
+                                        <ui-select ng-model="vm.terrain.unite"    ng-required="false">
+                                            <ui-select-match placeholder="Select Unite">{{$select.selected.libelle}}</ui-select-match>
+                                            <ui-select-choices repeat="unite in vm.unites | filter: $select.search">
+                                                <div ng-bind-html="unite.libelle | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>  
+                                        <span class="input-group-btn" >
+                                            <button   ng-click="vm.zoomColumn('Unite', 'unite', 'unite', vm.terrain.unite)" 
+                                                      class="btn btn-default" type="button"  ng-hide="!vm.terrain.unite">
+                                                <span class="fa fa-eye"></span>
+                                            </button>
+                                            <button ng-click="vm.zoomColumn('Unite', 'unite', 'unite', {})"      
+                                                    class="btn btn-default" type="button"  ng-hide="vm.terrain.unite">
+                                                <span class="fa fa-plus fw"></span>
+                                            </button>
+                                        </span>
+                                    </div> </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label"  for="field_prix">Prix Total</label>
+                                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prix" placeholder="{{vm.terrain.prix * vm.terrain.surface| number }}"                     ng-readonly="true"                  />
+                                </div>
+                            </div>
+
+                        </div>
+                    </uib-tab>
+                    <uib-tab  ng-if="vm.terrain.id">
+                        <uib-tab-heading  >Lotissement</uib-tab-heading>
+                        <br>
+                        <div class="row"  ng-if="vm.terrain.id">
+                            <div class="col-sm-12">
+                                <div class="panel-default">
+                                    <div class="panel-body table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr >
+                                                    <th ><span >ID</span> <span class="fa fa-sort"></span></th>
+                                                    <th ><span >Denomination</span> <span class="fa fa-sort"></span></th>
+                                                    <th ><span >Surface</span> <span class="fa fa-sort"></span></th>
+                                                    <th ><span >Longitude</span> <span class="fa fa-sort"></span></th>
+                                                    <th ><span >Latitude</span> <span class="fa fa-sort"></span></th>
+                                                    <th ><span >Vendu</span> <span class="fa fa-sort"></span></th>
+
+                                                    <th >
+                                                        <button class="btn btn-primary" type="button"  ng-click="vm.addLot()"    tooltip="Créer Terrain">
+                                                            <i class="fa fa-plus">
+                                                            </i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="terrain in vm.terrains track by terrain.id">
+                                                    <td>{{terrain.id}}</td>
+                                                    <td>{{terrain.denomination}}</td>
+                                                    <td>{{terrain.surface}}</td>
+                                                    <td>{{terrain.longitude}}</td>
+                                                    <td>{{terrain.latitude}}</td>
+                                                    <td>{{terrain.vendu}}</td>
+
+                                                    <td >
+
+                                                        <button type="button"  ng-click="vm.editLot(terrain, $index)"  class="btn btn-sm btn-default"  tooltip="Modifier">
+                                                            <i class="fa fa-edit">
+                                                            </i>
+                                                        </button>
+
+                                                        <button type="button"  ng-click="vm.delLot(terrain, $index)" class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                                                            <i class="fa fa-trash">
+                                                            </i>
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

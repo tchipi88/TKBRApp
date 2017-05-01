@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.compte', null, {reload: 'app.compte'});
+                        $state.go('compte', null, {reload: 'compte'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.compte', null, {reload: 'app.compte'});
+                        $state.go('compte', null, {reload: 'compte'});
                         }, function () {
                         $state.go('^');
                         });

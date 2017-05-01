@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.entrepot-produit', null, {reload: 'app.entrepot-produit'});
+                        $state.go('entrepot-produit', null, {reload: 'entrepot-produit'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.entrepot-produit', null, {reload: 'app.entrepot-produit'});
+                        $state.go('entrepot-produit', null, {reload: 'entrepot-produit'});
                         }, function () {
                         $state.go('^');
                         });

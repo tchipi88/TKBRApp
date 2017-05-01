@@ -5,9 +5,9 @@
         .module('app')
         .controller('ProduitDialogController', ProduitDialogController);
 
-    ProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Produit','Unite','ProduitCategorie'];
+    ProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'Produit','Unite','ProduitCategorie'];
 
-    function ProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Produit ,Unite,ProduitCategorie) {
+    function ProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, Produit ,Unite,ProduitCategorie) {
         var vm = this;
 
         vm.produit = entity;
@@ -55,6 +55,39 @@ vm.unites = Unite.query();
          function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+        
+         vm.setMimage = function ($file, fieldName) {
+                if ($file && $file.$error === 'pattern') {
+                    return;
+                }
+                if ($file) {
+                    DataUtils.toBase64($file, function (base64Data) {
+                        $scope.$apply(function () {
+                            vm.produit[fieldName] = base64Data;
+                            vm.produit[fieldName + 'ContentType'] = $file.type;
+                        });
+                    });
+                }
+            };
+            
+            vm.zoomColumn = function (lookupCtrl,lookupTemplate, fieldname, entity) {
+                $uibModal.open({
+                    templateUrl: 'tpl/entities/'+lookupTemplate+'/'+lookupTemplate+'-dialog.html',
+                    controller: lookupCtrl+'DialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return entity;
+                        }
+                    }
+                }).result.then(function(item) {
+                        vm.produit[fieldname] = item;
+                }, function() {
+                    
+                });
+            };
 
     }
 })();

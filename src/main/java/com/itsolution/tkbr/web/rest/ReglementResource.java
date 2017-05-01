@@ -19,10 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -133,6 +129,20 @@ public class ReglementResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+   
+    
+    /**
+     * GET  /reglementss/:id : get the "id" commande.
+     *
+     * @param id the id of the commande
+     * @return la liste des reglements associés à la commande passé en arguments with status 200 (OK) and with body the commandeLigne, or with status 404 (Not Found)
+     */
+    @GetMapping("/reglementss/{id}")
+    @Timed
+    public List<Reglement> getCommandeLigneByCommande(@PathVariable Long id) {
+        log.debug("REST request to get Reglements to Commande : {}", id);
+        return  reglementRepository.findByCommandeId(id);
+    }
    
 
 }

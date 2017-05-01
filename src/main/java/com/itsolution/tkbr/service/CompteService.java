@@ -21,6 +21,10 @@ public class CompteService {
     @Autowired
     CompteRepository compteRepository;
 
+    public Compte save(Compte compte) throws Exception {
+        return compteRepository.save(compte);
+    }
+
     public Compte getCompte(Integer numcompte, String intitule) throws Exception {
         Compte c = compteRepository.findOne(numcompte);
         if (c == null) {
@@ -35,7 +39,7 @@ public class CompteService {
     }
 
     public Compte getCompteClient() throws Exception {
-        return getCompte(411, "Client");
+        return getCompte(41, "Client");
     }
 
     public Compte getCompteVente() throws Exception {
@@ -43,7 +47,7 @@ public class CompteService {
     }
 
     public Compte getCompteTVACollecte() throws Exception {
-        return getCompte(44571, "TVA collectée");
+        return getCompte(443, "TVA collectée");
     }
 
     public Compte getCompteAchat() throws Exception {
@@ -51,11 +55,31 @@ public class CompteService {
     }
 
     public Compte getCompteTVADeductible() throws Exception {
-        return getCompte(44566, "TVA déductible");
+        return getCompte(445, "TVA déductible");
     }
 
     public Compte getCompteFournisseurs() throws Exception {
-        return getCompte(401, "Fournisseurs");
+        return getCompte(40, "Fournisseurs");
     }
+
+    public Compte getCompteCaisse() throws Exception {
+        return getCompte(57, "Caisse");
+    }
+
+    public Compte getCompteBanque() throws Exception {
+        return getCompte(52, "Banque");
+    }
+    public Compte getCompteCheque() throws Exception {
+        return getCompte(51, " Valeurs à encaisser");
+    }
+    
+    public Compte getCompteLoyer() throws Exception {
+        return getCompte(622, " LOCATIONS ET CHARGES LOCATIVES");
+    }
+    public Compte getCompteTerrain() throws Exception {
+        return getCompte(622, " LOCATIONS ET CHARGES LOCATIVES");
+    }
+    
+   
 
 }

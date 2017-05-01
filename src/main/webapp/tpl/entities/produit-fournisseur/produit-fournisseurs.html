@@ -1,46 +1,18 @@
-<div class="bg-light lter b-b wrapper-md" >
-    <h1 class="m-n font-thin h3">ProduitFournisseurs</h1>
-    <small class="text-muted"></small>
-</div>
-<div>
-    <jhi-alert></jhi-alert>
-</div>
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="row">
-               
-                <div class="col-xs-12 no-padding-right">
-                    <form name="searchForm" class="form-inline">
-                        <div class="input-group pull-right" >
-                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
-                            <span  class="input-group-btn width-min" >
-                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
-                                <button class="btn btn-info" ng-click="vm.clear()">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <div class="panel-body table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
-                    <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                        <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="prixVente"><span >Prix Vente</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="delaiFourniture"><span >Delai Fourniture</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="fournisseur"><span >Fournisseur</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="produit"><span >Produit</span> <span class="fa fa-sort"></span></th>
+                    <tr >
+                        <th ><span >ID</span> </th>
+                         <th><span >Produit</span> </th>
+                        <th ><span >Prix Vente</span></th> 
+                        <th ><span >Delai Fourniture</span> </th> 
+                       
                         <th >
-                            <button class="btn btn-primary" ui-sref="produit-fournisseur.new"   tooltip="Créer ProduitFournisseur">
+                            <button class="btn btn-primary" type="button"  ng-click="vm.addProduitFournisseur()"   tooltip="Créer ProduitFournisseur">
                                 <i class="fa fa-plus">
                                 </i>
                             </button>
@@ -49,23 +21,17 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="produitFournisseur in vm.produitFournisseurs track by produitFournisseur.id">
-                        <td><a ui-sref="produitFournisseur-detail({id:produit-fournisseur.id})">{{produitFournisseur.id}}</a></td>
-                         <td>{{produitFournisseur.prixVente}}</td>
- <td>{{produitFournisseur.delaiFourniture}}</td>
- <td>{{produitFournisseur.fournisseur}}</td>
- <td>{{produitFournisseur.produit}}</td>
+                        <td>{{produitFournisseur.id}}</td>
+                        <td>{{produitFournisseur.produit.denomination}}</td>
+                        <td>{{produitFournisseur.prixVente| number }}</td>
+                        <td>{{produitFournisseur.delaiFourniture}}</td>
                         <td >
-
-                            <button type="submit"    ui-sref="produit-fournisseur-detail({id:produitFournisseur.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                <i class="fa fa-eye">
-                                </i>
-                            </button>
-                            <button type="submit"   ui-sref="produit-fournisseur.edit({id:produitFournisseur.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                            <button type="button"  ng-click="vm.editProduitFournisseur(produitFournisseur,$index)"  class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>
                             </button>
 
-                            <button type="submit"  ui-sref="produit-fournisseur.delete({id:produitFournisseur.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
+                            <button type="button"  ng-click="vm.delProduitFournisseur(produitFournisseur,$index)" class="btn btn-sm btn-danger"  tooltip="Supprimer">
                                 <i class="fa fa-trash">
                                 </i>
                             </button>
@@ -76,15 +42,6 @@
             </table>
 
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-sm-6">
-                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-                </div>
-                <div class="col-sm-6 text-right text-center-xs">
-                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-                </div>
-            </div>
-        </div>
+       
     </div>
 </div>

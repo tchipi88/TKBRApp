@@ -5,11 +5,15 @@
  */
 package com.itsolution.tkbr.domain;
 
-import java.io.Serializable;
+import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
+import com.itsolution.tkbr.domain.enumeration.PaymentMode;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,27 +28,55 @@ import javax.validation.constraints.NotNull;
  * @author tchipi
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 public class CaisseMouvement extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @ManyToOne
     private Caisse caisse;
 
-    private LocalDate dateMouvement;
-    
-    @Lob
-    private String commentaires;
-    
-    
+    @NotNull
+    private LocalDate dateVersement;
+
     @Column
     @NotNull
     private BigDecimal montant;
+    
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private PaymentMode modePaiement;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private CaisseMouvementMotif motif;
+
+    public CaisseMouvementMotif getMotif() {
+        return motif;
+    }
+
+    public void setMotif(CaisseMouvementMotif motif) {
+        this.motif = motif;
+    }
+    
+    
+
+    public PaymentMode getModePaiement() {
+        return modePaiement;
+    }
+
+    public void setModePaiement(PaymentMode modePaiement) {
+        this.modePaiement = modePaiement;
+    }
+    
+    
+
+    @Lob
+    private String commentaires;
 
     public Caisse getCaisse() {
         return caisse;
@@ -54,13 +86,15 @@ public class CaisseMouvement extends AbstractAuditingEntity {
         this.caisse = caisse;
     }
 
-    public LocalDate getDateMouvement() {
-        return dateMouvement;
+    public LocalDate getDateVersement() {
+        return dateVersement;
     }
 
-    public void setDateMouvement(LocalDate dateMouvement) {
-        this.dateMouvement = dateMouvement;
+    public void setDateVersement(LocalDate dateVersement) {
+        this.dateVersement = dateVersement;
     }
+
+  
 
     public String getCommentaires() {
         return commentaires;
@@ -77,8 +111,6 @@ public class CaisseMouvement extends AbstractAuditingEntity {
     public void setMontant(BigDecimal montant) {
         this.montant = montant;
     }
-    
-    
 
     public Long getId() {
         return id;

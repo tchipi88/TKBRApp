@@ -6,6 +6,7 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Reglement;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Spring Data JPA repository for the Reglement entity.
  */
 public interface ReglementRepository extends JpaRepository<Reglement, Long> {
+
+    public List<Reglement> findByCommandeId(Long id);
 
     
 

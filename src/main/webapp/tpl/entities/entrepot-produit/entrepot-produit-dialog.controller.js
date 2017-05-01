@@ -5,9 +5,9 @@
         .module('app')
         .controller('EntrepotProduitDialogController', EntrepotProduitDialogController);
 
-    EntrepotProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'EntrepotProduit','Entrepot','Produit'];
+    EntrepotProduitDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'EntrepotProduit','Entrepot','Produit'];
 
-    function EntrepotProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, EntrepotProduit ,Entrepot,Produit) {
+    function EntrepotProduitDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, EntrepotProduit ,Entrepot,Produit) {
         var vm = this;
 
         vm.entrepotProduit = entity;
@@ -55,6 +55,39 @@ vm.entrepots = Entrepot.query();
          function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+        
+         vm.setMimage = function ($file, fieldName) {
+                if ($file && $file.$error === 'pattern') {
+                    return;
+                }
+                if ($file) {
+                    DataUtils.toBase64($file, function (base64Data) {
+                        $scope.$apply(function () {
+                            vm.entrepotProduit[fieldName] = base64Data;
+                            vm.entrepotProduit[fieldName + 'ContentType'] = $file.type;
+                        });
+                    });
+                }
+            };
+            
+            vm.zoomColumn = function (lookupCtrl,lookupTemplate, fieldname, entity) {
+                $uibModal.open({
+                    templateUrl: 'tpl/entities/'+lookupTemplate+'/'+lookupTemplate+'-dialog.html',
+                    controller: lookupCtrl+'DialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return entity;
+                        }
+                    }
+                }).result.then(function(item) {
+                        vm.entrepotProduit[fieldname] = item;
+                }, function() {
+                    
+                });
+            };
 
     }
 })();

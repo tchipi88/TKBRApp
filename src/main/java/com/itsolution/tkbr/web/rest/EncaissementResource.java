@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Encaissement;
 
 import com.itsolution.tkbr.repository.EncaissementRepository;
+import com.itsolution.tkbr.service.EncaissementService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,10 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -37,60 +34,66 @@ public class EncaissementResource {
     private final Logger log = LoggerFactory.getLogger(EncaissementResource.class);
 
     private static final String ENTITY_NAME = "encaissement";
-        
+
     private final EncaissementRepository encaissementRepository;
 
+    private final EncaissementService encaissementService;
 
-    public EncaissementResource(EncaissementRepository encaissementRepository) {
+    public EncaissementResource(EncaissementRepository encaissementRepository,EncaissementService encaissementService) {
         this.encaissementRepository = encaissementRepository;
+        this.encaissementService=encaissementService;
     }
 
     /**
-     * POST  /encaissements : Create a new encaissement.
+     * POST /encaissements : Create a new encaissement.
      *
      * @param encaissement the encaissement to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new encaissement, or with status 400 (Bad Request) if the encaissement has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new encaissement, or with status 400 (Bad Request) if the encaissement
+     * has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/encaissements")
     @Timed
-    public ResponseEntity<Encaissement> createEncaissement(@Valid @RequestBody Encaissement encaissement) throws URISyntaxException {
+    public ResponseEntity<Encaissement> createEncaissement(@Valid @RequestBody Encaissement encaissement) throws Exception {
         log.debug("REST request to save Encaissement : {}", encaissement);
         if (encaissement.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new encaissement cannot already have an ID")).body(null);
         }
-        Encaissement result = encaissementRepository.save(encaissement);
+        Encaissement result = encaissementService.save(encaissement);
         return ResponseEntity.created(new URI("/api/encaissements/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /encaissements : Updates an existing encaissement.
+     * PUT /encaissements : Updates an existing encaissement.
      *
      * @param encaissement the encaissement to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated encaissement,
-     * or with status 400 (Bad Request) if the encaissement is not valid,
-     * or with status 500 (Internal Server Error) if the encaissement couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * encaissement, or with status 400 (Bad Request) if the encaissement is not
+     * valid, or with status 500 (Internal Server Error) if the encaissement
+     * couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/encaissements")
     @Timed
-    public ResponseEntity<Encaissement> updateEncaissement(@Valid @RequestBody Encaissement encaissement) throws URISyntaxException {
+    public ResponseEntity<Encaissement> updateEncaissement(@Valid @RequestBody Encaissement encaissement) throws Exception {
         log.debug("REST request to update Encaissement : {}", encaissement);
         if (encaissement.getId() == null) {
             return createEncaissement(encaissement);
         }
-        Encaissement result = encaissementRepository.save(encaissement);
+        Encaissement result = encaissementService.save(encaissement);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, encaissement.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, encaissement.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /encaissements : get all the encaissements.
+     * GET /encaissements : get all the encaissements.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of encaissements in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * encaissements in body
      */
     @GetMapping("/encaissements")
     @Timed
@@ -101,13 +104,12 @@ public class EncaissementResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
- 
-
     /**
-     * GET  /encaissements/:id : get the "id" encaissement.
+     * GET /encaissements/:id : get the "id" encaissement.
      *
      * @param id the id of the encaissement to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the encaissement, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * encaissement, or with status 404 (Not Found)
      */
     @GetMapping("/encaissements/{id}")
     @Timed
@@ -118,7 +120,7 @@ public class EncaissementResource {
     }
 
     /**
-     * DELETE  /encaissements/:id : delete the "id" encaissement.
+     * DELETE /encaissements/:id : delete the "id" encaissement.
      *
      * @param id the id of the encaissement to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -130,8 +132,5 @@ public class EncaissementResource {
         encaissementRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
-   
-
 
 }

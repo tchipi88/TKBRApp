@@ -1,0 +1,68 @@
+
+<div>
+    <h2><span >Terrain</span> {{vm.terrain.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        
+       <dt><span >Adresse</span></dt>
+        <dd>
+            <span>{{vm.terrain.adresse}}</span>
+        </dd> 
+<dt><span >Surface</span></dt>
+        <dd>
+            <span>{{vm.terrain.surface}}</span>
+        </dd> 
+<dt><span >Longitude</span></dt>
+        <dd>
+            <span>{{vm.terrain.longitude}}</span>
+        </dd> 
+<dt><span >Latitude</span></dt>
+        <dd>
+            <span>{{vm.terrain.latitude}}</span>
+        </dd> 
+<dt><span >Vendu</span></dt>
+        <dd>
+            <span>{{vm.terrain.vendu}}</span>
+        </dd> 
+<dt><span >Terrain Parent</span></dt>
+        <dd>
+            <span>{{vm.terrain.terrainParent}}</span>
+        </dd> 
+<dt><span >Lots</span></dt>
+        <dd>
+            <span>{{vm.terrain.lots}}</span>
+        </dd> 
+<dt><span >Denomination</span></dt>
+        <dd>
+            <span>{{vm.terrain.denomination}}</span>
+        </dd> 
+<dt><span >Type</span></dt>
+        <dd>
+            <span>{{vm.terrain.type}}</span>
+        </dd> 
+<dt><span >Categorie</span></dt>
+        <dd>
+            <span>{{vm.terrain.categorie}}</span>
+        </dd> 
+<dt><span >Prix</span></dt>
+        <dd>
+            <span>{{vm.terrain.prix}}</span>
+        </dd> 
+<dt><span >Unite</span></dt>
+        <dd>
+            <span>{{vm.terrain.unite}}</span>
+        </dd> 
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
+    </button>
+
+    <button type="button" ui-sref="terrain-detail.edit({id:vm.terrain.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" > Modifier</span>
+    </button>
+</div>

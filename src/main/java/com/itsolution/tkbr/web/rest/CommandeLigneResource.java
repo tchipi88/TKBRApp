@@ -54,13 +54,12 @@ public class CommandeLigneResource {
      */
     @PostMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> createCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
+    public ResponseEntity<CommandeLigne> createCommandeLigne( @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to save CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new commandeLigne cannot already have an ID")).body(null);
         }
-        CommandeLigne result = commandeLigneRepository.save(commandeLigne);
-        commandeLigneService.save(result);
+        CommandeLigne result =  commandeLigneService.create(commandeLigne);
         return ResponseEntity.created(new URI("/api/commande-lignes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -77,12 +76,12 @@ public class CommandeLigneResource {
      */
     @PutMapping("/commande-lignes")
     @Timed
-    public ResponseEntity<CommandeLigne> updateCommandeLigne(@Valid @RequestBody CommandeLigne commandeLigne) throws Exception {
+    public ResponseEntity<CommandeLigne> updateCommandeLigne( @RequestBody CommandeLigne commandeLigne) throws Exception {
         log.debug("REST request to update CommandeLigne : {}", commandeLigne);
         if (commandeLigne.getId() == null) {
             return createCommandeLigne(commandeLigne);
         }
-        CommandeLigne result = commandeLigneService.save(commandeLigne);
+        CommandeLigne result = commandeLigneService.update(commandeLigne);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, commandeLigne.getId().toString()))
             .body(result);
@@ -124,12 +123,25 @@ public class CommandeLigneResource {
      */
     @DeleteMapping("/commande-lignes/{id}")
     @Timed
-    public ResponseEntity<Void> deleteCommandeLigne(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCommandeLigne(@PathVariable Long id)  throws Exception{
         log.debug("REST request to delete CommandeLigne : {}", id);
-        commandeLigneRepository.delete(id);
+        commandeLigneService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    
+    /**
+     * GET  /commande-lignes/:id : get the "id" commandeLigne.
+     *
+     * @param id the id of the commande
+     * @return la liste des details commandes associés à la commande passé en arguments with status 200 (OK) and with body the commandeLigne, or with status 404 (Not Found)
+     */
+    @GetMapping("/commande-ligness/{id}")
+    @Timed
+    public List<CommandeLigne> getCommandeLigneByCommande(@PathVariable Long id) {
+        log.debug("REST request to get CommandeLigne to Commande : {}", id);
+        return  commandeLigneRepository.findByCommandeId(id);
+    }
    
 
 }

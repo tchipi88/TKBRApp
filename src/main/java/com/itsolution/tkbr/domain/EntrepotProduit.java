@@ -41,7 +41,7 @@ public class EntrepotProduit extends AbstractAuditingEntity {
     @Column
     private Float stockPhysique;
     @Column
-    @Formula("stockPhysique-stockTheorique")
+    @Formula("stock_physique-stock_theorique")
     private Float ecart;
 
     @Column
@@ -51,10 +51,10 @@ public class EntrepotProduit extends AbstractAuditingEntity {
     @NotNull
     private Float seuilSurStockage;
 
-    @Formula("stockPhysique>seuilSurStockage")
-    private boolean EnSurchauffe;
-    @Formula("stockPhysique<seuilAlerte")
-    private boolean EnManque;
+    @Formula("stock_physique>seuil_sur_stockage")
+    private Boolean EnSurchauffe;
+    @Formula("stock_physique<seuil_alerte")
+    private Boolean EnManque;
 
     public Long getId() {
         return id;
@@ -121,20 +121,22 @@ public class EntrepotProduit extends AbstractAuditingEntity {
         this.seuilSurStockage = seuilSurStockage;
     }
 
-    public boolean isEnSurchauffe() {
+    public Boolean getEnSurchauffe() {
         return EnSurchauffe;
     }
 
-    public void setEnSurchauffe(boolean EnSurchauffe) {
+    public void setEnSurchauffe(Boolean EnSurchauffe) {
         this.EnSurchauffe = EnSurchauffe;
     }
 
-    public boolean isEnManque() {
+    public Boolean getEnManque() {
         return EnManque;
     }
 
-    public void setEnManque(boolean EnManque) {
+    public void setEnManque(Boolean EnManque) {
         this.EnManque = EnManque;
     }
+
+   
 
 }

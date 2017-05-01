@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Entrepot;
 
 import com.itsolution.tkbr.repository.EntrepotRepository;
-import com.itsolution.tkbr.repository.search.EntrepotSearchRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -41,11 +36,9 @@ public class EntrepotResource {
         
     private final EntrepotRepository entrepotRepository;
 
-    private final EntrepotSearchRepository entrepotSearchRepository;
 
-    public EntrepotResource(EntrepotRepository entrepotRepository, EntrepotSearchRepository entrepotSearchRepository) {
+    public EntrepotResource(EntrepotRepository entrepotRepository) {
         this.entrepotRepository = entrepotRepository;
-        this.entrepotSearchRepository = entrepotSearchRepository;
     }
 
     /**
@@ -63,7 +56,6 @@ public class EntrepotResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new entrepot cannot already have an ID")).body(null);
         }
         Entrepot result = entrepotRepository.save(entrepot);
-        entrepotSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/entrepots/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,7 +78,6 @@ public class EntrepotResource {
             return createEntrepot(entrepot);
         }
         Entrepot result = entrepotRepository.save(entrepot);
-        entrepotSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, entrepot.getId().toString()))
             .body(result);
@@ -131,25 +122,9 @@ public class EntrepotResource {
     public ResponseEntity<Void> deleteEntrepot(@PathVariable Long id) {
         log.debug("REST request to delete Entrepot : {}", id);
         entrepotRepository.delete(id);
-        entrepotSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/entrepots?query=:query : search for the entrepot corresponding
-     * to the query.
-     *
-     * @param query the query of the entrepot search 
-     * @return the result of the search
-     */
-    @GetMapping("/_search/entrepots")
-    @Timed
-    public List<Entrepot> searchEntrepots(@RequestParam String query) {
-        log.debug("REST request to search Entrepots for query {}", query);
-        return StreamSupport
-            .stream(entrepotSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
-
+  
 
 }

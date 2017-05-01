@@ -9,26 +9,36 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div>
-              <div class="form-group">
+        <div class="row">
+              <div class="col-sm-6">
+ <div class="form-group">
  <label class="control-label"  for="field_id">Id</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_id" ng-model="vm.compte.id"                     ng-readonly="false"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_intitule">Intitule <span style="color:red" >*</span></label>
   <input  class="form-control"   type="text"  autocomplete="off"   id="field_intitule" ng-model="vm.compte.intitule"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_debit">Debit</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_debit" ng-model="vm.compte.debit"                     ng-readonly="true"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_credit">Credit</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_credit" ng-model="vm.compte.credit"                     ng-readonly="true"  ng-required="false"                     />
  </div>
+ </div>
+ <div class="col-sm-6">
  <div class="form-group">
  <label class="control-label"  for="field_solde">Solde</label>
   <input  class="form-control"   type="number"  autocomplete="off"  id="field_solde" ng-model="vm.compte.solde"                     ng-readonly="true"  ng-required="false"                     />
+ </div>
  </div>
 
         </div>

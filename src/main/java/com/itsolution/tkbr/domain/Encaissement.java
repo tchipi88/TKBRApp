@@ -5,36 +5,18 @@
  */
 package com.itsolution.tkbr.domain;
 
-import com.itsolution.tkbr.domain.enumeration.EncaissementMotif;
-import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author tchipi
  */
 @Entity
+@DiscriminatorValue("E")
 public class Encaissement extends CaisseMouvement{
 
  
-  @Enumerated(EnumType.STRING)
-  @NotNull
-  private EncaissementMotif motif;
-
-    public EncaissementMotif getMotif() {
-        return motif;
-    }
-
-    public void setMotif(EncaissementMotif motif) {
-        this.motif = motif;
-    }
-  
   
     
 }

@@ -5,14 +5,17 @@
  */
 package com.itsolution.tkbr.service;
 
-import com.itsolution.tkbr.domain.Achat;
+import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.Compte;
+import com.itsolution.tkbr.domain.Decaissement;
+import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.Reglement;
-import com.itsolution.tkbr.domain.Vente;
-import com.itsolution.tkbr.repository.CompteRepository;
+import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
+import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.ReglementRepository;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,54 +25,129 @@ import org.springframework.transaction.annotation.Transactional;
  * @author tchipi
  */
 @Service
+@Transactional
 public class ReglementService {
-
 
     @Autowired
     ReglementRepository reglementRepository;
-    @Autowired
-    CompteRepository compteRepository;
-    @Autowired
-    CompteService  cs;
 
-    @Transactional
+    @Autowired
+    CompteService cs;
+    @Autowired
+    DecaissementService decaissementService;
+    @Autowired
+    EncaissementService encaissementService;
+    @Autowired
+    CommandeRepository commandeRepository;
+    @Autowired
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
+
     public Reglement save(Reglement r) throws Exception {
-        
-        if(r.getId()!=null) throw new Exception("Mise à jour des reglements interdites");
-        
+
+        if (r.getId() != null) {
+            throw new Exception("Mise à jour des reglements interdites");
+        }
+
+        //http://www.compta-facile.com/comptabilisation-operations-bancaires/
+        //Verifier que la commande n'est pas deja regle
+        // if (r.getCommande().getReglements().stream().collect())
+        //@todo  crediter la caisse
         BigDecimal totalttc = r.getMontant();
-        BigDecimal totalht = r.getMontant().divide(new BigDecimal(1.1925),2,RoundingMode.HALF_UP);
-        BigDecimal tva = totalttc.subtract(totalht);
-        
-        if (r.getCommande() instanceof Vente) {
 
-            Compte compteClient = cs.getCompteClient();
-            Compte compteVente = cs.getCompteVente();
-            Compte compteTVACollecte = cs.getCompteTVACollecte();
+        switch (r.getCommande().getType()) {
+            case ACHAT: {
 
-            compteClient.setDebit(totalttc.add(compteClient.getDebit()));
-            compteVente.setCredit(totalht.add(compteVente.getCredit()));
-            compteTVACollecte.setCredit(tva.add(compteTVACollecte.getCredit()));
+                ecritureCompteAnalytiqueService.create(r.getCommande().getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, totalttc, SensEcritureComptable.C,"Versement pour Achat N:"+r.getCommande().getId());
 
-            compteRepository.save(compteClient);
-            compteRepository.save(compteVente);
-            compteRepository.save(compteTVACollecte);
+                Compte compteFournisseurs = cs.getCompteFournisseurs();
+                compteFournisseurs.setDebit(totalttc.add(compteFournisseurs.getDebit()));
+                cs.save(compteFournisseurs);
 
+                switch (r.getMode()) {
+                    case ESPECES: {
+
+                        Compte compteCaisse = cs.getCompteCaisse();
+                        compteCaisse.setCredit(totalttc.add(compteCaisse.getCredit()));
+                        cs.save(compteCaisse);
+
+                        Decaissement decaissement = new Decaissement();
+                        decaissement.setMontant(r.getMontant());
+                        decaissement.setDateVersement(r.getDateVersement());
+                        decaissement.setModePaiement(r.getMode());
+                        decaissement.setMotif(CaisseMouvementMotif.ACHAT);
+                        decaissement.setCommentaires("Mvt commande " + r.getCommande().getId());
+
+                        decaissementService.save(decaissement);
+
+                        break;
+                    }
+                    case CHEQUE: {
+                        Compte compteBanque = cs.getCompteBanque();
+                        compteBanque.setCredit(totalttc.add(compteBanque.getCredit()));
+                        cs.save(compteBanque);
+                        break;
+                    }
+                    case VIREMENT: {
+                        Compte compteBanque = cs.getCompteBanque();
+                        compteBanque.setCredit(totalttc.add(compteBanque.getCredit()));
+                        cs.save(compteBanque);
+                        break;
+                    }
+
+                }
+
+                break;
+            }
+            case VENTE: {
+
+                ecritureCompteAnalytiqueService.create(r.getCommande().getClient(), CompteAnalytiqueType.CLIENT, totalttc, SensEcritureComptable.C,"Versement pour Vente N:"+r.getCommande().getId());
+
+                Compte compteClient = cs.getCompteClient();
+                compteClient.setCredit(totalttc.add(compteClient.getCredit()));
+                cs.save(compteClient);
+
+                switch (r.getMode()) {
+                    case ESPECES: {
+
+                        Compte compteCaisse = cs.getCompteCaisse();
+                        compteCaisse.setDebit(totalttc.add(compteCaisse.getDebit()));
+                        cs.save(compteCaisse);
+
+                        Encaissement encaissement = new Encaissement();
+                        encaissement.setMontant(r.getMontant());
+                        encaissement.setDateVersement(r.getDateVersement());
+                        encaissement.setModePaiement(r.getMode());
+                        encaissement.setMotif(CaisseMouvementMotif.VENTE);
+                        encaissement.setCommentaires("Mvt commande " + r.getCommande().getId());
+
+                        encaissementService.save(encaissement);
+
+                        break;
+                    }
+                    case CHEQUE: {
+                        Compte compteCheque = cs.getCompteCheque();
+                        compteCheque.setDebit(totalttc.add(compteCheque.getDebit()));
+                        cs.save(compteCheque);
+                        break;
+                    }
+                    case VIREMENT: {
+                        Compte compteBanque = cs.getCompteBanque();
+                        compteBanque.setDebit(totalttc.add(compteBanque.getDebit()));
+                        cs.save(compteBanque);
+                        break;
+                    }
+                }
+                break;
+            }
+            default: {
+                throw new Exception("Type de commande non spécifié");
+            }
         }
-        if (r.getCommande() instanceof Achat) {
 
-            Compte compteAchat = cs.getCompteAchat();
-            Compte compteFournisseurs = cs.getCompteFournisseurs();
-            Compte compteTVADeductible = cs.getCompteTVADeductible();
+        Commande commande = r.getCommande();
+        commande.setMontantPaye(commande.getMontantPaye() == null ? r.getMontant() : commande.getMontantPaye().add(r.getMontant()));
 
-            compteAchat.setDebit(totalht.add(compteAchat.getDebit()));
-            compteFournisseurs.setCredit(totalttc.add(compteFournisseurs.getCredit()));
-            compteTVADeductible.setDebit(tva.add(compteTVADeductible.getDebit()));
-
-            compteRepository.save(compteAchat);
-            compteRepository.save(compteFournisseurs);
-            compteRepository.save(compteTVADeductible);
-        }
+        commandeRepository.save(commande);
 
         return reglementRepository.save(r);
     }

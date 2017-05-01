@@ -6,6 +6,7 @@
 package com.itsolution.tkbr.domain;
 
 import com.itsolution.tkbr.domain.enumeration.EtatCaisse;
+import com.itsolution.tkbr.service.util.ReadOnly;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.Formula;
 
 /**
  *
@@ -25,16 +27,47 @@ public class Caisse extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     private Employe gerant;
 
     @Enumerated(EnumType.STRING)
-    private EtatCaisse etatCaisse;
-    
-    private BigDecimal  soldeReel;
+    private EtatCaisse etat;
+
+    private BigDecimal soldeReel;
+    @ReadOnly
+    private BigDecimal sortie;
+    @ReadOnly
+    private BigDecimal entree;
+
+    @Formula("entree-sortie")
+    private BigDecimal soldeTheorique;
+
+    public BigDecimal getSortie() {
+        return sortie;
+    }
+
+    public void setSortie(BigDecimal sortie) {
+        this.sortie = sortie;
+    }
+
+    public BigDecimal getEntree() {
+        return entree;
+    }
+
+    public void setEntree(BigDecimal entree) {
+        this.entree = entree;
+    }
+
+    public BigDecimal getSoldeTheorique() {
+        return soldeTheorique;
+    }
+
+    public void setSoldeTheorique(BigDecimal soldeTheorique) {
+        this.soldeTheorique = soldeTheorique;
+    }
 
     public Employe getGerant() {
         return gerant;
@@ -44,12 +77,12 @@ public class Caisse extends AbstractAuditingEntity {
         this.gerant = gerant;
     }
 
-    public EtatCaisse getEtatCaisse() {
-        return etatCaisse;
+    public EtatCaisse getEtat() {
+        return etat;
     }
 
-    public void setEtatCaisse(EtatCaisse etatCaisse) {
-        this.etatCaisse = etatCaisse;
+    public void setEtat(EtatCaisse etat) {
+        this.etat = etat;
     }
 
     public BigDecimal getSoldeReel() {
@@ -59,9 +92,6 @@ public class Caisse extends AbstractAuditingEntity {
     public void setSoldeReel(BigDecimal soldeReel) {
         this.soldeReel = soldeReel;
     }
-    
-    
-    
 
     public Long getId() {
         return id;

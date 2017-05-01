@@ -70,14 +70,14 @@
                         storePreviousState($rootScope.toState.name, $rootScope.toStateParams);
 
                         // now, send them to the signin state so they can log in
-                        $state.go('login');
+                        $state.go('page.login');
                     }
                 }
             }
         }
 
         function goTologin() {
-            $state.go('login');
+            $state.go('page.login');
         }
         function changePassword(newPassword, callback) {
             var cb = callback || angular.noop;

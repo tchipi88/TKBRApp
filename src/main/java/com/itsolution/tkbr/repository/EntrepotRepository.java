@@ -6,7 +6,6 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Entrepot;
-import com.itsolution.tkbr.domain.enumeration.EntrepotType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -18,7 +17,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EntrepotRepository extends JpaRepository<Entrepot, Long> {
 
-    public Entrepot findByType(EntrepotType entrepotType);
+
+
+    public Entrepot findByLibelle(String libelle);
 
     
 

@@ -5,9 +5,9 @@
         .module('app')
         .controller('ReglementDialogController', ReglementDialogController);
 
-    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Reglement','Commande'];
+    ReglementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'Reglement','Commande'];
 
-    function ReglementDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Reglement ,Commande) {
+    function ReglementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, Reglement ,Commande) {
         var vm = this;
 
         vm.reglement = entity;
@@ -17,7 +17,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        vm.commandes = Commande.query();
+        //vm.commandes = Commande.query();
 
       
 
@@ -55,6 +55,39 @@
          function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+        
+         vm.setMimage = function ($file, fieldName) {
+                if ($file && $file.$error === 'pattern') {
+                    return;
+                }
+                if ($file) {
+                    DataUtils.toBase64($file, function (base64Data) {
+                        $scope.$apply(function () {
+                            vm.reglement[fieldName] = base64Data;
+                            vm.reglement[fieldName + 'ContentType'] = $file.type;
+                        });
+                    });
+                }
+            };
+            
+            vm.zoomColumn = function (lookupCtrl,lookupTemplate, fieldname, entity) {
+                $uibModal.open({
+                    templateUrl: 'tpl/entities/'+lookupTemplate+'/'+lookupTemplate+'-dialog.html',
+                    controller: lookupCtrl+'DialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return entity;
+                        }
+                    }
+                }).result.then(function(item) {
+                        vm.reglement[fieldname] = item;
+                }, function() {
+                    
+                });
+            };
 
     }
 })();

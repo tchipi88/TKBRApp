@@ -18,7 +18,7 @@ angular.module('app')
                         var layout = "tpl/app.html";
 
                         $urlRouterProvider
-                                .otherwise('error404');
+                                .otherwise('/page/404');
 
                         $stateProvider
                                 .state('app', {
@@ -30,78 +30,41 @@ angular.module('app')
                                     controller: 'NavbarController',
                                     controllerAs: 'vm',
                                     resolve: {
+                                        deps: ['$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']);
+                                            }],
                                         authorize: ['Auth',
                                             function (Auth) {
                                                 return Auth.authorize();
                                             }
                                         ]
+
                                     }
                                 })
-                                .state('login', {
-                                    url: '/login',
-                                    templateUrl: 'tpl/page_signin.html',
-                                    controller: 'LoginController',
-                                    controllerAs: 'vm'
-                                })
+
                                 .state('home', {
                                     parent: 'app',
                                     url: '/',
                                     views: {
                                         'content@app': {
-                                            templateUrl: 'tpl/dashboard.html'}}
+                                            templateUrl: 'tpl/home.html'}}
                                 })
-                                .state('error404', {
-                                    url: '/',
+                                .state('page', {
+                                    url: '/page',
+                                    template: '<div ui-view class="fade-in-right-big smooth"></div>'
+                                })
+                                .state('page.404', {
+                                    url: '/404',
                                     templateUrl: 'tpl/error/page_404.html'
                                 })
-                                .state('accessdenied', {
-				                    parent: 'app',
-				                    url: '/accessdenied',
-				                    data: {
-				                        authorities: []
-				                    },
-				                    views: {
-				                        'content@app': {
-				                            templateUrl: 'tpl/error/accessdenied.html'
-				                        }
-				                    }
-				                });
-
-
-
-                        function load(srcs, callback) {
-                            return {
-                                deps: ['$ocLazyLoad', '$q',
-                                    function ($ocLazyLoad, $q) {
-                                        var deferred = $q.defer();
-                                        var promise = false;
-                                        srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
-                                        if (!promise) {
-                                            promise = deferred.promise;
-                                        }
-                                        angular.forEach(srcs, function (src) {
-                                            promise = promise.then(function () {
-                                                if (JQ_CONFIG[src]) {
-                                                    return $ocLazyLoad.load(JQ_CONFIG[src]);
-                                                }
-                                                angular.forEach(MODULE_CONFIG, function (module) {
-                                                    if (module.name == src) {
-                                                        name = module.name;
-                                                    } else {
-                                                        name = src;
-                                                    }
-                                                });
-                                                return $ocLazyLoad.load(name);
-                                            });
-                                        });
-                                        deferred.resolve();
-                                        return callback ? promise.then(function () {
-                                            return callback();
-                                        }) : promise;
-                                    }]
-                            }
-                        }
-
+                                .state('page.login', {
+                                    url: '/login',
+                                    templateUrl: 'tpl/page_signin.html',
+                                    controller: 'LoginController',
+                                    controllerAs: 'vm'
+                                })
+                                ;
 
                     }
                 ]

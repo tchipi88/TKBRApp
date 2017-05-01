@@ -2,6 +2,7 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Produit;
+import com.itsolution.tkbr.domain.enumeration.ProduitType;
 
 import com.itsolution.tkbr.repository.ProduitRepository;
 import com.itsolution.tkbr.repository.search.ProduitSearchRepository;
@@ -38,7 +39,7 @@ public class ProduitResource {
     private final Logger log = LoggerFactory.getLogger(ProduitResource.class);
 
     private static final String ENTITY_NAME = "produit";
-        
+
     private final ProduitRepository produitRepository;
 
     private final ProduitSearchRepository produitSearchRepository;
@@ -49,10 +50,12 @@ public class ProduitResource {
     }
 
     /**
-     * POST  /produits : Create a new produit.
+     * POST /produits : Create a new produit.
      *
      * @param produit the produit to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new produit, or with status 400 (Bad Request) if the produit has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new produit, or with status 400 (Bad Request) if the produit has already
+     * an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/produits")
@@ -65,17 +68,17 @@ public class ProduitResource {
         Produit result = produitRepository.save(produit);
         produitSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/produits/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /produits : Updates an existing produit.
+     * PUT /produits : Updates an existing produit.
      *
      * @param produit the produit to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated produit,
-     * or with status 400 (Bad Request) if the produit is not valid,
-     * or with status 500 (Internal Server Error) if the produit couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * produit, or with status 400 (Bad Request) if the produit is not valid, or
+     * with status 500 (Internal Server Error) if the produit couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/produits")
@@ -88,29 +91,31 @@ public class ProduitResource {
         Produit result = produitRepository.save(produit);
         produitSearchRepository.save(result);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, produit.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, produit.getId().toString()))
+                .body(result);
     }
 
-   /**
-     * GET  /produits : get all the produits.
+    /**
+     * GET /produits : get all the produits.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of produits in body
+     * @return the ResponseEntity with status 200 (OK) and the list of produits
+     * in body
      */
     @GetMapping("/produits")
     @Timed
     public ResponseEntity<List<Produit>> getAllProduits(@ApiParam Pageable pageable) {
         log.debug("REST request to get all Produits");
-        Page<Produit> page = produitRepository.findAll(pageable);
+        Page<Produit> page = produitRepository.findByType(pageable,ProduitType.BIEN);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/produits");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
-     * GET  /produits/:id : get the "id" produit.
+     * GET /produits/:id : get the "id" produit.
      *
      * @param id the id of the produit to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the produit, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * produit, or with status 404 (Not Found)
      */
     @GetMapping("/produits/{id}")
     @Timed
@@ -121,7 +126,7 @@ public class ProduitResource {
     }
 
     /**
-     * DELETE  /produits/:id : delete the "id" produit.
+     * DELETE /produits/:id : delete the "id" produit.
      *
      * @param id the id of the produit to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -136,20 +141,19 @@ public class ProduitResource {
     }
 
     /**
-     * SEARCH  /_search/produits?query=:query : search for the produit corresponding
-     * to the query.
+     * SEARCH /_search/produits?query=:query : search for the produit
+     * corresponding to the query.
      *
-     * @param query the query of the produit search 
+     * @param query the query of the produit search
      * @return the result of the search
      */
     @GetMapping("/_search/produits")
     @Timed
-    public List<Produit> searchProduits(@RequestParam String query) {
-        log.debug("REST request to search Produits for query {}", query);
-        return StreamSupport
-            .stream(produitSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<Produit>> searchProduits(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Clients for query {}", query);
+        Page<Produit> page = produitSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/produits");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

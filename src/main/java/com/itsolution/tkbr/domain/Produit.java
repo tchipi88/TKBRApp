@@ -1,4 +1,4 @@
-package com.itsolution.tkbr.domain;
+    package com.itsolution.tkbr.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.itsolution.tkbr.domain.enumeration.ProduitType;
+import com.itsolution.tkbr.service.template.Libelle;
 
 /**
  * A Produit.
@@ -18,6 +19,7 @@ import com.itsolution.tkbr.domain.enumeration.ProduitType;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "produit")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Produit extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +29,7 @@ public class Produit extends AbstractAuditingEntity{
     private Long id;
 
     @NotNull
+    @Libelle
     private String denomination;
 
     
@@ -39,6 +42,7 @@ public class Produit extends AbstractAuditingEntity{
     @NotNull
     private ProduitCategorie categorie;
     
+    @NotNull
     private BigDecimal prix;
 
     public BigDecimal getPrix() {

@@ -138,7 +138,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse', null, {reload: 'app.caisse'});
+                        $state.go('caisse', null, {reload: 'caisse'});
                         }, function () {
                         $state.go('^');
                         });
@@ -162,7 +162,7 @@
                                 }]
                                 }
                         }).result.then(function () {
-                        $state.go('app.caisse', null, {reload: 'app.caisse'});
+                        $state.go('caisse', null, {reload: 'caisse'});
                         }, function () {
                         $state.go('^');
                         });

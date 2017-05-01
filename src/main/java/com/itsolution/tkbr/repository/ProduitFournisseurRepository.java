@@ -8,6 +8,7 @@ package com.itsolution.tkbr.repository;
 import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.Produit;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -20,6 +21,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProduitFournisseurRepository extends JpaRepository<ProduitFournisseur, Long> {
 
     public ProduitFournisseur findByFournisseurAndProduit(Fournisseur fournisseur, Produit produit);
+
+    public List<ProduitFournisseur> findByFournisseurId(Long id);
 
     
 

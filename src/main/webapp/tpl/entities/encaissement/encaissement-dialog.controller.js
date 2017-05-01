@@ -5,9 +5,9 @@
         .module('app')
         .controller('EncaissementDialogController', EncaissementDialogController);
 
-    EncaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Encaissement','Caisse'];
+    EncaissementDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$uibModal','DataUtils', 'entity', 'Encaissement','Caisse'];
 
-    function EncaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Encaissement ,Caisse) {
+    function EncaissementDialogController ($timeout, $scope, $stateParams, $uibModalInstance,$uibModal, DataUtils, entity, Encaissement ,Caisse) {
         var vm = this;
 
         vm.encaissement = entity;
@@ -49,12 +49,45 @@
         }
 
 
-         vm.datePickerOpenStatus.dateMouvement = false;
+         vm.datePickerOpenStatus.dateVersement = false;
 
         
          function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
         }
+        
+         vm.setMimage = function ($file, fieldName) {
+                if ($file && $file.$error === 'pattern') {
+                    return;
+                }
+                if ($file) {
+                    DataUtils.toBase64($file, function (base64Data) {
+                        $scope.$apply(function () {
+                            vm.encaissement[fieldName] = base64Data;
+                            vm.encaissement[fieldName + 'ContentType'] = $file.type;
+                        });
+                    });
+                }
+            };
+            
+            vm.zoomColumn = function (lookupCtrl,lookupTemplate, fieldname, entity) {
+                $uibModal.open({
+                    templateUrl: 'tpl/entities/'+lookupTemplate+'/'+lookupTemplate+'-dialog.html',
+                    controller: lookupCtrl+'DialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return entity;
+                        }
+                    }
+                }).result.then(function(item) {
+                        vm.encaissement[fieldname] = item;
+                }, function() {
+                    
+                });
+            };
 
     }
 })();

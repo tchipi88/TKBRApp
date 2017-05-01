@@ -8,28 +8,7 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="row">
-               
-                <div class="col-xs-12 no-padding-right">
-                    <form name="searchForm" class="form-inline">
-                        <div class="input-group pull-right" >
-                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
-                            <span  class="input-group-btn width-min" >
-                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
-                                <button class="btn btn-info" ng-click="vm.clear()">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <div class="panel-body table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
@@ -48,6 +27,7 @@
                     <tr ng-repeat="produitCategorie in vm.produitCategories track by produitCategorie.id">
                         <td><a ui-sref="produitCategorie-detail({id:produit-categorie.id})">{{produitCategorie.id}}</a></td>
                          <td>{{produitCategorie.libelle}}</td>
+
                         <td >
 
                             <button type="submit"    ui-sref="produit-categorie-detail({id:produitCategorie.id})"    class="btn btn-info btn-sm"   tooltip="Details">

@@ -1,0 +1,89 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()"   class="form-validation">
+
+    <div class="modal-header">
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()"><i class="fa fa-remove"></i>  </button>
+        <h3 class="modal-title" id="myTerrainLabel" >Créer ou modifier  Lot</h3>
+        <small class="text-muted" >Les champs * sont obligatoires</small>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_id">Id   
+                        <span class="label bg-success"  ng-show="vm.terrain.id && vm.terrain.vendu">Vendu</span>
+                        <span class="label bg-info"  ng-show="vm.terrain.id && !vm.terrain.vendu">Libre</span>
+                    </label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_id" ng-model="vm.terrain.id"                     ng-readonly="true"  ng-required="false"    ng-maxlength="255"                      />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_denomination">Denomination <span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="text"  autocomplete="off"   id="field_denomination" ng-model="vm.terrain.denomination"                     ng-readonly="false"  ng-required="true"    ng-maxlength="255"                      />
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_surface">Surface<span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_surface" ng-model="vm.terrain.surface"                     ng-readonly="false"  ng-required="true"                     />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_longitude">Longitude</label>
+                    <div class="input-group">    <input  class="form-control"   type="number"  autocomplete="off"  id="field_longitude" ng-model="vm.terrain.longitude"                     ng-readonly="false"  ng-required="false"                     />
+                        <span class="input-group-addon" >  <span >
+                                <i class="fa fa-map-marker"></i>
+                            </span> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_latitude">Latitude</label>
+                    <div class="input-group">     <input  class="form-control"   type="number"  autocomplete="off"  id="field_latitude" ng-model="vm.terrain.latitude"                     ng-readonly="false"  ng-required="false"                     />
+                        <span class="input-group-addon" >  <span >
+                                <i class="fa fa-map-marker"></i>
+                            </span> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_prix">Prix <span style="color:red" >*</span></label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prix" ng-model="vm.terrain.prix"                     ng-readonly="false"  ng-required="true"                     />
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label"  for="field_prix">Prix Total</label>
+                    <input  class="form-control"   type="number"  autocomplete="off"  id="field_prix" placeholder="{{vm.terrain.prix * vm.terrain.surface| number }}"                     ng-readonly="true"                  />
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Enregister</span>
+        </button>
+    </div>
+</form>

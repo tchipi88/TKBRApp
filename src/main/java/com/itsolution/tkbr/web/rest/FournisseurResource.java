@@ -5,6 +5,7 @@ import com.itsolution.tkbr.domain.Fournisseur;
 
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.search.FournisseurSearchRepository;
+import com.itsolution.tkbr.service.FournisseurService;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,12 +41,15 @@ public class FournisseurResource {
     private static final String ENTITY_NAME = "fournisseur";
         
     private final FournisseurRepository fournisseurRepository;
+    
+    private final FournisseurService  fournisseurService;
 
     private final FournisseurSearchRepository fournisseurSearchRepository;
 
-    public FournisseurResource(FournisseurRepository fournisseurRepository, FournisseurSearchRepository fournisseurSearchRepository) {
+    public FournisseurResource(FournisseurRepository fournisseurRepository, FournisseurSearchRepository fournisseurSearchRepository,FournisseurService fournisseurService) {
         this.fournisseurRepository = fournisseurRepository;
         this.fournisseurSearchRepository = fournisseurSearchRepository;
+        this.fournisseurService=fournisseurService;
     }
 
     /**
@@ -57,12 +61,12 @@ public class FournisseurResource {
      */
     @PostMapping("/fournisseurs")
     @Timed
-    public ResponseEntity<Fournisseur> createFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws URISyntaxException {
+    public ResponseEntity<Fournisseur> createFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws Exception {
         log.debug("REST request to save Fournisseur : {}", fournisseur);
         if (fournisseur.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new fournisseur cannot already have an ID")).body(null);
         }
-        Fournisseur result = fournisseurRepository.save(fournisseur);
+        Fournisseur result = fournisseurService.create(fournisseur);
         fournisseurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/fournisseurs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -80,12 +84,12 @@ public class FournisseurResource {
      */
     @PutMapping("/fournisseurs")
     @Timed
-    public ResponseEntity<Fournisseur> updateFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws URISyntaxException {
+    public ResponseEntity<Fournisseur> updateFournisseur(@Valid @RequestBody Fournisseur fournisseur) throws Exception {
         log.debug("REST request to update Fournisseur : {}", fournisseur);
         if (fournisseur.getId() == null) {
             return createFournisseur(fournisseur);
         }
-        Fournisseur result = fournisseurRepository.save(fournisseur);
+        Fournisseur result = fournisseurService.update(fournisseur);
         fournisseurSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, fournisseur.getId().toString()))
@@ -135,21 +139,23 @@ public class FournisseurResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    /**
+   /**
      * SEARCH  /_search/fournisseurs?query=:query : search for the fournisseur corresponding
      * to the query.
      *
      * @param query the query of the fournisseur search 
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/fournisseurs")
     @Timed
-    public List<Fournisseur> searchFournisseurs(@RequestParam String query) {
-        log.debug("REST request to search Fournisseurs for query {}", query);
-        return StreamSupport
-            .stream(fournisseurSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<Fournisseur>> searchFournisseurs(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Fournisseurs for query {}", query);
+        Page<Fournisseur> page = fournisseurSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/fournisseurs");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
 
 
 }

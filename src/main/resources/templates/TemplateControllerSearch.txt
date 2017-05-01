@@ -144,12 +144,14 @@ public class [(${entity})]Resource {
      */
     @GetMapping("/_search/[(${entity_url})]s")
     @Timed
-    public List<[(${entity})]> search[(${entity})]s(@RequestParam String query) {
+    public ResponseEntity<List<[(${entity})]>> search[(${entity})]s(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search [(${entity})]s for query {}", query);
-        return StreamSupport
-            .stream([(${entity_var})]SearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+      Page<[(${entity})]> page = [(${entity_var})]SearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/[(${entity_url})]s");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+
 
 
 }

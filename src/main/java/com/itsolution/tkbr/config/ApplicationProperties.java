@@ -33,6 +33,8 @@ public class ApplicationProperties {
         private String boitePostale;
 
         private String adresse;
+        
+        private Long tva;
 
         public String getNom() {
             return nom;
@@ -88,6 +90,14 @@ public class ApplicationProperties {
 
         public void setAdresse(String adresse) {
             this.adresse = adresse;
+        }
+
+        public Long getTva() {
+            return tva;
+        }
+
+        public void setTva(Long tva) {
+            this.tva = tva;
         }
         
         

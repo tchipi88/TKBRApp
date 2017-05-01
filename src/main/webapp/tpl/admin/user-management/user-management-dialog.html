@@ -74,40 +74,41 @@
                    translate-value-max="100">
                     This field cannot be longer than 100 characters.
                 </p>
-				<p class="help-block"
+                <p class="help-block"
                    ng-show="editForm.email.$error.email" data-translate="global.messages.validate.email.invalid">
                     Your e-mail is invalid.
-                 </p>
+                </p>
             </div>
         </div>
         <div class="form-group">
-            <label for="activated">
-                <input ng-disabled="vm.user.id === null" type="checkbox" id="activated" name="activated" ng-model="vm.user.activated">
-                <span data-translate="userManagement.activated">Activated</span>
-            </label>
+             <label class="control-label" >Activated</label>
+            <div class="form-control">
+                <label for="activated"  class="i-checks">
+                    <input ng-disabled="vm.user.id === null" type="checkbox" id="activated" name="activated" ng-model="vm.user.activated">
+                    <i></i>
+                </label>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label data-translate="userManagement.langKey">Lang Key</label>
-            <select class="form-control" name="langKey" ng-model="vm.user.langKey"
-                    ng-options="language as language for language in vm.languages track by language">
-            </select>
-        </div>
+
 
         <div class="form-group">
             <label data-translate="userManagement.profiles">Profiles</label>
-            <select class="form-control" multiple name="authority" ng-model="vm.user.authorities"
-                    ng-options="authority as authority.name for authority in vm.authorities">
-            </select>
+
+            <ui-select multiple ng-model="vm.user.authorities" theme="bootstrap" >
+                <ui-select-match>{{$item}}</ui-select-match>
+                <ui-select-choices  repeat="authority in vm.authorities">
+                    <div ng-bind-html="authority"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-            data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle">Annuler</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+            <span class="glyphicon glyphicon-save">Enregistrer</span>
         </button>
     </div>
 </form>

@@ -38,7 +38,7 @@
     <!-- nabar right -->
     <ul class="nav navbar-nav navbar-right">
         
-        <li ng-class="{active: vm.$state.includes('admin')}"   uib-dropdown class="dropdown">
+        <li ng-class="{active: vm.$state.includes('admin')}" has-authority="ROLE_ADMIN"  uib-dropdown class="dropdown">
             <a class="dropdown-toggle" uib-dropdown-toggle href="" id="admin-menu">
                 <span>
                     <span class="glyphicon glyphicon-tower"></span>

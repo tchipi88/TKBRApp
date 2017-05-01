@@ -1,15 +1,15 @@
 <!-- list -->
 <ul class="nav">
-<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-    <span >Navigation</span>
-  </li>
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span >Navigation</span>
+    </li>
     <li ui-sref-active="active">
         <a ui-sref="home">
-            <i class="glyphicon glyphicon-dashboard icon text-info-lter"></i>
-            <span class="font-bold" >Tableau de bord</span>
+            <i class="fa fa-bank icon text-info-lter"></i>
+            <span class="font-bold" >Accueil</span>
         </a>
     </li>
-    <li ng-class="{active: vm.$state.includes('admin')}" >
+    <li ng-class="{active: vm.$state.includes('admin')}"  has-authority="ROLE_ADMIN" >
         <a href class="auto">      
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
@@ -49,7 +49,7 @@
     </li>
 
     <li  class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-        <span > Commerciale</span>
+        <span > Modules</span>
     </li>
 
     <li>
@@ -84,112 +84,47 @@
             </li>
         </ul>
     </li>
-    
-      <li>
+
+    <li>
         <a href class="auto">
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
             <i class="fa fa-shopping-cart icon text-success"></i>
-            <span class="font-bold">Achats</span>
+            <span class="font-bold">Commandes</span>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
                 <a href>
-                    <span>Achats</span>
+                    <span>Commandes</span>
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="achat">
+                <a ui-sref="commande({type:'ACHAT'})">
                     <span>Achat</span>
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="bon-reception">
-                    <span>Bon Reception</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="decaissement">
-                    <span>Decaissement</span>
-                </a>
-            </li>
-        </ul>
-    </li>
-    
-      <li>
-        <a href class="auto">
-            <span class="pull-right text-muted">
-                <i class="fa fa-fw fa-angle-right text"></i>
-                <i class="fa fa-fw fa-angle-down text-active"></i>
-            </span>
-            <i class="fa fa-money icon text-success"></i>
-            <span class="font-bold">Ventes</span>
-        </a>
-        <ul class="nav nav-sub dk">
-            <li class="nav-sub-header">
-                <a href>
-                    <span>Ventes</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="vente">
+                <a ui-sref="commande({type:'VENTE'})">
                     <span>Vente</span>
                 </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="facture">
-                    <span>Facture</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="bon-livraison">
-                    <span>Bon Livraison</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="encaissement">
-                    <span>Encaissement</span>
-                </a>
-            </li>
+
         </ul>
     </li>
 
-  <li>
-        <a class="auto">
-            <span class="pull-right text-muted">
-                <i class="fa fa-fw fa-angle-right text"></i>
-                <i class="fa fa-fw fa-angle-down text-active"></i>
-            </span>
-            <i class="fa fa-cube icon text-success"></i>
-            <span class="font-bold"> Produits</span>
+
+
+    <li ui-sref-active="active">
+        <a ui-sref="produit">
+            <i class="fa fa-cube icon text-info-lter"></i>
+            <span class="font-bold" >Produits</span>
         </a>
-        <ul class="nav nav-sub dk">
-            <li class="nav-sub-header">
-                <a href>
-                    <span> Produits</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="produit">
-                    <span>Produit</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="produit-categorie">
-                    <span>Categorie</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="unite">
-                    <span>Unite</span>
-                </a>
-            </li>
-            
-        </ul>
     </li>
-    
+
+
+
     <li>
         <a href class="auto">
             <span class="pull-right text-muted">
@@ -211,24 +146,77 @@
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="caisse-cloture">
-                    <span>Caisse Cloture</span>
+                <a ui-sref="decaissement">
+                    <span>Decaissement</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="encaissement">
+                    <span>Encaissement</span>
                 </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="reglement">
-                    <span>Reglement</span>
+                <a ui-sref="caisse-ouverture">
+                    <span>Caisse Ouverture</span>
                 </a>
             </li>
+
         </ul>
     </li>
-    
-     <li ui-sref-active="active">
-        <a ui-sref="compte">
-            <i class="fa fa-cube icon text-info-lter"></i>
-            <span class="font-bold" >Comptabilite</span>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-money icon text-success"></i>
+            <span class="font-bold"> Comptabilite</span>
         </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Comptabilite</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte">
+                    <span>General</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique">
+                    <span>Compte Client</span>
+                </a>
+            </li>
+
+
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'FOURNISSEUR'})">
+                    <span>Compte Fournisseur</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'LOCATION'})">
+                    <span>Compte Loyer</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'TERRAIN'})">
+                    <span>Compte Terrain</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="ecriture-compte-analytique">
+                    <span>Ecritures</span>
+                </a>
+            </li>
+
+        </ul>
     </li>
+
 
     <li>
         <a href class="auto">
@@ -251,10 +239,87 @@
                 </a>
             </li>
             <li ui-sref-active="active">
+                <a ui-sref="entrepot-produit">
+                    <span>Inventaire</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
                 <a ui-sref="mouvement-stock">
                     <span>Mouvement Stock</span>
                 </a>
             </li>
+        </ul>
+    </li>
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-home icon  text-info"></i>
+            <span class="font-bold"> Location</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Location</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="location">
+                    <span>Location</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="local">
+                    <span>Boutique</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="client({locataire:true})">
+                    <span>Locataires</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="loyer">
+                    <span>Loyer</span>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-map-marker icon  text-success"></i>
+            <span class="font-bold"> Terrain</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Terrain</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain">
+                    <span>Terrain</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain-commande">
+                    <span>Achat</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="terrain-commande({type:'VENTE'})">
+                    <span>Vente</span>
+                </a>
+            </li>
+
         </ul>
     </li>
 

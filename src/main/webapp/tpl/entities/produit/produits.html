@@ -8,9 +8,8 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading">
+         <div class="panel-heading">
             <div class="row">
-               
                 <div class="col-xs-12 no-padding-right">
                     <form name="searchForm" class="form-inline">
                         <div class="input-group pull-right" >
@@ -35,11 +34,7 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="denomination"><span >Denomination</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="type"><span >Type</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="categorie"><span >Categorie</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="prix"><span >Prix</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="unite"><span >Unite</span> <span class="fa fa-sort"></span></th>
+                         <th jh-sort-by="denomination"><span >Denomination</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="type"><span >Type</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="categorie"><span >Categorie</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="prix"><span >Prix</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="unite"><span >Unite</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="produit.new"   tooltip="Créer Produit">
                                 <i class="fa fa-plus">
@@ -53,15 +48,13 @@
                         <td><a ui-sref="produit-detail({id:produit.id})">{{produit.id}}</a></td>
                          <td>{{produit.denomination}}</td>
  <td>{{produit.type}}</td>
- <td>{{produit.categorie}}</td>
- <td>{{produit.prix}}</td>
- <td>{{produit.unite}}</td>
+ <td>{{produit.categorie.libelle}}</td>
+ <td>{{produit.prix | number }}</td>
+ <td>{{produit.unite.libelle}}</td>
+
                         <td >
 
-                            <button type="submit"    ui-sref="produit-detail({id:produit.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                <i class="fa fa-eye">
-                                </i>
-                            </button>
+                           
                             <button type="submit"   ui-sref="produit.edit({id:produit.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>

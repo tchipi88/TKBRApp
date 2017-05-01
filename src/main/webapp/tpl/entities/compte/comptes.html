@@ -8,69 +8,25 @@
 
 <div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="row">
-               
-                <div class="col-xs-12 no-padding-right">
-                    <form name="searchForm" class="form-inline">
-                        <div class="input-group pull-right" >
-                            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Recherche">
-                            <span  class="input-group-btn width-min" >
-                                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
-                                <button class="btn btn-info" ng-click="vm.clear()">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <div class="panel-body table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                         <th jh-sort-by="intitule"><span >Intitule</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="debit"><span >Debit</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="credit"><span >Credit</span> <span class="fa fa-sort"></span></th>
- <th jh-sort-by="solde"><span >Solde</span> <span class="fa fa-sort"></span></th>
-                        <th >
-                            <button class="btn btn-primary" ui-sref="compte.new"   tooltip="Créer Compte">
-                                <i class="fa fa-plus">
-                                </i>
-                            </button>
-                        </th>
+                        <th jh-sort-by="intitule"><span >Intitule</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="debit"><span >Debit</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="credit"><span >Credit</span> <span class="fa fa-sort"></span></th> <th jh-sort-by="solde"><span >Solde</span> <span class="fa fa-sort"></span></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="compte in vm.comptes track by compte.id">
                         <td><a ui-sref="compte-detail({id:compte.id})">{{compte.id}}</a></td>
-                         <td>{{compte.intitule}}</td>
- <td>{{compte.debit}}</td>
- <td>{{compte.credit}}</td>
- <td>{{compte.solde}}</td>
-                        <td >
+                        <td>{{compte.intitule}}</td>
+                        <td>{{compte.debit| number }}</td>
+                        <td>{{compte.credit| number }}</td>
+                        <td>{{compte.solde| number }}</td>
 
-                            <button type="submit"    ui-sref="compte-detail({id:compte.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                <i class="fa fa-eye">
-                                </i>
-                            </button>
-                            <button type="submit"   ui-sref="compte.edit({id:compte.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
-                                <i class="fa fa-edit">
-                                </i>
-                            </button>
-
-                            <button type="submit"  ui-sref="compte.delete({id:compte.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
-                                <i class="fa fa-trash">
-                                </i>
-                            </button>
-
-                        </td>
+                       
                     </tr>
                 </tbody>
             </table>
