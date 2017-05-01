@@ -5,9 +5,9 @@
         .module('app')
         .controller('AuthorityDialogController', AuthorityDialogController);
 
-    AuthorityDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Authority'];
+    AuthorityDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Authority','AccessGroup'];
 
-    function AuthorityDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Authority ) {
+    function AuthorityDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Authority,AccessGroup) {
         var vm = this;
 
         vm.authority = entity;
@@ -16,7 +16,8 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
         vm.save = save;
-        
+        vm.accessGroups=AccessGroup.query();
+        //vm.authority.name='MAGASINIER';
       
 
         $timeout(function (){
@@ -28,8 +29,8 @@
         }
 
         function save () {
-            vm.isSaving = true;
-            if (vm.authority.id !== null) {
+            vm.isSaving = true;          
+            if (vm.authority.name !== null) {
                 Authority.update(vm.authority, onSaveSuccess, onSaveError);
             } else {
                 Authority.save(vm.authority, onSaveSuccess, onSaveError);

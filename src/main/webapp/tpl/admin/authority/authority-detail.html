@@ -1,14 +1,20 @@
 
 <div>
-    <h2><span >Authority</span> {{vm.authority.id}}</h2>
+    <h2><span >Authority</span> {{vm.authority.name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
         
-       <dt><span >Access Groups</span></dt>
-        <dd>
-            <span>{{vm.authority.accessGroups}}</span>
-        </dd> 
+       <dt><span >Access Groups </span></dt>
+       	<dd>
+       
+            <span ng-repeat="groupe in vm.authority.accessGroups">
+              <a ui-sref="access-group-detail({id: groupe.id})">{{groupe.libelle}}</a>{{$last ? '' : ', '}} 
+                <!-- <a >{{groupe.libelle}}</a>{{$last ? '' : ', '}} -->
+            </span>
+        	</dd>
+       
+       
     </dl>
 
     <button type="submit"
@@ -17,7 +23,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
-    <button type="button" ui-sref="authority-detail.edit({id:vm.authority.id})" class="btn btn-primary">
+    <button type="button" ui-sref="authority-detail.edit({id:vm.authority.name})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down" > Modifier</span>
     </button>

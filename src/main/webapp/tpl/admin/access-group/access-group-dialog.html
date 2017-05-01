@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="control-label"  for="field_access">Access</label>
                 <select class="form-control" multiple name="access" ng-model="vm.accessGroup.access"     
-                        ng-options="access as access.libelle for access in vm.accesss">
+                        ng-options="access as access.libelle for access in vm.accesss track by access.id">
                 </select>
             </div>
 

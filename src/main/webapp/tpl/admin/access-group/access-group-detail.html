@@ -9,9 +9,16 @@
         <dd>
             <span>{{vm.accessGroup.libelle}}</span>
         </dd> 
-<dt><span >Access</span></dt>
+<dt><span >Access:</span></dt>
         <dd>
-            <span>{{vm.accessGroup.access}}</span>
+            <!-- <span>{{vm.accessGroup.access}}</span> -->
+            
+            <dd>
+            <span ng-repeat="access in vm.accessGroup.access">
+                <a ui-sref="access-detail({id: access.id})">{{access.libelle}}</a>{{$last ? '' : ', '}}
+            </span>
+        	</dd>
+            
         </dd> 
     </dl>
 
@@ -21,7 +28,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Retour</span>
     </button>
 
-    <button type="button" ui-sref="accessGroup-detail.edit({id:vm.accessGroup.id})" class="btn btn-primary">
+    <button type="button" ui-sref="access-group-detail.edit({id:vm.accessGroup.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down" > Modifier</span>
     </button>

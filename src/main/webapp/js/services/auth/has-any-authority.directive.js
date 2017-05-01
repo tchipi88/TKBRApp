@@ -16,8 +16,9 @@
         return directive;
 
         function linkFunc(scope, element, attrs) {
+        	
             var authorities = attrs.hasAnyAuthority.replace(/\s+/g, '').split(',');
-
+            
             var setVisible = function () {
                     element.removeClass('hidden');
                 },

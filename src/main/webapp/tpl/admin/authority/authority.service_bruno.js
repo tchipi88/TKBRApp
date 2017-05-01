@@ -1,13 +1,13 @@
 (function() {
     'use strict';
     angular
-        .module('app')        
-        .factory('Authority', Authority);
+        .module('app')
+        .factory('Authority2', Authority2);
 
-    Authority.$inject = ['$resource'];
+    Authority2.$inject = ['$resource'];
 
-    function Authority ($resource) {
-        var resourceUrl =  'api/authoritys/:id';
+    function Authority2 ($resource) {
+        var resourceUrl =  'api/authoritys/string/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

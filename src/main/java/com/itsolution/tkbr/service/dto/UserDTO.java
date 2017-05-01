@@ -1,7 +1,7 @@
 package com.itsolution.tkbr.service.dto;
 
 import com.itsolution.tkbr.config.Constants;
-
+import com.itsolution.tkbr.domain.Access;
 import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.domain.User;
 
@@ -48,7 +48,10 @@ public class UserDTO {
 
     private ZonedDateTime lastModifiedDate;
 
-    private Set<String> authorities;
+    private Set<Authority> authorities;
+    
+    private Set<Access> accesses;
+    private Set<String> accessesString;
 
     public UserDTO() {
         // Empty constructor needed for MapStruct.
@@ -58,14 +61,20 @@ public class UserDTO {
         this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getImageUrl(), 
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
-            user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+           /* user.getAuthorities().stream().map(Authority::getName)
+                .collect(Collectors.toSet())*/
+            user.getAuthorities()
+                
+        		);
+       // this.accesses=user.getListeAccess();
+        this.accessesString=user.getListeAccessString();
+        
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
         String email, boolean activated, String imageUrl, 
         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
-        Set<String> authorities) {
+        Set<Authority> authorities) {
 
         this.id = id;
         this.login = login;
@@ -79,6 +88,7 @@ public class UserDTO {
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
+       // this.
     }
 
     public Long getId() {
@@ -139,11 +149,31 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Set<String> getAuthorities() {
+    public Set<Authority> getAuthorities() {
         return authorities;
     }
+    
+    
 
-    @Override
+    public Set<Access> getAccesses() {
+		return accesses;
+	}
+
+	public void setAccesses(Set<Access> accesses) {
+		this.accesses = accesses;
+	}
+	
+	
+
+	public Set<String> getAccessesString() {
+		return accessesString;
+	}
+
+	public void setAccessesString(Set<String> accessesString) {
+		this.accessesString = accessesString;
+	}
+
+	@Override
     public String toString() {
         return "UserDTO{" +
             "login='" + login + '\'' +
@@ -156,7 +186,7 @@ public class UserDTO {
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
+           // ", authorities=" + authorities +
             "}";
     }
 }

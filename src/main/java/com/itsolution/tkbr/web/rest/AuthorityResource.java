@@ -2,15 +2,24 @@ package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.itsolution.tkbr.domain.Authority;
+import com.itsolution.tkbr.domain.User;
 import com.itsolution.tkbr.repository.AuthorityRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +84,7 @@ public class AuthorityResource {
         log.debug("REST request to update Authority : {}", authority);
         if (authority.getName() == null) {
             return createAuthority(authority);
-        }
+        }       
         Authority result = authorityRepository.save(authority);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, authority.getName().toString()))
@@ -106,7 +115,8 @@ public class AuthorityResource {
     @Timed
     public ResponseEntity<Authority> getAuthority(@PathVariable String id) {
         log.debug("REST request to get Authority : {}", id);
-        Authority authority = authorityRepository.findOne(id);
+       // Authority authority = authorityRepository.findOne(id); 
+        Authority authority = authorityRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(authority));
     }
 
@@ -123,7 +133,31 @@ public class AuthorityResource {
         authorityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
+    
+  /**********************************************************************
+   *				 CODE AJOUTES
+   * ********************************************************************
+   */
+    
+  /*  *//**
+     * GET  /authoritys : get all the authoritys of strind transform.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of name of authoritys in body
+     *//*
+    @GetMapping("/authoritys/string")
+    @Timed
+    public List<String> getAllAuthoritysTransformOfString() {
+    	List<String> authoritiesString=new ArrayList<String>();
+        log.debug("REST request to get all Authoritys into String");
+        List<Authority> liste = authorityRepository.findAll();
+        for(int i=0;i<liste.size();i++){
+        	authoritiesString.add(liste.get(i).getName());
+        }         
+        return authoritiesString;
+        
+    }
+    */
+   
     
 
 }

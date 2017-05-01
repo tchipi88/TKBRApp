@@ -1,7 +1,9 @@
 package com.itsolution.tkbr.service;
 
+import com.itsolution.tkbr.domain.Access;
 import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.domain.User;
+import com.itsolution.tkbr.repository.AccessRepository;
 import com.itsolution.tkbr.repository.AuthorityRepository;
 import com.itsolution.tkbr.repository.PersistentTokenRepository;
 import com.itsolution.tkbr.config.Constants;
@@ -43,13 +45,16 @@ public class UserService {
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final AuthorityRepository authorityRepository;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    
+    private final AccessRepository accessRepository;
+    
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository,AccessRepository accessRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userSearchRepository = userSearchRepository;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
+        this.accessRepository=accessRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -128,7 +133,7 @@ public class UserService {
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = new HashSet<>();
             userDTO.getAuthorities().forEach(
-                authority -> authorities.add(authorityRepository.findOne(authority))
+                authority -> authorities.add(authorityRepository.findOne(authority.getName()))
             );
             user.setAuthorities(authorities);
         }
@@ -179,8 +184,16 @@ public class UserService {
                 user.setActivated(userDTO.isActivated());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
+                
+             /*  for(int i=0;i<userDTO.getAuthorities().size();i++){
+                	managedAuthorities.add(authorityRepository.findOne(serDTO.getAuthorities().))
+                }*/
                 userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findOne)
+                    .map(authority -> {
+                    	//authorityRepository::findOne
+                    	return authorityRepository.findOne(authority.getName());
+                    	})
+               // .map(authority->{})
                     .forEach(managedAuthorities::add);
                 log.debug("Changed Information for User: {}", user);
                 return user;
@@ -223,6 +236,18 @@ public class UserService {
     public User getUserWithAuthorities() {
         return userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
     }
+    
+    
+    @Transactional(readOnly = true)
+    public User getUserWithAccess() {
+    	User user= userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+    	//List<Access> liste= accessRepository.findOneByLoginWithEagerRelationships(SecurityUtils.getCurrentUserLogin());
+    	user.setListeAccessString(new HashSet<String>(accessRepository.findOneByLoginWithEagerRelationships_String(SecurityUtils.getCurrentUserLogin())));
+    	for(String access:user.getListeAccessString())
+    		System.out.println("**********************"+access+" ********************************");
+    	return user;
+    }
+
 
     /**
      * Persistent Token are used for providing automatic authentication, they should be automatically deleted after

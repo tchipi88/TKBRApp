@@ -13,7 +13,7 @@
                     parent: 'admin',
                     url: '/access-group?page&sort&search',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_LISTACCESSGROUP']
                     },
                     views: {
                         'content@app': {
@@ -47,7 +47,7 @@
                     parent: 'access-group',
                     url: '/access-group/{id}',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_DETAILACCESSGROUP']
                     },
                     views: {
                         'content@app': {
@@ -73,7 +73,7 @@
                     parent: 'access-group-detail',
                     url: '/detail/edit',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_EDITACCESSGROUP']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -98,7 +98,7 @@
                     parent: 'access-group',
                     url: '/new',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_ADDACCESSGROUP']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -125,7 +125,7 @@
                     parent: 'access-group',
                     url: '/{id}/edit',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_EDITACCESSGROUP']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -150,7 +150,7 @@
                     parent: 'access-group',
                     url: '/{id}/delete',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_DELETEACCESSGROUP']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -164,9 +164,9 @@
                                         }]
                                 }
                             }).result.then(function () {
-                                $state.go('app.access-group', null, {reload: 'app.access-group'});
+                                $state.go('access-group', null, {reload: 'access-group'});
                             }, function () {
-                                $state.go('^');
+                                $state.go('access-group');
                             });
                         }]
                 });

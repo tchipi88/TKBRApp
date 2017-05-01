@@ -39,10 +39,10 @@
                                 <button class="btn btn-success btn-xs" ng-click="vm.setActive(user, false)" ng-show="user.activated"
                                         ng-disabled="vm.currentAccount.login == user.login" data-translate="userManagement.activated">Activated</button>
                             </td>
-                            <td>{{user.langKey}}</td>
+                            <td>{{user.langKey}} {{user.authorities}}</td>
                             <td>
                                 <div ng-repeat="authority in user.authorities">
-                                    <span class="label label-info">{{ authority}}</span>
+                                    <span class="label label-info">{{ authority.name}}</span>
                                 </div>
                             </td>
                             <td>{{user.createdDate| date:'dd/MM/yy HH:mm'}}</td>

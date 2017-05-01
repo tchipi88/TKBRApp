@@ -1,9 +1,11 @@
 package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.itsolution.tkbr.domain.Access;
 import com.itsolution.tkbr.domain.AccessGroup;
-
+import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.repository.AccessGroupRepository;
+import com.itsolution.tkbr.repository.AccessRepository;
 import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -13,11 +15,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.JOptionPane;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -39,11 +44,20 @@ public class AccessGroupResource {
     private static final String ENTITY_NAME = "accessGroup";
         
     private final AccessGroupRepository accessGroupRepository;
-
-
-    public AccessGroupResource(AccessGroupRepository accessGroupRepository) {
+    private final AccessRepository  accessRepository;
+    
+    public AccessGroupResource(AccessGroupRepository accessGroupRepository,AccessRepository  accessRepository) {
         this.accessGroupRepository = accessGroupRepository;
+        this.accessRepository=  accessRepository;
     }
+    
+    /*public AccessGroupResource(AccessGroupRepository accessGroupRepository) {
+        this.accessGroupRepository = accessGroupRepository;
+    }*/
+    
+   
+    
+    
 
     /**
      * POST  /access-groups : Create a new accessGroup.
@@ -59,6 +73,15 @@ public class AccessGroupResource {
         if (accessGroup.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accessGroup cannot already have an ID")).body(null);
         }
+        
+       /* if (accessGroup.getAccess() != null) {
+            Set<Access> accesses = new HashSet<>();
+            accessGroup.getAccess().forEach(
+                access -> accesses.add(accessRepository.findOne(access))
+            );
+            accessGroup.setAuthorities(authorities);
+        }*/
+        System.out.println(" **************************** "+accessGroup.getAccess().size()+"*******************************");
         AccessGroup result = accessGroupRepository.save(accessGroup);
         return ResponseEntity.created(new URI("/api/access-groups/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -113,7 +136,7 @@ public class AccessGroupResource {
     @Timed
     public ResponseEntity<AccessGroup> getAccessGroup(@PathVariable Long id) {
         log.debug("REST request to get AccessGroup : {}", id);
-        AccessGroup accessGroup = accessGroupRepository.findOne(id);
+        AccessGroup accessGroup = accessGroupRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accessGroup));
     }
 

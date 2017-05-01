@@ -1,5 +1,6 @@
 package com.itsolution.tkbr.web.rest.vm;
 
+import com.itsolution.tkbr.domain.Authority;
 import com.itsolution.tkbr.service.dto.UserDTO;
 import javax.validation.constraints.Size;
 
@@ -25,7 +26,7 @@ public class ManagedUserVM extends UserDTO {
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String imageUrl,
                          String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
-                        Set<String> authorities) {
+                        Set<Authority> authorities) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, 
             createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);

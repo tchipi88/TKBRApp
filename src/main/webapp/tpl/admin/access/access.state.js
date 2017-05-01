@@ -10,7 +10,7 @@
                     parent: 'admin',
                     url: '/access?page&sort&search',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_LISTACCESS']
                     },
                     views: {
                         'content@app': {
@@ -44,7 +44,7 @@
                     parent: 'access',
                     url: '/access/{id}',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_DETAILACCESS']
                     },
                     views: {
                         'content@app': {
@@ -70,7 +70,7 @@
                     parent: 'access-detail',
                     url: '/detail/edit',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_EDITACCESS']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -95,7 +95,7 @@
                     parent: 'access',
                     url: '/new',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_ADDACCESS']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -122,7 +122,7 @@
                     parent: 'access',
                     url: '/{id}/edit',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_EDITACCESS']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
@@ -147,7 +147,7 @@
                     parent: 'access',
                     url: '/{id}/delete',
                     data: {
-                        authorities: ['ROLE_USER']
+                        authorities: ['ROLE_USER','ROLE_DELETEACCESS']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({

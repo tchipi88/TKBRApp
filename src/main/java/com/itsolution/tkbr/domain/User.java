@@ -61,7 +61,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Column(nullable = false)
-    private boolean activated = false;
+    private boolean activated = true;
 
     @Size(min = 2, max = 5)
     @Column(name = "lang_key", length = 5)
@@ -107,6 +107,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
+    
+    @Transient
+    private Set<Access> listeAccess = new HashSet<>();//liste des access de l'utilisateur
+    
+    @Transient
+    private Set<String> listeAccessString = new HashSet<>();//liste des access de l'utilisateur en string
 
     public Long getId() {
         return id;
@@ -212,8 +218,28 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
         this.persistentTokens = persistentTokens;
     }
+    
+    
 
-    @Override
+    public Set<Access> getListeAccess() {
+		return listeAccess;
+	}
+
+	public void setListeAccess(Set<Access> listeAccess) {
+		this.listeAccess = listeAccess;
+	}
+	
+	
+
+	public Set<String> getListeAccessString() {
+		return listeAccessString;
+	}
+
+	public void setListeAccessString(Set<String> listeAccessString) {
+		this.listeAccessString = listeAccessString;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

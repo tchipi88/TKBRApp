@@ -53,7 +53,19 @@ angular.module('app')
                                 .state('error404', {
                                     url: '/',
                                     templateUrl: 'tpl/error/page_404.html'
-                                });
+                                })
+                                .state('accessdenied', {
+				                    parent: 'app',
+				                    url: '/accessdenied',
+				                    data: {
+				                        authorities: []
+				                    },
+				                    views: {
+				                        'content@app': {
+				                            templateUrl: 'tpl/error/accessdenied.html'
+				                        }
+				                    }
+				                });
 
 
 

@@ -28,12 +28,23 @@
         }
 
         function hasAnyAuthority (authorities) {
-            if (!_authenticated || !_identity || !_identity.authorities) {
+        	
+            if (!_authenticated || !_identity || !_identity.accessesString) {
                 return false;
             }
-
+            
+           /* for(var key in _identity.authorities)
+            {
+               // if(authorities[key]==value)
+                     alert(_identity.authorities[key].name);
+                    
+                    // alert('t');
+            }*/
+            
+            
             for (var i = 0; i < authorities.length; i++) {
-                if (_identity.authorities.indexOf(authorities[i]) !== -1) {
+                if (_identity.accessesString.indexOf(authorities[i]) !== -1) {
+                	 
                     return true;
                 }
             }
@@ -47,7 +58,7 @@
             }
 
             return this.identity().then(function(_id) {
-                return _id.authorities && _id.authorities.indexOf(authority) !== -1;
+                return _id.accessesString && _id.accessesString.indexOf(authority) !== -1;
             }, function(){
                 return false;
             });
