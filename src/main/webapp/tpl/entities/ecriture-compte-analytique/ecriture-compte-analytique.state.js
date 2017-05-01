@@ -6,16 +6,16 @@
     stateConfig.$inject = ['$stateProvider'];
     function stateConfig($stateProvider) {
         $stateProvider
-                .state('local', {
+                .state('ecriture-compte-analytique', {
                     parent: 'entity',
-                    url: '/local?page&sort&search',
+                    url: '/ecriture-compte-analytique?page&sort&search',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     views: {
                         'content@app': {
-                            templateUrl: 'tpl/entities/local/locals.html',
-                            controller: 'LocalController',
+                            templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytiques.html',
+                            controller: 'EcritureCompteAnalytiqueController',
                             controllerAs: 'vm'}
                     },
                     params: {
@@ -24,7 +24,7 @@
                             squash: true
                         },
                         sort: {
-                            value: 'id,asc',
+                            value: 'id,desc',
                             squash: true
                         },
                         search: null
@@ -41,25 +41,25 @@
                             }]
                     }
                 })
-                .state('local-detail', {
-                    parent: 'local',
-                    url: '/local/{id}',
+                .state('ecriture-compte-analytique-detail', {
+                    parent: 'ecriture-compte-analytique',
+                    url: '/ecriture-compte-analytique/{id}',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     views: {
                         'content@app': {
-                            templateUrl: 'tpl/entities/local/local-detail.html',
-                            controller: 'LocalDetailController',
+                            templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytique-detail.html',
+                            controller: 'EcritureCompteAnalytiqueDetailController',
                             controllerAs: 'vm'}
                     },
                     resolve: {
-                        entity: ['$stateParams', 'Local', function ($stateParams, Local) {
-                                return Local.get({id: $stateParams.id}).$promise;
+                        entity: ['$stateParams', 'EcritureCompteAnalytique', function ($stateParams, EcritureCompteAnalytique) {
+                                return EcritureCompteAnalytique.get({id: $stateParams.id}).$promise;
                             }],
                         previousState: ["$state", function ($state) {
                                 var currentStateData = {
-                                    name: $state.current.name || 'local',
+                                    name: $state.current.name || 'ecriture-compte-analytique',
                                     params: $state.params,
                                     url: $state.href($state.current.name, $state.params)
                                 };
@@ -67,22 +67,22 @@
                             }]
                     }
                 })
-                .state('local-detail.edit', {
-                    parent: 'local-detail',
+                .state('ecriture-compte-analytique-detail.edit', {
+                    parent: 'ecriture-compte-analytique-detail',
                     url: '/detail/edit',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytique-dialog.html',
+                                controller: 'EcritureCompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['EcritureCompteAnalytique', function (EcritureCompteAnalytique) {
+                                            return EcritureCompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
@@ -92,77 +92,77 @@
                             });
                         }]
                 })
-                .state('local.new', {
-                    parent: 'local',
+                .state('ecriture-compte-analytique.new', {
+                    parent: 'ecriture-compte-analytique',
                     url: '/new',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytique-dialog.html',
+                                controller: 'EcritureCompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            type: 'IMMOBILIER'
+
                                         };
                                     }
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('ecriture-compte-analytique', null, {reload: 'ecriture-compte-analytique'});
                             }, function () {
-                                $state.go('local');
+                                $state.go('ecriture-compte-analytique');
                             });
                         }]
                 })
-                .state('local.edit', {
-                    parent: 'local',
+                .state('ecriture-compte-analytique.edit', {
+                    parent: 'ecriture-compte-analytique',
                     url: '/{id}/edit',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytique-dialog.html',
+                                controller: 'EcritureCompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['EcritureCompteAnalytique', function (EcritureCompteAnalytique) {
+                                            return EcritureCompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('ecriture-compte-analytique', null, {reload: 'ecriture-compte-analytique'});
                             }, function () {
                                 $state.go('^');
                             });
                         }]
                 })
-                .state('local.delete', {
-                    parent: 'local',
+                .state('ecriture-compte-analytique.delete', {
+                    parent: 'ecriture-compte-analytique',
                     url: '/{id}/delete',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-delete-dialog.html',
-                                controller: 'LocalDeleteController',
+                                templateUrl: 'tpl/entities/ecriture-compte-analytique/ecriture-compte-analytique-delete-dialog.html',
+                                controller: 'EcritureCompteAnalytiqueDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['EcritureCompteAnalytique', function (EcritureCompteAnalytique) {
+                                            return EcritureCompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('ecriture-compte-analytique', null, {reload: 'ecriture-compte-analytique'});
                             }, function () {
                                 $state.go('^');
                             });

@@ -7,23 +7,17 @@ package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.config.ApplicationProperties;
 import com.itsolution.tkbr.domain.Client;
-import com.itsolution.tkbr.domain.Commande;
-import com.itsolution.tkbr.domain.CommandeLigne;
 import com.itsolution.tkbr.domain.Compte;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
-import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 import com.itsolution.tkbr.domain.Fournisseur;
-import com.itsolution.tkbr.domain.MouvementStock;
-import com.itsolution.tkbr.domain.ProduitFournisseur;
+import com.itsolution.tkbr.domain.Terrain;
 import com.itsolution.tkbr.domain.TerrainCommande;
-import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.ClientRepository;
-import com.itsolution.tkbr.repository.CommandeLigneRepository;
-import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.FournisseurRepository;
-import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
 import com.itsolution.tkbr.repository.TerrainCommandeRepository;
+import com.itsolution.tkbr.repository.TerrainRepository;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,12 +48,12 @@ public class TerrainCommandeService {
     @Autowired
     CompteService cs;
     @Autowired
-    CompteAnalytiqueClientService compteAnalytiqueClientService;
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
     @Autowired
-    CompteAnalytiqueFournisseurService compteAnalytiqueFournisseurService;
+    TerrainRepository terrainRepository;
 
     public TerrainCommande create(TerrainCommande commande) throws Exception {
-        
+
         commande.setPrixHT(commande.getTerrain().getPrix().multiply(new BigDecimal(commande.getTerrain().getSurface())));
         commande.setPrixTTC(commande.getPrixHT());
 
@@ -77,9 +71,7 @@ public class TerrainCommandeService {
 
                 commande.setClient(c);
 
-                CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(commande.getFournisseur());
-                compteAnalytiqueFournisseur.setDebit(compteAnalytiqueFournisseur.getDebit().add(commande.getPrixTTC()));
-                compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
+                ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.TERRAIN, commande.getPrixTTC(), SensEcritureComptable.D, "Achat Terrain " + commande.getTerrain().getDenomination());
 
                 Compte compteAchat = cs.getCompteAchat();
                 Compte compteFournisseurs = cs.getCompteFournisseurs();
@@ -97,6 +89,20 @@ public class TerrainCommandeService {
             }
             case VENTE: {
 
+                if (commande.getTerrain().isVendu()) {
+                    throw new Exception("Vente impossible car terrain deja vendu");
+                }
+
+                Terrain t = commande.getTerrain();
+                t.setVendu(true);
+                terrainRepository.save(t);
+                terrainRepository.findByTerrainParentId(t.getId()).stream().map((tt) -> {
+                    tt.setVendu(true);
+                    return tt;
+                }).forEachOrdered((tt) -> {
+                    terrainRepository.save(tt);
+                });
+
                 //set fournisseur 
                 Fournisseur c = fournisseurRepository.findByNom(applicationProperties.getTkbr().getNom());
                 if (c == null) {
@@ -109,9 +115,7 @@ public class TerrainCommandeService {
 
                 commande.setFournisseur(c);
 
-                CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(commande.getClient(), CompteAnalytiqueClientType.ACHAT);
-                compteAnalytiqueClient.setDebit(commande.getPrixTTC().add(compteAnalytiqueClient.getDebit()));
-                compteAnalytiqueClientService.save(compteAnalytiqueClient);
+                ecritureCompteAnalytiqueService.create(commande.getClient(), CompteAnalytiqueType.TERRAIN, commande.getPrixTTC(), SensEcritureComptable.D, "Vente Terrain " + commande.getTerrain().getDenomination());
 
                 Compte compteClient = cs.getCompteClient();
                 Compte compteVente = cs.getCompteVente();
@@ -126,9 +130,7 @@ public class TerrainCommandeService {
                 compteRepository.save(compteTVACollecte);
                 break;
             }
-            default: {
 
-            }
         }
 
         return terrainCommandeRepository.save(commande);

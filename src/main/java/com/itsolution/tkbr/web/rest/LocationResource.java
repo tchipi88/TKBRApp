@@ -54,7 +54,7 @@ public class LocationResource {
      */
     @PostMapping("/locations")
     @Timed
-    public ResponseEntity<Location> createLocation(@Valid @RequestBody Location location) throws Exception {
+    public ResponseEntity<Location> createLocation( @RequestBody Location location) throws Exception {
         log.debug("REST request to save Location : {}", location);
         if (location.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new location cannot already have an ID")).body(null);
@@ -76,7 +76,7 @@ public class LocationResource {
      */
     @PutMapping("/locations")
     @Timed
-    public ResponseEntity<Location> updateLocation(@Valid @RequestBody Location location) throws Exception {
+    public ResponseEntity<Location> updateLocation( @RequestBody Location location) throws Exception {
         log.debug("REST request to update Location : {}", location);
         if (location.getId() == null) {
             return createLocation(location);

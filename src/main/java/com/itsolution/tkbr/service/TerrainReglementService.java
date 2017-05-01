@@ -6,14 +6,13 @@
 package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Compte;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
-import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 import com.itsolution.tkbr.domain.Decaissement;
 import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.TerrainCommande;
 import com.itsolution.tkbr.domain.TerrainReglement;
 import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
-import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.TerrainCommandeRepository;
 import com.itsolution.tkbr.repository.TerrainReglementRepository;
 import java.math.BigDecimal;
@@ -41,9 +40,7 @@ public class TerrainReglementService {
     @Autowired
     TerrainCommandeRepository commandeRepository;
     @Autowired
-    CompteAnalytiqueClientService compteAnalytiqueClientService;
-    @Autowired
-    CompteAnalytiqueFournisseurService compteAnalytiqueFournisseurService;
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
 
     public TerrainReglement save(TerrainReglement r) throws Exception {
 
@@ -60,9 +57,7 @@ public class TerrainReglementService {
         switch (r.getCommande().getType()) {
             case ACHAT: {
 
-                CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(r.getCommande().getFournisseur());
-                compteAnalytiqueFournisseur.setCredit(compteAnalytiqueFournisseur.getCredit().add(r.getMontant()));
-                compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
+                ecritureCompteAnalytiqueService.create(r.getCommande().getFournisseur(), CompteAnalytiqueType.TERRAIN, totalttc, SensEcritureComptable.C,"Versement pour Achat Terrain "+r.getCommande().getTerrain().getDenomination());
 
                 //comptabilite globalle
                 Compte compteFournisseurs = cs.getCompteFournisseurs();
@@ -106,9 +101,7 @@ public class TerrainReglementService {
             }
             case VENTE: {
 
-                CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(r.getCommande().getClient(),CompteAnalytiqueClientType.TERRAIN);
-                compteAnalytiqueClient.setCredit(compteAnalytiqueClient.getCredit().add(r.getMontant()));
-                compteAnalytiqueClientService.save(compteAnalytiqueClient);
+                ecritureCompteAnalytiqueService.create(r.getCommande().getClient(), CompteAnalytiqueType.TERRAIN, totalttc, SensEcritureComptable.C,"Versement pour Vente  Terrain "+r.getCommande().getTerrain().getDenomination());
 
                 Compte compteClient = cs.getCompteClient();
                 compteClient.setCredit(totalttc.add(compteClient.getCredit()));

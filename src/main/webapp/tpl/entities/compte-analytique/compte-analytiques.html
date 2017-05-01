@@ -1,5 +1,5 @@
 <div class="bg-light lter b-b wrapper-md" >
-    <h1 class="m-n font-thin h3">Locals</h1>
+    <h1 class="m-n font-thin h3">CompteAnalytiques</h1>
     <small class="text-muted"></small>
 </div>
 <div>
@@ -34,47 +34,24 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="denomination"><span >Denomination</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="adresse"><span >Adresse</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="surface"><span >Surface</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="tiers"><span >Tiers</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="intitule"><span >Intitule</span> <span class="fa fa-sort"></span></th>
                         <th jh-sort-by="type"><span >Type</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="categorie"><span >Categorie</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="prix"><span >Prix</span> <span class="fa fa-sort"></span></th>
-                        <th jh-sort-by="unite"><span >Unite</span> <span class="fa fa-sort"></span></th>
-
-                        <th >
-                            <button class="btn btn-primary" ui-sref="local.new"   tooltip="Créer Local">
-                                <i class="fa fa-plus">
-                                </i>
-                            </button>
-                        </th>
+                        <th jh-sort-by="debit"><span >Debit</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="credit"><span >Credit</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="solde"><span >Solde</span> <span class="fa fa-sort"></span></th>
+                      
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="local in vm.locals track by local.id">
-                        <td><a ui-sref="local-detail({id:local.id})">{{local.id}}</a></td>
-                        <td>{{local.denomination}}</td>
-                        <td>{{local.adresse}}</td>
-                        <td>{{local.surface}}</td>
-                        <td>{{local.type}}</td>
-                        <td>{{local.categorie.libelle}}</td>
-                        <td>{{local.prix| number }}</td>
-                        <td>{{local.unite.libelle}}</td>
-
-                        <td >
-
-                           
-                            <button type="submit"   ui-sref="local.edit({id:local.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
-                                <i class="fa fa-edit">
-                                </i>
-                            </button>
-
-                            <button type="submit"  ui-sref="local.delete({id:local.id})"  class="btn btn-sm btn-danger"  tooltip="Supprimer">
-                                <i class="fa fa-trash">
-                                </i>
-                            </button>
-
-                        </td>
+                    <tr ng-repeat="compteAnalytique in vm.compteAnalytiques track by compteAnalytique.id">
+                        <td><a ui-sref="compteAnalytique-detail({id:compte-analytique.id})">{{compteAnalytique.id}}</a></td>
+                        <td>{{compteAnalytique.tiers.nom}}</td>
+                        <td>{{compteAnalytique.intitule}}</td>
+                        <td>{{compteAnalytique.type}}</td>
+                        <td>{{compteAnalytique.debit| number }}</td>
+                        <td>{{compteAnalytique.credit| number }}</td>
+                        <td>{{compteAnalytique.solde| number }}</td>
                     </tr>
                 </tbody>
             </table>

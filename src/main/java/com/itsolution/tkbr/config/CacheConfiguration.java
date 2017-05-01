@@ -48,7 +48,6 @@ public class CacheConfiguration {
             cm.createCache(com.itsolution.tkbr.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Fournisseur.class.getName(), jcacheConfiguration);
-            cm.createCache(com.itsolution.tkbr.domain.Fournisseur.class.getName() + ".produits", jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Client.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.CommandeLigne.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Compte.class.getName(), jcacheConfiguration);
@@ -65,12 +64,13 @@ public class CacheConfiguration {
             cm.createCache(com.itsolution.tkbr.domain.Reglement.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Unite.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.EmployeDepartement.class.getName(), jcacheConfiguration);
-            cm.createCache(com.itsolution.tkbr.domain.CompteAnalytiqueClient.class.getName(), jcacheConfiguration);
-            cm.createCache(com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.CompteAnalytique.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.EcritureCompteAnalytique.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Local.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Terrain.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.TerrainCommande.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.TerrainReglement.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Tiers.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

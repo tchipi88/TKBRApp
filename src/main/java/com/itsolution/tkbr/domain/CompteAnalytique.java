@@ -1,17 +1,22 @@
 package com.itsolution.tkbr.domain;
 
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
 import com.itsolution.tkbr.service.util.ReadOnly;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Formula;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  * A Compte.
  */
-@MappedSuperclass
+@Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "compteanalytique")
 public class CompteAnalytique extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
@@ -34,10 +39,33 @@ public class CompteAnalytique extends AbstractAuditingEntity {
 
     @Formula("credit-debit")
     private BigDecimal solde;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private CompteAnalytiqueType type;
+
+    @NotNull
+    @ManyToOne
+    private Tiers tiers;
+
+    public Tiers getTiers() {
+        return tiers;
+    }
+
+    public void setTiers(Tiers tiers) {
+        this.tiers = tiers;
+    }
     
     
-    
-    
+
+    public CompteAnalytiqueType getType() {
+        return type;
+    }
+
+    public void setType(CompteAnalytiqueType type) {
+        this.type = type;
+    }
+
     public BigDecimal getSolde() {
         return solde;
     }

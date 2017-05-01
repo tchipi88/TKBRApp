@@ -6,14 +6,12 @@
 package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Compte;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
 import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.Loyer;
 import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
-import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
-import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.LoyerRepository;
-import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +29,7 @@ public class LoyerService {
     @Autowired
     EncaissementService encaissementService;
     @Autowired
-    CompteAnalytiqueClientService compteAnalytiqueClientService;
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
     @Autowired
     CompteService compteService;
 
@@ -39,10 +37,7 @@ public class LoyerService {
         if (loyer.getId() != null) {
             throw new Exception("Mise à jour des loyers interdit");
         }
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientService.getCompteClient(loyer.getLocation().getLocataire(),CompteAnalytiqueClientType.LOCATION);
-        compteClient.setCredit(compteClient.getCredit().add(loyer.getMontant()));
-
-        compteAnalytiqueClientService.save(compteClient);
+        ecritureCompteAnalytiqueService.create(loyer.getLocation().getLocataire(), CompteAnalytiqueType.LOCATION, loyer.getMontant(), SensEcritureComptable.C,"Versement Loyer N:"+loyer.getId());
 
         Compte compteLoyer = compteService.getCompteLoyer();
         compteLoyer.setCredit(loyer.getMontant().add(compteLoyer.getCredit()));

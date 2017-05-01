@@ -10,18 +10,18 @@ import com.itsolution.tkbr.domain.Client;
 import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.CommandeLigne;
 import com.itsolution.tkbr.domain.Compte;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
-import com.itsolution.tkbr.domain.CompteAnalytiqueFournisseur;
 import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
-import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
 import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,9 +64,7 @@ public class CommandeService {
     @Autowired
     CompteService cs;
     @Autowired
-    CompteAnalytiqueClientService compteAnalytiqueClientService;
-    @Autowired
-    CompteAnalytiqueFournisseurService compteAnalytiqueFournisseurService;
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
 
     public Commande create(Commande commande) throws Exception {
 
@@ -137,9 +135,7 @@ public class CommandeService {
                     }
                     case FACTUREE: {
                         if (!commande.isFacturee()) {
-                            CompteAnalytiqueFournisseur compteAnalytiqueFournisseur = compteAnalytiqueFournisseurService.getCompteFournisseur(commande.getFournisseur());
-                            compteAnalytiqueFournisseur.setDebit(compteAnalytiqueFournisseur.getDebit().add(commande.getPrixTTC()));
-                            compteAnalytiqueFournisseurService.save(compteAnalytiqueFournisseur);
+                            ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, commande.getPrixTTC(), SensEcritureComptable.D,"Achat commande N:"+commande.getId());
 
                             Compte compteAchat = cs.getCompteAchat();
                             Compte compteFournisseurs = cs.getCompteFournisseurs();
@@ -164,9 +160,7 @@ public class CommandeService {
                 switch (commande.getEtat()) {
                     case FACTUREE: {
                         if (!commande.isFacturee()) {
-                            CompteAnalytiqueClient compteAnalytiqueClient = compteAnalytiqueClientService.getCompteClient(commande.getClient(), CompteAnalytiqueClientType.ACHAT);
-                            compteAnalytiqueClient.setDebit(compteAnalytiqueClient.getDebit().add(commande.getPrixTTC()));
-                            compteAnalytiqueClientService.save(compteAnalytiqueClient);
+                            ecritureCompteAnalytiqueService.create(commande.getClient(), CompteAnalytiqueType.CLIENT, commande.getPrixTTC(), SensEcritureComptable.D,"Vente commande N:"+commande.getId());
 
                             Compte compteClient = cs.getCompteClient();
                             Compte compteVente = cs.getCompteVente();

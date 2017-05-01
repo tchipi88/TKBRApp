@@ -50,10 +50,13 @@ public class ProduitFournisseurResource {
      */
     @PostMapping("/produit-fournisseurs")
     @Timed
-    public ResponseEntity<ProduitFournisseur> createProduitFournisseur(@Valid @RequestBody ProduitFournisseur produitFournisseur) throws URISyntaxException {
+    public ResponseEntity<ProduitFournisseur> createProduitFournisseur(@Valid @RequestBody ProduitFournisseur produitFournisseur) throws Exception {
         log.debug("REST request to save ProduitFournisseur : {}", produitFournisseur);
         if (produitFournisseur.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new produitFournisseur cannot already have an ID")).body(null);
+        }
+        if(produitFournisseurRepository.findByFournisseurAndProduit(produitFournisseur.getFournisseur(), produitFournisseur.getProduit())!=null){
+            throw  new Exception("Produit déja ajouté");
         }
         ProduitFournisseur result = produitFournisseurRepository.save(produitFournisseur);
         return ResponseEntity.created(new URI("/api/produit-fournisseurs/" + result.getId()))
@@ -72,7 +75,7 @@ public class ProduitFournisseurResource {
      */
     @PutMapping("/produit-fournisseurs")
     @Timed
-    public ResponseEntity<ProduitFournisseur> updateProduitFournisseur(@Valid @RequestBody ProduitFournisseur produitFournisseur) throws URISyntaxException {
+    public ResponseEntity<ProduitFournisseur> updateProduitFournisseur(@Valid @RequestBody ProduitFournisseur produitFournisseur) throws Exception {
         log.debug("REST request to update ProduitFournisseur : {}", produitFournisseur);
         if (produitFournisseur.getId() == null) {
             return createProduitFournisseur(produitFournisseur);

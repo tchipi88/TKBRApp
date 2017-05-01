@@ -9,6 +9,6 @@ package com.itsolution.tkbr.domain.enumeration;
  *
  * @author tchipi
  */
-public enum CompteAnalytiqueClientType {
-    LOCATION, ACHAT,TERRAIN;
+public enum SensEcritureComptable {
+    C, D;
 }

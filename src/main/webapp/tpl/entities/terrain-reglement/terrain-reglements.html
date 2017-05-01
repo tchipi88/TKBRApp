@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="terrainReglement in vm.terrainReglements track by terrainReglement.id">
+                    <tr ng-repeat="terrainReglement in vm.reglements track by terrainReglement.id">
                         <td>{{terrainReglement.id}}</td>
                         <td>{{terrainReglement.montant| number }}</td>
                         <td>{{terrainReglement.dateVersement| date:'mediumDate'}}</td>

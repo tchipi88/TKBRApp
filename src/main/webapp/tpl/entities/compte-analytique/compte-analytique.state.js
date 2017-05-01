@@ -6,16 +6,16 @@
     stateConfig.$inject = ['$stateProvider'];
     function stateConfig($stateProvider) {
         $stateProvider
-                .state('local', {
+                .state('compte-analytique', {
                     parent: 'entity',
-                    url: '/local?page&sort&search',
+                    url: '/compte-analytique?page&sort&search',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     views: {
                         'content@app': {
-                            templateUrl: 'tpl/entities/local/locals.html',
-                            controller: 'LocalController',
+                            templateUrl: 'tpl/entities/compte-analytique/compte-analytiques.html',
+                            controller: 'CompteAnalytiqueController',
                             controllerAs: 'vm'}
                     },
                     params: {
@@ -27,7 +27,11 @@
                             value: 'id,asc',
                             squash: true
                         },
-                        search: null
+                        search: null,
+                        type: {
+                            value: 'CLIENT',
+                            squash: true
+                        }
                     },
                     resolve: {
                         pagingParams: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
@@ -41,25 +45,25 @@
                             }]
                     }
                 })
-                .state('local-detail', {
-                    parent: 'local',
-                    url: '/local/{id}',
+                .state('compte-analytique-detail', {
+                    parent: 'compte-analytique',
+                    url: '/compte-analytique/{id}',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     views: {
                         'content@app': {
-                            templateUrl: 'tpl/entities/local/local-detail.html',
-                            controller: 'LocalDetailController',
+                            templateUrl: 'tpl/entities/compte-analytique/compte-analytique-detail.html',
+                            controller: 'CompteAnalytiqueDetailController',
                             controllerAs: 'vm'}
                     },
                     resolve: {
-                        entity: ['$stateParams', 'Local', function ($stateParams, Local) {
-                                return Local.get({id: $stateParams.id}).$promise;
+                        entity: ['$stateParams', 'CompteAnalytique', function ($stateParams, CompteAnalytique) {
+                                return CompteAnalytique.get({id: $stateParams.id}).$promise;
                             }],
                         previousState: ["$state", function ($state) {
                                 var currentStateData = {
-                                    name: $state.current.name || 'local',
+                                    name: $state.current.name || 'compte-analytique',
                                     params: $state.params,
                                     url: $state.href($state.current.name, $state.params)
                                 };
@@ -67,22 +71,22 @@
                             }]
                     }
                 })
-                .state('local-detail.edit', {
-                    parent: 'local-detail',
+                .state('compte-analytique-detail.edit', {
+                    parent: 'compte-analytique-detail',
                     url: '/detail/edit',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/compte-analytique/compte-analytique-dialog.html',
+                                controller: 'CompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['CompteAnalytique', function (CompteAnalytique) {
+                                            return CompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
@@ -92,77 +96,77 @@
                             });
                         }]
                 })
-                .state('local.new', {
-                    parent: 'local',
+                .state('compte-analytique.new', {
+                    parent: 'compte-analytique',
                     url: '/new',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/compte-analytique/compte-analytique-dialog.html',
+                                controller: 'CompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
                                     entity: function () {
                                         return {
-                                            type: 'IMMOBILIER'
+
                                         };
                                     }
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('compte-analytique', null, {reload: 'compte-analytique'});
                             }, function () {
-                                $state.go('local');
+                                $state.go('compte-analytique');
                             });
                         }]
                 })
-                .state('local.edit', {
-                    parent: 'local',
+                .state('compte-analytique.edit', {
+                    parent: 'compte-analytique',
                     url: '/{id}/edit',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-dialog.html',
-                                controller: 'LocalDialogController',
+                                templateUrl: 'tpl/entities/compte-analytique/compte-analytique-dialog.html',
+                                controller: 'CompteAnalytiqueDialogController',
                                 controllerAs: 'vm',
                                 backdrop: 'static',
                                 size: 'lg',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['CompteAnalytique', function (CompteAnalytique) {
+                                            return CompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('compte-analytique', null, {reload: 'compte-analytique'});
                             }, function () {
                                 $state.go('^');
                             });
                         }]
                 })
-                .state('local.delete', {
-                    parent: 'local',
+                .state('compte-analytique.delete', {
+                    parent: 'compte-analytique',
                     url: '/{id}/delete',
                     data: {
                         authorities: ['ROLE_USER']
                     },
                     onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                             $uibModal.open({
-                                templateUrl: 'tpl/entities/local/local-delete-dialog.html',
-                                controller: 'LocalDeleteController',
+                                templateUrl: 'tpl/entities/compte-analytique/compte-analytique-delete-dialog.html',
+                                controller: 'CompteAnalytiqueDeleteController',
                                 controllerAs: 'vm',
                                 size: 'md',
                                 resolve: {
-                                    entity: ['Local', function (Local) {
-                                            return Local.get({id: $stateParams.id}).$promise;
+                                    entity: ['CompteAnalytique', function (CompteAnalytique) {
+                                            return CompteAnalytique.get({id: $stateParams.id}).$promise;
                                         }]
                                 }
                             }).result.then(function () {
-                                $state.go('local', null, {reload: 'local'});
+                                $state.go('compte-analytique', null, {reload: 'compte-analytique'});
                             }, function () {
                                 $state.go('^');
                             });

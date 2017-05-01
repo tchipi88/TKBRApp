@@ -49,7 +49,7 @@
     </li>
 
     <li  class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-        <span > Commerciale</span>
+        <span > Modules</span>
     </li>
 
     <li>
@@ -110,22 +110,11 @@
                     <span>Vente</span>
                 </a>
             </li>
-              <li ui-sref-active="active">
-                <a ui-sref="compte-analytique-client">
-                    <span>Compte Client</span>
-                </a>
-            </li>
 
-
-            <li ui-sref-active="active">
-                <a ui-sref="compte-analytique-fournisseur">
-                    <span>Compte Fournisseur</span>
-                </a>
-            </li>
         </ul>
     </li>
 
-   
+
 
     <li ui-sref-active="active">
         <a ui-sref="produit">
@@ -176,14 +165,58 @@
         </ul>
     </li>
 
-
-
-    <li ui-sref-active="active">
-        <a ui-sref="compte">
-            <i class="fa fa-money icon text-info-lter"></i>
-            <span class="font-bold" >Comptabilite</span>
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-money icon text-success"></i>
+            <span class="font-bold"> Comptabilite</span>
         </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href>
+                    <span> Comptabilite</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte">
+                    <span>General</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique">
+                    <span>Compte Client</span>
+                </a>
+            </li>
+
+
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'FOURNISSEUR'})">
+                    <span>Compte Fournisseur</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'LOCATION'})">
+                    <span>Compte Loyer</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="compte-analytique({type:'TERRAIN'})">
+                    <span>Compte Terrain</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="ecriture-compte-analytique">
+                    <span>Ecritures</span>
+                </a>
+            </li>
+
+        </ul>
     </li>
+
 
     <li>
         <a href class="auto">
@@ -223,7 +256,7 @@
                 <i class="fa fa-fw fa-angle-right text"></i>
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
-            <i class="fa fa-home icon"></i>
+            <i class="fa fa-home icon  text-info"></i>
             <span class="font-bold"> Location</span>
         </a>
         <ul class="nav nav-sub dk">
@@ -252,21 +285,17 @@
                     <span>Loyer</span>
                 </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="compte-analytique-client({type:'LOCATION'})">
-                    <span>Compte Loyer</span>
-                </a>
-            </li>
+
         </ul>
     </li>
-    
-     <li>
+
+    <li>
         <a href class="auto">
             <span class="pull-right text-muted">
                 <i class="fa fa-fw fa-angle-right text"></i>
                 <i class="fa fa-fw fa-angle-down text-active"></i>
             </span>
-            <i class="fa fa-home icon"></i>
+            <i class="fa fa-map-marker icon  text-success"></i>
             <span class="font-bold"> Terrain</span>
         </a>
         <ul class="nav nav-sub dk">
@@ -290,6 +319,7 @@
                     <span>Vente</span>
                 </a>
             </li>
+
         </ul>
     </li>
 

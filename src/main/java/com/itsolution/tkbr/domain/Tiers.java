@@ -7,36 +7,37 @@ package com.itsolution.tkbr.domain;
 
 import com.itsolution.tkbr.service.template.Image;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  *
  * @author tchipi
  */
-@MappedSuperclass
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "tiers")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 public class Tiers extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-   
 
     @NotNull
     @Column(name = "nom", nullable = false)
@@ -77,7 +78,28 @@ public class Tiers extends AbstractAuditingEntity {
     @Column
     private String numeroCommerce;
     
-   
+    @NotNull
+    @Column(nullable = false)
+    private boolean locataire = false;
+
+    public boolean isLocataire() {
+        return locataire;
+    }
+
+    public void setLocataire(boolean locataire) {
+        this.locataire = locataire;
+    }
+    
+    
+    
+     public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public String getNumeroCommerce() {
         return numeroCommerce;

@@ -5,8 +5,7 @@
  */
 package com.itsolution.tkbr.repository.search;
 
-import com.itsolution.tkbr.domain.Client;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
+import com.itsolution.tkbr.domain.CompteAnalytique;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 /**
  * Spring Data JPA repository for the Client entity.
  */
-public interface CompteAnalytiqueClientSearchRepository extends ElasticsearchRepository<CompteAnalytiqueClient, Long> {
+public interface CompteAnalytiqueSearchRepository extends ElasticsearchRepository<CompteAnalytique, Long> {
 
     
 

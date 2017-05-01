@@ -7,11 +7,10 @@ package com.itsolution.tkbr.service;
 
 import com.itsolution.tkbr.domain.Client;
 import com.itsolution.tkbr.domain.Compte;
-import com.itsolution.tkbr.domain.CompteAnalytiqueClient;
 import com.itsolution.tkbr.domain.Location;
-import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueClientType;
+import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.ClientRepository;
-import com.itsolution.tkbr.repository.CompteAnalytiqueClientRepository;
 import com.itsolution.tkbr.repository.LocationRepository;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,39 +28,29 @@ public class LocationService {
     @Autowired
     LocationRepository locationRepository;
     @Autowired
-    CompteAnalytiqueClientRepository compteAnalytiqueClientRepository;
+    EcritureCompteAnalytiqueService ecritureCompteAnalytiqueService;
     @Autowired
     CompteService cs;
     @Autowired
-    ClientRepository  clientRepository;
+    ClientRepository clientRepository;
 
     public Location create(Location location) throws Exception {
         location.setDateFin(location.getDateDebut().plusMonths(location.getDuree()));
+        if(location.getMontantLoyer()==null) location.setMontantLoyer(location.getLocal().getPrix());
         BigDecimal montant = location.getMontantLoyer().multiply(new BigDecimal(location.getDuree()));
 
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntituleAndType(location.getLocataire().getNom(),CompteAnalytiqueClientType.LOCATION);
-        if (compteClient == null) {
-            compteClient = new CompteAnalytiqueClient();
-            compteClient.setIntitule(location.getLocataire().getNom());
-            compteClient.setClient(location.getLocataire());
-            compteClient.setType(CompteAnalytiqueClientType.LOCATION);
-            compteClient.setCredit(BigDecimal.ZERO);
-            compteClient.setDebit(BigDecimal.ZERO);
-        }
-        compteClient.setDebit(compteClient.getDebit().add(montant));
-
-        compteAnalytiqueClientRepository.save(compteClient);
+        ecritureCompteAnalytiqueService.create(location.getLocataire(), CompteAnalytiqueType.LOCATION, montant, SensEcritureComptable.D,"Location pour Local :"+location.getLocal().getDenomination());
 
         Compte compteLoyer = cs.getCompteLoyer();
         Compte compteVente = cs.getCompteVente();
         Compte compteTVACollecte = cs.getCompteTVACollecte();
 
-        compteLoyer.setDebit(montant.add(compteClient.getDebit()));
+        compteLoyer.setDebit(montant.add(compteLoyer.getDebit()));
         compteVente.setCredit(montant.add(compteVente.getCredit()));
         compteTVACollecte.setCredit(montant.add(compteTVACollecte.getCredit()));
-        
-        if(!location.getLocataire().isLocataire()) {
-            Client locataire=location.getLocataire();
+
+        if (!location.getLocataire().isLocataire()) {
+            Client locataire = location.getLocataire();
             locataire.setLocataire(true);
             clientRepository.save(locataire);
         }
@@ -73,10 +62,7 @@ public class LocationService {
         //changer la durée
         Location locationOld = locationRepository.findOne(location.getId());
 
-        CompteAnalytiqueClient compteClient = compteAnalytiqueClientRepository.findByIntitule(locationOld.getLocataire().getNom());
-        compteClient.setCredit(compteClient.getCredit().add(locationOld.getMontantLoyer().multiply(new BigDecimal(locationOld.getDuree()))));
-
-        compteAnalytiqueClientRepository.save(compteClient);
+        ecritureCompteAnalytiqueService.create(locationOld.getLocataire(), CompteAnalytiqueType.LOCATION, locationOld.getMontantLoyer().multiply(new BigDecimal(locationOld.getDuree())), SensEcritureComptable.C,"Mise à jour Location N:"+location.getId());
 
         return create(location);
     }
