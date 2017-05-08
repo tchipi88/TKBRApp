@@ -9,6 +9,7 @@ import com.itsolution.tkbr.web.rest.util.HeaderUtil;
 import com.itsolution.tkbr.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -34,22 +37,23 @@ public class ReglementResource {
     private final Logger log = LoggerFactory.getLogger(ReglementResource.class);
 
     private static final String ENTITY_NAME = "reglement";
-        
+
     private final ReglementRepository reglementRepository;
 
-    
-    private final ReglementService  reglementService;
+    private final ReglementService reglementService;
 
-    public ReglementResource(ReglementRepository reglementRepository,ReglementService  reglementService) {
+    public ReglementResource(ReglementRepository reglementRepository, ReglementService reglementService) {
         this.reglementRepository = reglementRepository;
-        this.reglementService=reglementService;
+        this.reglementService = reglementService;
     }
 
     /**
-     * POST  /reglements : Create a new reglement.
+     * POST /reglements : Create a new reglement.
      *
      * @param reglement the reglement to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new reglement, or with status 400 (Bad Request) if the reglement has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new reglement, or with status 400 (Bad Request) if the reglement has
+     * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/reglements")
@@ -61,17 +65,18 @@ public class ReglementResource {
         }
         Reglement result = reglementService.save(reglement);
         return ResponseEntity.created(new URI("/api/reglements/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /reglements : Updates an existing reglement.
+     * PUT /reglements : Updates an existing reglement.
      *
      * @param reglement the reglement to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated reglement,
-     * or with status 400 (Bad Request) if the reglement is not valid,
-     * or with status 500 (Internal Server Error) if the reglement couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * reglement, or with status 400 (Bad Request) if the reglement is not
+     * valid, or with status 500 (Internal Server Error) if the reglement
+     * couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/reglements")
@@ -83,14 +88,15 @@ public class ReglementResource {
         }
         Reglement result = reglementService.save(reglement);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reglement.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reglement.getId().toString()))
+                .body(result);
     }
 
-   /**
-     * GET  /reglements : get all the reglements.
+    /**
+     * GET /reglements : get all the reglements.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of reglements in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * reglements in body
      */
     @GetMapping("/reglements")
     @Timed
@@ -102,10 +108,11 @@ public class ReglementResource {
     }
 
     /**
-     * GET  /reglements/:id : get the "id" reglement.
+     * GET /reglements/:id : get the "id" reglement.
      *
      * @param id the id of the reglement to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the reglement, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * reglement, or with status 404 (Not Found)
      */
     @GetMapping("/reglements/{id}")
     @Timed
@@ -116,7 +123,7 @@ public class ReglementResource {
     }
 
     /**
-     * DELETE  /reglements/:id : delete the "id" reglement.
+     * DELETE /reglements/:id : delete the "id" reglement.
      *
      * @param id the id of the reglement to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -129,20 +136,37 @@ public class ReglementResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-   
-    
     /**
-     * GET  /reglementss/:id : get the "id" commande.
+     * GET /reglementss/:id : get the "id" commande.
      *
      * @param id the id of the commande
-     * @return la liste des reglements associés à la commande passé en arguments with status 200 (OK) and with body the commandeLigne, or with status 404 (Not Found)
+     * @return la liste des reglements associés à la commande passé en arguments
+     * with status 200 (OK) and with body the commandeLigne, or with status 404
+     * (Not Found)
      */
     @GetMapping("/reglementss/{id}")
     @Timed
     public List<Reglement> getCommandeLigneByCommande(@PathVariable Long id) {
         log.debug("REST request to get Reglements to Commande : {}", id);
-        return  reglementRepository.findByCommandeId(id);
+        return reglementRepository.findByCommandeId(id);
     }
-   
 
+    /**
+     * GET /print-reglement/:id : print ticket for the "id" reglement.
+     *
+     * @param id the id of the reglement to print
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/print-reglement/{id}")
+    @Timed
+    public ResponseEntity<byte[]> printReglement(@PathVariable Long id) throws Exception {
+        log.debug("REST request to print ticket Reglement : {}", id);
+        Resource resource = reglementService.print(reglementRepository.findOne(id));
+        InputStream in = resource.getInputStream();
+        try {
+            return new ResponseEntity<>(IOUtils.toByteArray(in), HeaderUtil.downloadAlert(resource), HttpStatus.OK);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
 }

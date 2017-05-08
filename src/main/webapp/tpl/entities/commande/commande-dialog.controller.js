@@ -86,6 +86,9 @@
                 resolve: {
                     entity: function () {
                         return entity;
+                    },
+                    produitFournisseurs: function () {
+                        return [];
                     }
                 }
             }).result.then(function (item) {

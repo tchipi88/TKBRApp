@@ -27,6 +27,14 @@ public class ProduitCategorie implements Serializable {
     @Column(name = "libelle", nullable = false)
     private String libelle;
 
+    public ProduitCategorie() {
+    }
+
+    
+    public ProduitCategorie(String libelle) {
+       this.libelle=libelle;
+    }
+
     public Long getId() {
         return id;
     }

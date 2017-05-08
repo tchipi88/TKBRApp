@@ -36,7 +36,7 @@ public class Produit extends AbstractAuditingEntity{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private ProduitType type;
+    private ProduitType type=ProduitType.BIEN;
 
     @ManyToOne(optional = false)
     @NotNull

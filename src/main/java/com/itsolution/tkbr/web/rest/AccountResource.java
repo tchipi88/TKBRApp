@@ -42,7 +42,7 @@ public class AccountResource {
 
     private final UserService userService;
 
-    private final MailService mailService;
+   // private final MailService mailService;
 
     private final PersistentTokenRepository persistentTokenRepository;
 
@@ -51,53 +51,41 @@ public class AccountResource {
 
         this.userRepository = userRepository;
         this.userService = userService;
-        this.mailService = mailService;
+     //   this.mailService = mailService;
         this.persistentTokenRepository = persistentTokenRepository;
     }
+//
+//    /**
+//     * POST  /register : register the user.
+//     *
+//     * @param managedUserVM the managed user View Model
+//     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or e-mail is already in use
+//     */
+//    @PostMapping(path = "/register",
+//                    produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+//    @Timed
+//    public ResponseEntity registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+//
+//        HttpHeaders textPlainHeaders = new HttpHeaders();
+//        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
+//
+//        return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
+//            .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
+//            .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
+//                .map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
+//                .orElseGet(() -> {
+//                    User user = userService
+//                        .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
+//                            managedUserVM.getFirstName(), managedUserVM.getLastName(),
+//                            managedUserVM.getEmail().toLowerCase());
+//
+//                   // mailService.sendActivationEmail(user);
+//                    return new ResponseEntity<>(HttpStatus.CREATED);
+//                })
+//        );
+//    }
 
-    /**
-     * POST  /register : register the user.
-     *
-     * @param managedUserVM the managed user View Model
-     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or e-mail is already in use
-     */
-    @PostMapping(path = "/register",
-                    produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    @Timed
-    public ResponseEntity registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
-
-        HttpHeaders textPlainHeaders = new HttpHeaders();
-        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
-
-        return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-            .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-            .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
-                .map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-                .orElseGet(() -> {
-                    User user = userService
-                        .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
-                            managedUserVM.getFirstName(), managedUserVM.getLastName(),
-                            managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl());
-
-                    mailService.sendActivationEmail(user);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
-                })
-        );
-    }
-
-    /**
-     * GET  /activate : activate the registered user.
-     *
-     * @param key the activation key
-     * @return the ResponseEntity with status 200 (OK) and the activated user in body, or status 500 (Internal Server Error) if the user couldn't be activated
-     */
-    @GetMapping("/activate")
-    @Timed
-    public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
-        return userService.activateRegistration(key)
-            .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+    
 
     /**
      * GET  /authenticate : check if the user is authenticated, and return its login.
@@ -207,41 +195,41 @@ public class AccountResource {
                 .findAny().ifPresent(t -> persistentTokenRepository.delete(decodedSeries)));
     }
 
-    /**
-     * POST   /account/reset_password/init : Send an e-mail to reset the password of the user
-     *
-     * @param mail the mail of the user
-     * @return the ResponseEntity with status 200 (OK) if the e-mail was sent, or status 400 (Bad Request) if the e-mail address is not registered
-     */
-    @PostMapping(path = "/account/reset_password/init",
-        produces = MediaType.TEXT_PLAIN_VALUE)
-    @Timed
-    public ResponseEntity requestPasswordReset(@RequestBody String mail) {
-        return userService.requestPasswordReset(mail)
-            .map(user -> {
-                mailService.sendPasswordResetMail(user);
-                return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
-            }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
-    }
+//    /**
+//     * POST   /account/reset_password/init : Send an e-mail to reset the password of the user
+//     *
+//     * @param mail the mail of the user
+//     * @return the ResponseEntity with status 200 (OK) if the e-mail was sent, or status 400 (Bad Request) if the e-mail address is not registered
+//     */
+//    @PostMapping(path = "/account/reset_password/init",
+//        produces = MediaType.TEXT_PLAIN_VALUE)
+//    @Timed
+//    public ResponseEntity requestPasswordReset(@RequestBody String mail) {
+//        return userService.requestPasswordReset(mail)
+//            .map(user -> {
+//           //     mailService.sendPasswordResetMail(user);
+//                return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
+//            }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
+//    }
 
-    /**
-     * POST   /account/reset_password/finish : Finish to reset the password of the user
-     *
-     * @param keyAndPassword the generated key and the new password
-     * @return the ResponseEntity with status 200 (OK) if the password has been reset,
-     * or status 400 (Bad Request) or 500 (Internal Server Error) if the password could not be reset
-     */
-    @PostMapping(path = "/account/reset_password/finish",
-        produces = MediaType.TEXT_PLAIN_VALUE)
-    @Timed
-    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
-        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
-            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
-        }
-        return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
-              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+//    /**
+//     * POST   /account/reset_password/finish : Finish to reset the password of the user
+//     *
+//     * @param keyAndPassword the generated key and the new password
+//     * @return the ResponseEntity with status 200 (OK) if the password has been reset,
+//     * or status 400 (Bad Request) or 500 (Internal Server Error) if the password could not be reset
+//     */
+//    @PostMapping(path = "/account/reset_password/finish",
+//        produces = MediaType.TEXT_PLAIN_VALUE)
+//    @Timed
+//    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
+//        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
+//            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
+//        }
+//        return userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
+//              .map(user -> new ResponseEntity<String>(HttpStatus.OK))
+//              .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+//    }
 
     private boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&

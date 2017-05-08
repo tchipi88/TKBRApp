@@ -80,6 +80,10 @@ public class CompteService {
         return getCompte(622, " LOCATIONS ET CHARGES LOCATIVES");
     }
     
+     public Compte getComptePersonnel() throws Exception {
+        return getCompte(422, " PERSONNEL, REMUNERATIONS DUES");
+    }
+    
    
 
 }

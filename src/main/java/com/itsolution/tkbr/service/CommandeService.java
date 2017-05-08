@@ -14,6 +14,7 @@ import com.itsolution.tkbr.domain.Fournisseur;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.ProduitFournisseur;
 import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.EtatCommande;
 import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.ClientRepository;
 import com.itsolution.tkbr.repository.CommandeLigneRepository;
@@ -21,8 +22,16 @@ import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
-import java.math.BigDecimal;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sql.DataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,7 +144,7 @@ public class CommandeService {
                     }
                     case FACTUREE: {
                         if (!commande.isFacturee()) {
-                            ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, commande.getPrixTTC(), SensEcritureComptable.D,"Achat commande N:"+commande.getId());
+                            ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, commande.getPrixTTC(), SensEcritureComptable.D, "Achat commande N:" + commande.getId());
 
                             Compte compteAchat = cs.getCompteAchat();
                             Compte compteFournisseurs = cs.getCompteFournisseurs();
@@ -160,7 +169,7 @@ public class CommandeService {
                 switch (commande.getEtat()) {
                     case FACTUREE: {
                         if (!commande.isFacturee()) {
-                            ecritureCompteAnalytiqueService.create(commande.getClient(), CompteAnalytiqueType.CLIENT, commande.getPrixTTC(), SensEcritureComptable.D,"Vente commande N:"+commande.getId());
+                            ecritureCompteAnalytiqueService.create(commande.getClient(), CompteAnalytiqueType.CLIENT, commande.getPrixTTC(), SensEcritureComptable.D, "Vente commande N:" + commande.getId());
 
                             Compte compteClient = cs.getCompteClient();
                             Compte compteVente = cs.getCompteVente();
@@ -225,5 +234,35 @@ public class CommandeService {
             }
         }
         return commandeRepository.save(commande);
+    }
+
+    @Autowired
+    protected ResourceLoader resourceLoader;
+
+    @Autowired
+    protected DataSource dataSource;
+
+    public Resource print(Commande commande, EtatCommande typePrint) throws Exception {
+        File uploadedfile = new File("." + File.separator + "reports");
+        if (!uploadedfile.exists()) {
+            uploadedfile.mkdirs();
+        }
+        
+        String type=(EtatCommande.BON_LIVRAISON.equals(typePrint)?"BonLivraison":"Facture");
+        String destfile = uploadedfile.getAbsolutePath() + File.separator+type+ "_Commande_" + commande.getId() + ".pdf";
+
+        String reportfile = "classpath:com/itsolution/tkbr/reports/"+type+".jasper";
+        //remplissage des parametres du report
+        Map params = new HashMap();
+
+        //fill report
+        JasperPrint jp = JasperFillManager.fillReport(
+                resourceLoader.getResource(reportfile).getInputStream(), //file jasper
+                params, //params report
+                dataSource.getConnection());  //datasource
+
+        JasperExportManager.exportReportToPdfFile(jp, destfile);
+
+        return resourceLoader.getResource("file:" + destfile);
     }
 }

@@ -30,11 +30,11 @@ public class Compte implements Serializable {
 
     @Column(name = "debit", precision = 10, scale = 2)
     @ReadOnly
-    private BigDecimal debit;
+    private BigDecimal debit=BigDecimal.ZERO;
 
     @Column(name = "credit", precision = 10, scale = 2)
     @ReadOnly
-    private BigDecimal credit;
+    private BigDecimal credit=BigDecimal.ZERO;
 
     @Formula("credit-debit")
     private BigDecimal solde;

@@ -85,6 +85,7 @@ public class AuthorityResource {
    /**
      * GET  /authoritys : get all the authoritys.
      *
+     * @param pageable
      * @return the ResponseEntity with status 200 (OK) and the list of authoritys in body
      */
     @GetMapping("/authoritys")
@@ -104,7 +105,7 @@ public class AuthorityResource {
      */
     @GetMapping("/authoritys/{id}")
     @Timed
-    public ResponseEntity<Authority> getAuthority(@PathVariable String id) {
+    public ResponseEntity<Authority> getAuthority(@PathVariable Long id) {
         log.debug("REST request to get Authority : {}", id);
         Authority authority = authorityRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(authority));
@@ -118,7 +119,7 @@ public class AuthorityResource {
      */
     @DeleteMapping("/authoritys/{id}")
     @Timed
-    public ResponseEntity<Void> deleteAuthority(@PathVariable String id) {
+    public ResponseEntity<Void> deleteAuthority(@PathVariable Long id) {
         log.debug("REST request to delete Authority : {}", id);
         authorityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();

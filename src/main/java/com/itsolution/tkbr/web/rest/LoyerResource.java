@@ -1,6 +1,7 @@
 package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.Loyer;
 
 import com.itsolution.tkbr.repository.LoyerRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -131,7 +133,25 @@ public class LoyerResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-   
+   /**
+     * GET /loyers : get a page of loyers between the fromDate and toDate.
+     *
+     * @param fromDate the start of the time period of loyers to get
+     * @param toDate the end of the time period of loyers to get
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * loyers in body
+     */
+    @GetMapping(path = "/loyers", params = {"fromDate", "toDate"})
+    public ResponseEntity<List<Loyer>> getByDates(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate,
+            @ApiParam Pageable pageable) {
+
+        Page<Loyer> page = loyerRepository.findAllByDateVersementBetween(fromDate, toDate, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/loyers");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
 
 }

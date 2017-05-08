@@ -1,0 +1,77 @@
+<div class="bg-light lter b-b wrapper-md" >
+    <h1 class="m-n font-thin h3">Paies</h1>
+    <small class="text-muted"></small>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-5">
+                    <h4 >Filter by date</h4>
+                    <p class="input-group">
+                        <span class="input-group-addon" >from</span>
+                        <input type="date" class="input-sm form-control" name="start" ng-model="vm.fromDate" ng-change="vm.onChangeDate()" required/>
+                        <span class="input-group-addon" >to</span>
+                        <input type="date" class="input-sm form-control" name="end" ng-model="vm.toDate" ng-change="vm.onChangeDate()" required/>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr >
+                        <th ><span >ID</span> </th>
+                        <th ><span >Employe</span> </th>
+                        <th ><span >Date Versement</span> </th>
+                        <th ><span >Montant</span> </th>
+                        <th ><span >Mode Paiement</span> </th>
+
+                        <th >
+                            <button class="btn btn-primary" ui-sref="paie.new"   tooltip="Créer Paie">
+                                <i class="fa fa-plus">
+                                </i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="paie in vm.paies track by paie.id">
+                        <td><a ui-sref="paie-detail({id:paie.id})">{{paie.id}}</a></td>
+                        <td>{{paie.employe.nom}}</td>
+                        <td>{{paie.dateVersement| date:'mediumDate'}}</td>
+                        <td>{{paie.montant| number }}</td>
+                        <td>{{paie.modePaiement}}</td>
+
+                        <td >
+
+
+                            <button type="submit"   ui-sref="paie.edit({id:paie.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
+                                <i class="fa fa-edit">
+                                </i>
+                            </button>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="col-sm-6 text-right text-center-xs">
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

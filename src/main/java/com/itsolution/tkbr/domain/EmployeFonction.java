@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.hibernate.annotations.NaturalId;
 
 /**
  * A EmployeFonction.
@@ -24,7 +25,17 @@ public class EmployeFonction implements Serializable {
 
     @NotNull
     @Column(name = "libelle", nullable = false)
+    @NaturalId
     private String libelle;
+
+    public EmployeFonction() {
+    }
+    
+    
+
+    public EmployeFonction(String libelle) {
+       this.libelle=libelle;
+    }
 
     public Long getId() {
         return id;

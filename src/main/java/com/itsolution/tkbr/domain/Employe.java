@@ -18,6 +18,7 @@ import java.util.Objects;
 @Table(name = "employe")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "employe")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employe extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;

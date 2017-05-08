@@ -71,6 +71,7 @@ public class CacheConfiguration {
             cm.createCache(com.itsolution.tkbr.domain.TerrainCommande.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.TerrainReglement.class.getName(), jcacheConfiguration);
             cm.createCache(com.itsolution.tkbr.domain.Tiers.class.getName(), jcacheConfiguration);
+            cm.createCache(com.itsolution.tkbr.domain.Privilege.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

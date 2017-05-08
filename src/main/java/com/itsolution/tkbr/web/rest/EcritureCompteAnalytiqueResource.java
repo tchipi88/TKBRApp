@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -37,19 +35,21 @@ public class EcritureCompteAnalytiqueResource {
     private final Logger log = LoggerFactory.getLogger(EcritureCompteAnalytiqueResource.class);
 
     private static final String ENTITY_NAME = "ecritureCompteAnalytique";
-        
-    private final EcritureCompteAnalytiqueRepository ecritureCompteAnalytiqueRepository;
 
+    private final EcritureCompteAnalytiqueRepository ecritureCompteAnalytiqueRepository;
 
     public EcritureCompteAnalytiqueResource(EcritureCompteAnalytiqueRepository ecritureCompteAnalytiqueRepository) {
         this.ecritureCompteAnalytiqueRepository = ecritureCompteAnalytiqueRepository;
     }
 
     /**
-     * POST  /ecriture-compte-analytiques : Create a new ecritureCompteAnalytique.
+     * POST /ecriture-compte-analytiques : Create a new
+     * ecritureCompteAnalytique.
      *
      * @param ecritureCompteAnalytique the ecritureCompteAnalytique to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new ecritureCompteAnalytique, or with status 400 (Bad Request) if the ecritureCompteAnalytique has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new ecritureCompteAnalytique, or with status 400 (Bad Request) if the
+     * ecritureCompteAnalytique has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/ecriture-compte-analytiques")
@@ -61,17 +61,19 @@ public class EcritureCompteAnalytiqueResource {
         }
         EcritureCompteAnalytique result = ecritureCompteAnalytiqueRepository.save(ecritureCompteAnalytique);
         return ResponseEntity.created(new URI("/api/ecriture-compte-analytiques/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /ecriture-compte-analytiques : Updates an existing ecritureCompteAnalytique.
+     * PUT /ecriture-compte-analytiques : Updates an existing
+     * ecritureCompteAnalytique.
      *
      * @param ecritureCompteAnalytique the ecritureCompteAnalytique to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated ecritureCompteAnalytique,
-     * or with status 400 (Bad Request) if the ecritureCompteAnalytique is not valid,
-     * or with status 500 (Internal Server Error) if the ecritureCompteAnalytique couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * ecritureCompteAnalytique, or with status 400 (Bad Request) if the
+     * ecritureCompteAnalytique is not valid, or with status 500 (Internal
+     * Server Error) if the ecritureCompteAnalytique couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/ecriture-compte-analytiques")
@@ -83,14 +85,15 @@ public class EcritureCompteAnalytiqueResource {
         }
         EcritureCompteAnalytique result = ecritureCompteAnalytiqueRepository.save(ecritureCompteAnalytique);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, ecritureCompteAnalytique.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, ecritureCompteAnalytique.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /ecriture-compte-analytiques : get all the ecritureCompteAnalytiques.
+     * GET /ecriture-compte-analytiques : get all the ecritureCompteAnalytiques.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of ecritureCompteAnalytiques in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * ecritureCompteAnalytiques in body
      */
     @GetMapping("/ecriture-compte-analytiques")
     @Timed
@@ -101,13 +104,13 @@ public class EcritureCompteAnalytiqueResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
- 
-
     /**
-     * GET  /ecriture-compte-analytiques/:id : get the "id" ecritureCompteAnalytique.
+     * GET /ecriture-compte-analytiques/:id : get the "id"
+     * ecritureCompteAnalytique.
      *
      * @param id the id of the ecritureCompteAnalytique to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the ecritureCompteAnalytique, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * ecritureCompteAnalytique, or with status 404 (Not Found)
      */
     @GetMapping("/ecriture-compte-analytiques/{id}")
     @Timed
@@ -118,7 +121,8 @@ public class EcritureCompteAnalytiqueResource {
     }
 
     /**
-     * DELETE  /ecriture-compte-analytiques/:id : delete the "id" ecritureCompteAnalytique.
+     * DELETE /ecriture-compte-analytiques/:id : delete the "id"
+     * ecritureCompteAnalytique.
      *
      * @param id the id of the ecritureCompteAnalytique to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -131,7 +135,24 @@ public class EcritureCompteAnalytiqueResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-   
+    /**
+     * GET /ecriture-compte-analytiques : get a page of EcritureCompteAnalytiques between the fromDate and toDate.
+     *
+     * @param fromDate the start of the time period of ecriture-compte-analytiques to get
+     * @param toDate the end of the time period of ecriture-compte-analytiques to get
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * EcritureCompteAnalytiques in body
+     */
+    @GetMapping(path = "/ecriture-compte-analytiques", params = {"fromDate", "toDate"})
+    public ResponseEntity<List<EcritureCompteAnalytique>> getByDates(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate,
+            @ApiParam Pageable pageable) {
 
+        Page<EcritureCompteAnalytique> page = ecritureCompteAnalytiqueRepository.findAllByDateEcritureBetween(fromDate.atStartOfDay(ZoneId.systemDefault()), toDate.atStartOfDay(ZoneId.systemDefault()), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ecriture-compte-analytiques");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
 }

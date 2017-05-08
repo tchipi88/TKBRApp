@@ -12,11 +12,23 @@ import com.itsolution.tkbr.domain.Encaissement;
 import com.itsolution.tkbr.domain.Reglement;
 import com.itsolution.tkbr.domain.enumeration.CaisseMouvementMotif;
 import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
+import com.itsolution.tkbr.domain.enumeration.EtatCommande;
 import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.CommandeRepository;
 import com.itsolution.tkbr.repository.ReglementRepository;
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sql.DataSource;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -150,6 +162,33 @@ public class ReglementService {
         commandeRepository.save(commande);
 
         return reglementRepository.save(r);
+    }
+    
+     @Autowired
+    protected ResourceLoader resourceLoader;
+
+    @Autowired
+    protected DataSource dataSource;
+
+    public Resource print(Reglement reglement) throws Exception {
+        File uploadedfile = new File("." + File.separator + "reports");
+        if (!uploadedfile.exists()) {
+            uploadedfile.mkdirs();
+        }
+        
+        String destfile = uploadedfile.getAbsolutePath() + File.separator+"TicketReglement" + reglement.getId() + ".pdf";
+
+        String reportfile = "classpath:com/itsolution/tkbr/reports/TicketReglement.jasper";
+        //remplissage des parametres du report
+        Map params = new HashMap();
+        //fill report
+        JasperPrint jp = JasperFillManager.fillReport(
+                resourceLoader.getResource(reportfile).getInputStream(), //file jasper
+                params, //params report
+                dataSource.getConnection());  //datasource
+        JasperExportManager.exportReportToPdfFile(jp, destfile);
+
+        return resourceLoader.getResource("file:" + destfile);
     }
 
 }

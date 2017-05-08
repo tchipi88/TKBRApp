@@ -76,7 +76,7 @@ public class TerrainReglementService {
                         decaissement.setDateVersement(r.getDateVersement());
                         decaissement.setModePaiement(r.getMode());
                         decaissement.setMotif(CaisseMouvementMotif.ACHAT);
-                        decaissement.setCommentaires("Terrain Achat  " + r.getCommande().getId());
+                        decaissement.setCommentaires("Terrain Achat  N: " + r.getCommande().getId());
 
                         decaissementService.save(decaissement);
 
@@ -119,7 +119,7 @@ public class TerrainReglementService {
                         encaissement.setDateVersement(r.getDateVersement());
                         encaissement.setModePaiement(r.getMode());
                         encaissement.setMotif(CaisseMouvementMotif.VENTE);
-                        encaissement.setCommentaires("Terrain Vente " + r.getCommande().getId());
+                        encaissement.setCommentaires("Terrain Vente N: " + r.getCommande().getId());
 
                         encaissementService.save(encaissement);
 

@@ -1,8 +1,12 @@
 package com.itsolution.tkbr.web.rest.util;
 
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 /**
  * Utility class for HTTP headers creation.
  */
@@ -41,4 +45,14 @@ public final class HeaderUtil {
         headers.add("X-tkbrApp-params", entityName);
         return headers;
     }
+
+    public static HttpHeaders downloadAlert(Resource resource) throws IOException {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(resource.contentLength());
+        headers.add("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"");
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return headers;
+    }
+
 }

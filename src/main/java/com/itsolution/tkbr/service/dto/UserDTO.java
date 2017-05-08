@@ -3,7 +3,11 @@ package com.itsolution.tkbr.service.dto;
 import com.itsolution.tkbr.config.Constants;
 
 import com.itsolution.tkbr.domain.Authority;
+import com.itsolution.tkbr.domain.EmployeDepartement;
+import com.itsolution.tkbr.domain.EmployeFonction;
 import com.itsolution.tkbr.domain.User;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -33,12 +37,7 @@ public class UserDTO {
     @Size(min = 5, max = 100)
     private String email;
 
-    @Size(max = 256)
-    private String imageUrl;
-
     private boolean activated = false;
-
-
 
     private String createdBy;
 
@@ -50,22 +49,32 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private EmployeFonction fonction;
+    private EmployeDepartement departement;
+    private BigDecimal salaire;
+    private String adresse;
+    private String telephone;
+    private LocalDate dateNaissance;
+    private String lieuNaissance;
+
     public UserDTO() {
         // Empty constructor needed for MapStruct.
     }
 
     public UserDTO(User user) {
-        this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getImageUrl(), 
-            user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
-            user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+        this(user.getId(), user.getLogin(), user.getPrenom(), user.getNom(),
+                user.getEmail(), user.getActivated(),
+                user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
+                user.getAuthorities().stream().map(Authority::getName)
+                        .collect(Collectors.toSet()),user.getFonction(),user.getDepartement(),user.getSalaire(),user.getAdresse(),
+                        user.getTelephone(),user.getDateNaissance(),user.getLieuNaissance());
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
-        String email, boolean activated, String imageUrl, 
-        String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
-        Set<String> authorities) {
+            String email, boolean activated,
+            String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
+            Set<String> authorities,EmployeFonction fonction,EmployeDepartement departement,BigDecimal salaire,String adresse,
+            String telephone,LocalDate dateNaissance,String lieuNaissance) {
 
         this.id = id;
         this.login = login;
@@ -73,12 +82,20 @@ public class UserDTO {
         this.lastName = lastName;
         this.email = email;
         this.activated = activated;
-        this.imageUrl = imageUrl;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
+        
+        this.fonction=fonction;
+        this.departement=departement;
+        this.salaire=salaire;
+        this.adresse=adresse;
+        this.telephone=telephone;
+        this.dateNaissance=dateNaissance;
+        this.lieuNaissance=lieuNaissance;
+        
     }
 
     public Long getId() {
@@ -109,15 +126,9 @@ public class UserDTO {
         return email;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public boolean isActivated() {
         return activated;
     }
-
-    
 
     public String getCreatedBy() {
         return createdBy;
@@ -143,20 +154,77 @@ public class UserDTO {
         return authorities;
     }
 
+    public EmployeFonction getFonction() {
+        return fonction;
+    }
+
+    public void setFonction(EmployeFonction fonction) {
+        this.fonction = fonction;
+    }
+
+    public EmployeDepartement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(EmployeDepartement departement) {
+        this.departement = departement;
+    }
+
+    public BigDecimal getSalaire() {
+        return salaire;
+    }
+
+    public void setSalaire(BigDecimal salaire) {
+        this.salaire = salaire;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public LocalDate getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(LocalDate dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public String getLieuNaissance() {
+        return lieuNaissance;
+    }
+
+    public void setLieuNaissance(String lieuNaissance) {
+        this.lieuNaissance = lieuNaissance;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+        return "UserDTO{"
+                + "login='" + login + '\''
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", email='" + email + '\''
+                + ", activated=" + activated
+                + ", createdBy=" + createdBy
+                + ", createdDate=" + createdDate
+                + ", lastModifiedBy='" + lastModifiedBy + '\''
+                + ", lastModifiedDate=" + lastModifiedDate
+                + ", authorities=" + authorities
+                + "}";
     }
 }

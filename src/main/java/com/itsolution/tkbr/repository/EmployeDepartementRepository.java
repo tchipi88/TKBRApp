@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EmployeDepartementRepository extends JpaRepository<EmployeDepartement, Long> {
 
+    public EmployeDepartement findByLibelle(String DepartementADMIN);
+
     
 
 }

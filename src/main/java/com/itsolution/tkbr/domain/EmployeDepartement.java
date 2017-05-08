@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
@@ -29,7 +30,17 @@ public class EmployeDepartement implements Serializable {
     private Long id;
     
     @NotNull
+    @NaturalId
     private String libelle;
+
+    public EmployeDepartement() {
+    }
+    
+    
+
+    public EmployeDepartement(String libelle) {
+        this.libelle=libelle;
+    }
 
     public String getLibelle() {
         return libelle;

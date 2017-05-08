@@ -35,6 +35,7 @@
                 <thead>
                     <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                         <th jh-sort-by="id"><span >ID</span> <span class="fa fa-sort"></span></th>
+                        <th jh-sort-by="name"><span >Libelle</span> <span class="fa fa-sort"></span></th>
                          <th jh-sort-by="accessGroups"><span >Access Groups</span> <span class="fa fa-sort"></span></th>
                         <th >
                             <button class="btn btn-primary" ui-sref="authority.new"   tooltip="Créer Authority">
@@ -47,13 +48,11 @@
                 <tbody>
                     <tr ng-repeat="authority in vm.authoritys track by authority.id">
                         <td><a ui-sref="authority-detail({id:authority.id})">{{authority.id}}</a></td>
+                         <td>{{authority.name}}</td>
                          <td>{{authority.accessGroups}}</td>
                         <td >
 
-                            <button type="submit"    ui-sref="authority-detail({id:authority.id})"    class="btn btn-info btn-sm"   tooltip="Details">
-                                <i class="fa fa-eye">
-                                </i>
-                            </button>
+                           
                             <button type="submit"   ui-sref="authority.edit({id:authority.id})" class="btn btn-sm btn-default"  tooltip="Modifier">
                                 <i class="fa fa-edit">
                                 </i>

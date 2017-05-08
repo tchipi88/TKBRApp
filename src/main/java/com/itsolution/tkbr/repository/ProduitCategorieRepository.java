@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProduitCategorieRepository extends JpaRepository<ProduitCategorie, Long> {
 
+    public ProduitCategorie findByLibelle(String test);
+
     
 
 }

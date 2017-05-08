@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('app')
-        .controller('MouvementStockController', MouvementStockController);
+            .module('app')
+            .controller('MouvementStockController', MouvementStockController);
 
-    MouvementStockController.$inject = ['$state', 'DataUtils', 'MouvementStock',  'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    MouvementStockController.$inject = ['$state', '$filter', 'MouvementStock', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function MouvementStockController($state, DataUtils, MouvementStock,  ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function MouvementStockController($state, $filter, MouvementStock, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -18,17 +18,36 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.clear = clear;
         vm.loadAll = loadAll;
-        vm.openFile = DataUtils.openFile;
-        vm.byteSize = DataUtils.byteSize;
 
-        loadAll();
+        vm.page = 1;
+        vm.fromDate = new Date();
+        vm.toDate = new Date();
 
-        function loadAll () {
-                MouvementStock.query({
-                    page: pagingParams.page - 1,
-                    size: vm.itemsPerPage,
-                    sort: sort()
-                }, onSuccess, onError);
+        vm.onChangeDate = onChangeDate;
+
+        vm.onChangeDate();
+
+        function onChangeDate() {
+            var dateFormat = 'yyyy-MM-dd';
+            var fromDate = $filter('date')(vm.fromDate, dateFormat);
+            var toDate = $filter('date')(vm.toDate, dateFormat);
+
+            MouvementStock.query({page: vm.page - 1, size: 20, fromDate: fromDate, toDate: toDate}, function (result, headers) {
+                vm.mouvementStocks = result;
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                vm.queryCount = vm.totalItems;
+            });
+        }
+
+        // loadAll();
+
+        function loadAll() {
+            MouvementStock.query({
+                page: pagingParams.page - 1,
+                size: vm.itemsPerPage,
+                sort: sort()
+            }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
                 if (vm.predicate !== 'id') {
@@ -50,7 +69,7 @@
 
         function loadPage(page) {
             vm.page = page;
-            vm.transition();
+            vm.onChangeDate();
         }
 
         function transition() {
@@ -60,7 +79,7 @@
             });
         }
 
-       
+
 
         function clear() {
             vm.links = null;

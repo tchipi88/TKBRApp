@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -131,6 +133,26 @@ public class MouvementStockResource {
         log.debug("REST request to delete MouvementStock : {}", id);
         mouvementStockRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+     /**
+     * GET /mouvement-stocks : get a page of MouvementStocks between the fromDate and toDate.
+     *
+     * @param fromDate the start of the time period of MouvementStock to get
+     * @param toDate the end of the time period of MouvementStock to get
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * MouvementStocks in body
+     */
+    @GetMapping(path = "/mouvement-stocks", params = {"fromDate", "toDate"})
+    public ResponseEntity<List<MouvementStock>> getByDates(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate,
+            @ApiParam Pageable pageable) {
+
+        Page<MouvementStock> page = mouvementStockRepository.findAllByDateTransactionBetween(fromDate, toDate, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mouvement-stocks");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

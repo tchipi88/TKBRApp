@@ -6,6 +6,10 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.EcritureCompteAnalytique;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,5 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author tchipi
  */
 public interface EcritureCompteAnalytiqueRepository extends JpaRepository<EcritureCompteAnalytique, Long> {
+
+    public Page<EcritureCompteAnalytique> findAllByDateEcritureBetween(ZonedDateTime atTime, ZonedDateTime atTime0, Pageable pageable);
     
 }

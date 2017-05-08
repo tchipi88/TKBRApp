@@ -111,7 +111,7 @@
 
                                         };
                                     },
-                                    produitFournisseurs:function () {
+                                    produitFournisseurs: function () {
                                         return [];
                                     }
                                 }
@@ -139,7 +139,7 @@
                                     entity: ['Fournisseur', function (Fournisseur) {
                                             return Fournisseur.get({id: $stateParams.id}).$promise;
                                         }],
-                                    produitFournisseurs:['$resource', function ($resource) {
+                                    produitFournisseurs: ['$resource', function ($resource) {
                                             return  $resource('api/produit-fournisseurss/' + $stateParams.id).query();
                                         }]
                                 }

@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EmployeFonctionRepository extends JpaRepository<EmployeFonction, Long> {
 
+    public EmployeFonction findByLibelle(String FonctionADMIN);
+
     
 
 }

@@ -22,10 +22,18 @@
             return {
                 activated: account.activated,
                 email: account.email,
-                firstName: account.firstName,
-                langKey: account.langKey,
-                lastName: account.lastName,
-                login: account.login
+                prenom: account.firstName,
+                nom: account.lastName,
+                login: account.login,
+                id:account.id,
+                
+                fonction:account.fonction,
+                departement:account.departement,
+                salaire:account.salaire,
+                adresse:account.adresse,
+                telephone:account.telephone,
+                dateNaissance:account.dateNaissance,
+                lieuNaissance:account.lieuNaissance,
             };
         };
 

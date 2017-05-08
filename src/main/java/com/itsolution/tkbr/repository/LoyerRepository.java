@@ -6,6 +6,9 @@
 package com.itsolution.tkbr.repository;
 
 import com.itsolution.tkbr.domain.Loyer;
+import java.time.LocalDate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,6 +19,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Spring Data JPA repository for the Loyer entity.
  */
 public interface LoyerRepository extends JpaRepository<Loyer, Long> {
+
+    public Page<Loyer> findAllByDateVersementBetween(LocalDate fromDate, LocalDate toDate, Pageable pageable);
 
     
 

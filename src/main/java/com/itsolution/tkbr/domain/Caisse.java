@@ -34,13 +34,13 @@ public class Caisse extends AbstractAuditingEntity {
     private Employe gerant;
 
     @Enumerated(EnumType.STRING)
-    private EtatCaisse etat;
+    private EtatCaisse etat=EtatCaisse.OUVERT;
 
-    private BigDecimal soldeReel;
+    private BigDecimal soldeReel=BigDecimal.ZERO;
     @ReadOnly
-    private BigDecimal sortie;
+    private BigDecimal sortie=BigDecimal.ZERO;
     @ReadOnly
-    private BigDecimal entree;
+    private BigDecimal entree=BigDecimal.ZERO;
 
     @Formula("entree-sortie")
     private BigDecimal soldeTheorique;

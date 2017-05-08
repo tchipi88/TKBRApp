@@ -1,6 +1,10 @@
 package com.itsolution.tkbr.web.rest.vm;
 
+import com.itsolution.tkbr.domain.EmployeDepartement;
+import com.itsolution.tkbr.domain.EmployeFonction;
 import com.itsolution.tkbr.service.dto.UserDTO;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import javax.validation.constraints.Size;
 
 import java.time.ZonedDateTime;
@@ -23,12 +27,14 @@ public class ManagedUserVM extends UserDTO {
     }
 
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String imageUrl,
+                         String email, boolean activated, 
                          String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
-                        Set<String> authorities) {
+                        Set<String> authorities,EmployeFonction fonction,EmployeDepartement departement,BigDecimal salaire,String adresse,
+            String telephone,LocalDate dateNaissance,String lieuNaissance) {
 
-        super(id, login, firstName, lastName, email, activated, imageUrl, 
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
+        super(id, login, firstName, lastName, email, activated, 
+            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities, fonction, departement, salaire, adresse,
+             telephone, dateNaissance, lieuNaissance);
 
         this.password = password;
     }

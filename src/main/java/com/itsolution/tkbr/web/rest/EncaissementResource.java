@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -133,4 +134,24 @@ public class EncaissementResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    
+    /**
+     * GET /encaissements : get a page of encaissements between the fromDate and toDate.
+     *
+     * @param fromDate the start of the time period of encaissements to get
+     * @param toDate the end of the time period of encaissements to get
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * encaissements in body
+     */
+    @GetMapping(path = "/encaissements", params = {"fromDate", "toDate"})
+    public ResponseEntity<List<Encaissement>> getByDates(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate,
+            @ApiParam Pageable pageable) {
+
+        Page<Encaissement> page = encaissementRepository.findAllByDateVersementBetween(fromDate, toDate, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/encaissements");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

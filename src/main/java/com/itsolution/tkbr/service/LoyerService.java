@@ -37,7 +37,7 @@ public class LoyerService {
         if (loyer.getId() != null) {
             throw new Exception("Mise à jour des loyers interdit");
         }
-        ecritureCompteAnalytiqueService.create(loyer.getLocation().getLocataire(), CompteAnalytiqueType.LOCATION, loyer.getMontant(), SensEcritureComptable.C,"Versement Loyer N:"+loyer.getId());
+        ecritureCompteAnalytiqueService.create(loyer.getLocation().getLocataire(), CompteAnalytiqueType.LOCATION, loyer.getMontant(), SensEcritureComptable.C,"Versement Loyer pour location N: "+loyer.getLocation().getId());
 
         Compte compteLoyer = compteService.getCompteLoyer();
         compteLoyer.setCredit(loyer.getMontant().add(compteLoyer.getCredit()));
@@ -55,7 +55,7 @@ public class LoyerService {
                 encaissement.setDateVersement(loyer.getDateVersement());
                 encaissement.setModePaiement(loyer.getModePaiement());
                 encaissement.setMotif(CaisseMouvementMotif.LOYER);
-                encaissement.setCommentaires("Mvt Loyer " + loyer.getId());
+                encaissement.setCommentaires("Encaissement pour location " + loyer.getLocation().getId());
 
                 encaissementService.save(encaissement);
 

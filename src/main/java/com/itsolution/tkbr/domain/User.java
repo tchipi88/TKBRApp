@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.time.ZonedDateTime;
 
 /**
  * A user.
@@ -23,14 +22,11 @@ import java.time.ZonedDateTime;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "user")
-public class User extends Personne {
+public class User extends Employe {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+  
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
@@ -49,33 +45,8 @@ public class User extends Personne {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @Size(min = 2, max = 5)
-    @Column(name = "lang_key", length = 5)
-    private String langKey;
-
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
-    }
-
-    @Size(max = 256)
-    @Column(name = "image_url", length = 256)
-    private String imageUrl;
-
-    @Size(max = 20)
-    @Column(name = "activation_key", length = 20)
-    @JsonIgnore
-    private String activationKey;
-
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
-    private String resetKey;
-
-    @Column(name = "reset_date")
-    private ZonedDateTime resetDate = null;
+   
+ 
 
     @JsonIgnore
     @ManyToMany
@@ -84,7 +55,7 @@ public class User extends Personne {
             joinColumns = {
                 @JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {
-                @JoinColumn(name = "authority_name", referencedColumnName = "name")})
+                @JoinColumn(name = "authority_id", referencedColumnName = "id")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
@@ -94,14 +65,7 @@ public class User extends Personne {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+  
     public String getLogin() {
         return login;
     }
@@ -120,13 +84,7 @@ public class User extends Personne {
     }
 
    
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+   
 
     public boolean getActivated() {
         return activated;
@@ -136,29 +94,8 @@ public class User extends Personne {
         this.activated = activated;
     }
 
-    public String getActivationKey() {
-        return activationKey;
-    }
+  
 
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
-    }
-
-    public String getResetKey() {
-        return resetKey;
-    }
-
-    public void setResetKey(String resetKey) {
-        this.resetKey = resetKey;
-    }
-
-    public ZonedDateTime getResetDate() {
-        return resetDate;
-    }
-
-    public void setResetDate(ZonedDateTime resetDate) {
-        this.resetDate = resetDate;
-    }
 
     public Set<Authority> getAuthorities() {
         return authorities;
@@ -199,9 +136,7 @@ public class User extends Personne {
     public String toString() {
         return "User{"
                 + "login='" + login + '\''
-                + ", imageUrl='" + imageUrl + '\''
                 + ", activated='" + activated + '\''
-                + ", activationKey='" + activationKey + '\''
                 + "}";
     }
 }
