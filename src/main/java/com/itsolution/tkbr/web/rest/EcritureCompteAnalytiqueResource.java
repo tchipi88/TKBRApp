@@ -150,7 +150,7 @@ public class EcritureCompteAnalytiqueResource {
             @RequestParam(value = "toDate") LocalDate toDate,
             @ApiParam Pageable pageable) {
 
-        Page<EcritureCompteAnalytique> page = ecritureCompteAnalytiqueRepository.findAllByDateEcritureBetween(fromDate.atStartOfDay(ZoneId.systemDefault()), toDate.atStartOfDay(ZoneId.systemDefault()), pageable);
+        Page<EcritureCompteAnalytique> page = ecritureCompteAnalytiqueRepository.findAllByDateEcritureBetween(fromDate.atTime(0, 0), toDate.atTime(23, 59), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ecriture-compte-analytiques");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

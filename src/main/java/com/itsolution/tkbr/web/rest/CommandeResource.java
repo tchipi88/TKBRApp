@@ -174,9 +174,9 @@ public class CommandeResource {
             @RequestParam(value = "toDate") LocalDate toDate,
            // @RequestParam Long fournisseur,
             //@RequestParam Long client,
-            @ApiParam Pageable pageable) {
+            @ApiParam Pageable pageable, @ApiParam TypeCommande type) {
         log.debug("REST request to search for a page of Commandes for  {}  to {}", fromDate, toDate);
-        Page<Commande> page = commandeRepository.findAllByDateEmissionBetween(fromDate, toDate, pageable);
+        Page<Commande> page = commandeRepository.findAllByTypeAndDateEmissionBetween(type,fromDate, toDate, pageable);
 //        if (fournisseur != null) {
 //            page = commandeRepository.findAllByDateEmissionBetweenAndFournisseurId(fromDate, toDate, pageable, fournisseur);
 //        }

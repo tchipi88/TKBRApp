@@ -30,13 +30,11 @@
                         <th ><span >Quantite</span> </th>
                         <th ><span >Date Transaction</span> </th>
 
-                        <th><span >Entrepot Depart</span> </th>
-                        <th ><span >Stock Entrepot Depart</span> </th>
-                        <th ><span >Stock Final Entrepot Depart</span> </th>
+                        <th   colspan="3"><span >Entrepot Depart</span> </th>
+                      
 
-                        <th ><span >Entrepot Destination</span> </th>
-                        <th ><span >Stock Entrepot Destination</span> </th>
-                        <th ><span >Stock Final Entrepot Destination</span> </th>
+                        <th  colspan="3"><span >Entrepot Destination</span> </th>
+                       
 
                         <th >
                             <button class="btn btn-primary" ui-sref="mouvement-stock.new"   tooltip="Créer MouvementStock">
@@ -45,6 +43,14 @@
                             </button>
                         </th>
                     </tr>
+                    <tr>
+                        <th  colspan="5"></th>
+                        <th>Stock Initial</th>
+                        <th>Stock Final</th>
+                        <th></th>
+                        <th>Stock Initial</th>
+                        <th>Stock Final</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="mouvementStock in vm.mouvementStocks track by mouvementStock.id">
@@ -52,13 +58,18 @@
                         <td>{{mouvementStock.produit.denomination}}</td>
                         <td>{{mouvementStock.quantite}}</td>
                         <td>{{mouvementStock.dateTransaction| date:'mediumDate'}}</td>
-                        <td>{{mouvementStock.entrepotDepart.libelle}}</td>
-                        <td>{{mouvementStock.stockEntrepotDepart}}</td>
-                        <td>{{mouvementStock.stockFinalEntrepotDepart}}</td>
-
-                        <td>{{mouvementStock.entrepotDestination.libelle}}</td>
-                        <td>{{mouvementStock.stockEntrepotDestination}}</td>
-                        <td>{{mouvementStock.stockFinalEntrepotDestination}}</td>
+                        
+                        <td >{{mouvementStock.entrepotDepart.libelle}}</td>
+                        <td> {{mouvementStock.stockEntrepotDepart}} </td>
+                        <td>
+                            {{mouvementStock.stockFinalEntrepotDepart}}
+                        </td>
+                      
+                        <td  >{{mouvementStock.entrepotDestination.libelle}} </td>
+                        <td> {{mouvementStock.stockEntrepotDestination}}</td>
+                        <td> {{mouvementStock.stockFinalEntrepotDestination}}
+                        </td>
+                      
 
                         <td >
 

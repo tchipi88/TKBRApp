@@ -2,6 +2,7 @@ package com.itsolution.tkbr.domain;
 
 import com.itsolution.tkbr.service.util.ReadOnly;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,7 +30,7 @@ public class MouvementStock extends AbstractAuditingEntity {
 
     @NotNull
     @Column(name = "date_transaction", nullable = false)
-    private LocalDate dateTransaction;
+    private LocalDateTime dateTransaction;
 
     @Lob
     @Column(name = "motif_transaction")
@@ -107,11 +108,11 @@ public class MouvementStock extends AbstractAuditingEntity {
         this.quantite = quantite;
     }
 
-    public LocalDate getDateTransaction() {
+    public LocalDateTime getDateTransaction() {
         return dateTransaction;
     }
 
-    public void setDateTransaction(LocalDate dateTransaction) {
+    public void setDateTransaction(LocalDateTime dateTransaction) {
         this.dateTransaction = dateTransaction;
     }
 

@@ -12,6 +12,7 @@ import com.itsolution.tkbr.domain.enumeration.CompteAnalytiqueType;
 import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import com.itsolution.tkbr.repository.EcritureCompteAnalytiqueRepository;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class EcritureCompteAnalytiqueService {
         EcritureCompteAnalytique ecriture = new EcritureCompteAnalytique();
         ecriture.setCompte(compte);
         ecriture.setMontant(montant);
-        ecriture.setDateEcriture(ZonedDateTime.now());
+        ecriture.setDateEcriture(LocalDateTime.now());
         ecriture.setSensEcriture(sens);
         ecriture.setLibelleOperation(operation);
 

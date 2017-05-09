@@ -29,4 +29,6 @@ public interface CommandeRepository extends JpaRepository<Commande, Long> {
 
     Page<Commande> findAllByDateEmissionBetweenAndFournisseurId(LocalDate fromDate, LocalDate toDate, Pageable pageable, Long fournisseur);
 
+    public Page<Commande> findAllByTypeAndDateEmissionBetween(TypeCommande type, LocalDate fromDate, LocalDate toDate, Pageable pageable);
+
 }

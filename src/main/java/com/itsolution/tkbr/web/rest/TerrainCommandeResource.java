@@ -1,6 +1,7 @@
 package com.itsolution.tkbr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.itsolution.tkbr.domain.Commande;
 import com.itsolution.tkbr.domain.TerrainCommande;
 import com.itsolution.tkbr.domain.enumeration.TypeCommande;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -136,6 +138,26 @@ public class TerrainCommandeResource {
     }
 
    
+     /**
+     * GET /terrain-commandes : get a page of TerrainCommande between the fromDate and toDate.
+     *
+     * @param fromDate the start of the time period of TerrainCommande to get
+     * @param toDate the end of the time period of TerrainCommande to get
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * TerrainCommande in body
+     */
+    @GetMapping(path = "/terrain-commandes", params = {"fromDate", "toDate"})
+    @Timed
+    public ResponseEntity<List<TerrainCommande>> searchCommandes(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate,
+            @ApiParam Pageable pageable, @ApiParam TypeCommande type) {
+        log.debug("REST request to search for a page of TerrainCommande for  {}  to {}", fromDate, toDate);
+        Page<TerrainCommande> page = terrainCommandeRepository.findAllByTypeAndDateEmissionBetween(type,fromDate, toDate, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/terrain-commandes");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
 
 }

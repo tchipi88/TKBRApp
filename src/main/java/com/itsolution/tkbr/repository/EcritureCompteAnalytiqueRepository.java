@@ -18,6 +18,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EcritureCompteAnalytiqueRepository extends JpaRepository<EcritureCompteAnalytique, Long> {
 
-    public Page<EcritureCompteAnalytique> findAllByDateEcritureBetween(ZonedDateTime atTime, ZonedDateTime atTime0, Pageable pageable);
+    public Page<EcritureCompteAnalytique> findAllByDateEcritureBetween(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
     
 }

@@ -8,6 +8,7 @@ package com.itsolution.tkbr.domain;
 import com.itsolution.tkbr.domain.enumeration.SensEcritureComptable;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,7 +40,7 @@ public class EcritureCompteAnalytique extends AbstractAuditingEntity{
     private CompteAnalytique  compte;
     
     @NotNull
-    private ZonedDateTime dateEcriture;
+    private LocalDateTime dateEcriture;
     
     @NotNull
     private BigDecimal  montant;
@@ -69,11 +70,11 @@ public class EcritureCompteAnalytique extends AbstractAuditingEntity{
         this.compte = compte;
     }
 
-    public ZonedDateTime getDateEcriture() {
+    public LocalDateTime getDateEcriture() {
         return dateEcriture;
     }
 
-    public void setDateEcriture(ZonedDateTime dateEcriture) {
+    public void setDateEcriture(LocalDateTime dateEcriture) {
         this.dateEcriture = dateEcriture;
     }
 

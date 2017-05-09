@@ -61,6 +61,11 @@ public class CommandeLigneService {
                 ProduitFournisseur pf = produitFournisseurRepository.findByFournisseurAndProduit(c.getFournisseur(), cl.getProduit());
                 cl.setPrixUnitaire(pf != null ? pf.getPrixVente() : cl.getProduit().getPrix());
             }
+        }else{
+            if (cl.getPrixUnitaire().compareTo(cl.getProduit().getPrix())==-1){
+                //@todo  add derogation to admin
+                throw new Exception("Prix défini "+cl.getPrixUnitaire()+" inférieur au prix de vente "+cl.getProduit().getPrix()+ " du produit "+cl.getProduit().getDenomination() );
+            }
         }
 
         //set entrepot

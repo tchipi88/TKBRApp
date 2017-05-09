@@ -5,9 +5,9 @@
             .module('app')
             .controller('TerrainCommandeController', TerrainCommandeController);
 
-    TerrainCommandeController.$inject = ['$state','$stateParams', 'DataUtils', 'TerrainCommande', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    TerrainCommandeController.$inject = ['$state', '$stateParams', '$filter', 'TerrainCommande', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function TerrainCommandeController($state, $stateParams,DataUtils, TerrainCommande, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function TerrainCommandeController($state, $stateParams, $filter, TerrainCommande, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -15,20 +15,31 @@
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
-        vm.itemsPerPage = paginationConstants.itemsPerPage;
-        vm.clear = clear;
-        vm.loadAll = loadAll;
-        vm.openFile = DataUtils.openFile;
-        vm.byteSize = DataUtils.byteSize;
 
-        loadAll();
 
-        function loadAll() {
+
+        vm.itemsPerPage = 20;
+        vm.page = 1;
+
+
+        vm.fromDate = new Date();
+        vm.toDate = new Date();
+
+        vm.onChangeDate = onChangeDate;
+
+        vm.onChangeDate();
+
+        function onChangeDate() {
+            var dateFormat = 'yyyy-MM-dd';
+            var fromDate = $filter('date')(vm.fromDate, dateFormat);
+            var toDate = $filter('date')(vm.toDate, dateFormat);
+
             TerrainCommande.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
                 sort: sort(),
-                type:$stateParams.type
+                type: $stateParams.type,
+                fromDate: fromDate, toDate: toDate
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
@@ -49,26 +60,23 @@
             }
         }
 
+
         function loadPage(page) {
             vm.page = page;
-            vm.transition();
+            vm.onChangeDate();
         }
 
         function transition() {
+            var dateFormat = 'yyyy-MM-dd';
+            var fromDate = $filter('date')(vm.fromDate, dateFormat);
+            var toDate = $filter('date')(vm.toDate, dateFormat);
             $state.transitionTo($state.$current, {
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
+                fromDate: fromDate, toDate: toDate
             });
         }
 
 
-
-        function clear() {
-            vm.links = null;
-            vm.page = 1;
-            vm.predicate = 'id';
-            vm.reverse = true;
-            vm.transition();
-        }
     }
 })();

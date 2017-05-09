@@ -9,6 +9,7 @@ import com.itsolution.tkbr.domain.Entrepot;
 import com.itsolution.tkbr.domain.MouvementStock;
 import com.itsolution.tkbr.domain.Produit;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,6 @@ public interface MouvementStockRepository extends JpaRepository<MouvementStock, 
 
     List<MouvementStock> findByDateTransactionAfterAndDateTransactionBeforeAndEntrepotDestinationAndProduit(LocalDate dateDebut, LocalDate dateFin, Entrepot entrepotDestination, Produit produit);
 
-    public Page<MouvementStock> findAllByDateTransactionBetween(LocalDate fromDate, LocalDate toDate, Pageable pageable);
+    public Page<MouvementStock> findAllByDateTransactionBetween(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
 
 }

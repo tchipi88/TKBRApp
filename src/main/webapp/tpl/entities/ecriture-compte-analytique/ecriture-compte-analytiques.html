@@ -43,8 +43,8 @@
                           <td>{{ecritureCompteAnalytique.libelleOperation}}</td>
 
                         <td>{{ecritureCompteAnalytique.dateEcriture| date:'medium'}}</td>
-                        <td >{{ecritureCompteAnalytique.sensEcriture==='D'?ecritureCompteAnalytique.montant| number :''}}</td>
-                        <td >{{ecritureCompteAnalytique.sensEcriture==='C'?ecritureCompteAnalytique.montant| number :''}}</td>
+                        <td >{{ecritureCompteAnalytique.sensEcriture==='D'?(ecritureCompteAnalytique.montant| number) :''}}</td>
+                        <td >{{ecritureCompteAnalytique.sensEcriture==='C'?(ecritureCompteAnalytique.montant| number) :''}}</td>
                      
                       
 

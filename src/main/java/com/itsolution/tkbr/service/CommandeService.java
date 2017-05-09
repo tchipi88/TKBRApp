@@ -23,6 +23,7 @@ import com.itsolution.tkbr.repository.CompteRepository;
 import com.itsolution.tkbr.repository.FournisseurRepository;
 import com.itsolution.tkbr.repository.ProduitFournisseurRepository;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -126,7 +127,7 @@ public class CommandeService {
                             //mouvement stock
                             for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
                                 MouvementStock ms = new MouvementStock();
-                                ms.setDateTransaction(commande.getDateEmission());
+                                ms.setDateTransaction(LocalDateTime.now());
                                 ms.setQuantite(cl.getQuantite());
                                 ms.setProduit(cl.getProduit());
 
@@ -144,7 +145,7 @@ public class CommandeService {
                     }
                     case FACTUREE: {
                         if (!commande.isFacturee()) {
-                            ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, commande.getPrixTTC(), SensEcritureComptable.D, "Achat commande N:" + commande.getId());
+                            ecritureCompteAnalytiqueService.create(commande.getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, commande.getPrixTTC(), SensEcritureComptable.C, "Achat commande N:" + commande.getId());
 
                             Compte compteAchat = cs.getCompteAchat();
                             Compte compteFournisseurs = cs.getCompteFournisseurs();
@@ -190,7 +191,7 @@ public class CommandeService {
                             //mouvement stock
                             for (CommandeLigne cl : commandeLigneRepository.findByCommandeId(commande.getId())) {
                                 MouvementStock ms = new MouvementStock();
-                                ms.setDateTransaction(commande.getDateEmission());
+                                ms.setDateTransaction(LocalDateTime.now());
                                 ms.setQuantite(cl.getQuantite());
                                 ms.setProduit(cl.getProduit());
 

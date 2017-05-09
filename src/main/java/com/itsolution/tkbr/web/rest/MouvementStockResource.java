@@ -150,7 +150,7 @@ public class MouvementStockResource {
             @RequestParam(value = "toDate") LocalDate toDate,
             @ApiParam Pageable pageable) {
 
-        Page<MouvementStock> page = mouvementStockRepository.findAllByDateTransactionBetween(fromDate, toDate, pageable);
+        Page<MouvementStock> page = mouvementStockRepository.findAllByDateTransactionBetween(fromDate.atTime(0, 0), toDate.atTime(23, 59), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mouvement-stocks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

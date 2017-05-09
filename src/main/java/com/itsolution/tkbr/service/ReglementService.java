@@ -69,7 +69,7 @@ public class ReglementService {
         switch (r.getCommande().getType()) {
             case ACHAT: {
 
-                ecritureCompteAnalytiqueService.create(r.getCommande().getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, totalttc, SensEcritureComptable.C,"Versement pour Achat N:"+r.getCommande().getId());
+                ecritureCompteAnalytiqueService.create(r.getCommande().getFournisseur(), CompteAnalytiqueType.FOURNISSEUR, totalttc, SensEcritureComptable.D,"Versement pour Achat N:"+r.getCommande().getId());
 
                 Compte compteFournisseurs = cs.getCompteFournisseurs();
                 compteFournisseurs.setDebit(totalttc.add(compteFournisseurs.getDebit()));
